@@ -1,6 +1,5 @@
 
-import './App.css'
-import DemoPage from './app/payments/page'
+import DemoPage from './app/Agence/page'
 
 function App() {
 
