@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
+import AgenceApi from "@/services/Admin/AgenceApi";
 
 async function getData() {
   try {
-    const response = await fetch('http://localhost:8000/api/agences');
+    const response=await AgenceApi.all();
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }

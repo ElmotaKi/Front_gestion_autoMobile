@@ -1,52 +1,50 @@
 import React, { useState, useEffect } from "react";
+// import DataTable from "./data-table"; // Ensure correct import path
+import { columns } from "./columns"; // Ensure correct import path
+import AgentApi from "@/services/Admin/AgentApi"; // Ensure correct import path
 import { DataTable } from "./data-table";
-import { columns } from "./columns";
 
+// Asynchronous function to fetch data
 async function getData() {
-  try {
-    const response = await fetch('http://localhost:8000/api/agents');
-    const responsedeux= await fetch('http://localhost:8000/api/agence')
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
+    try {
+        const response = await AgentApi.get(); // Fetch data from AgentApi
+        if (!response) {
+            throw new Error("Failed to fetch data");
+        }
+        return response.data; // Return the data from response
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error; // Rethrow error to be caught by the component
     }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error; // Rethrow the error to be caught by the component
-  }
 }
 
 export default function DemoPage() {
-  const [data, setData] = useState([]);
-  const [dataAgence,setDataAgence]=useState([]);
-  const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true); // Loading state
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedData = await getData();
-        console.log("Fetched data:", fetchedData); // Log fetched data
-        setData(fetchedData.agents);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedData = await getData();
+                setData(fetchedData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                alert("An error occurred while loading data. Please try again later.");
+            } finally {
+                setLoading(false); // Update loading state
+            }
+        };
 
-    fetchData();
-  }, []);
+        fetchData();
+    }, []);
 
-  console.log("Data:", data); // Log current data state
-
-  return (
-    <div className="container mx-auto py-10">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <DataTable columns={columns} data={data} />
-      )}
-    </div>
-  );
+    return (
+        <div className="container mx-auto py-10">
+            {loading ? (
+                <div>Loading...</div> // Display loading message
+            ) : (
+                <DataTable columns={columns} data={data} /> // Display DataTable
+            )}
+        </div>
+    );
 }
