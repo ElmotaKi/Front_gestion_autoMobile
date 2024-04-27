@@ -37,13 +37,13 @@ export const columns = [
             <DropdownMenuItem>
               <span>Filtrer par:</span>
             </DropdownMenuItem>
-            <DropdownMenuItem key="NomAgent">NomAgent</DropdownMenuItem>
-            <DropdownMenuItem key="PrenomAgent">PrenomAgent</DropdownMenuItem>
-            <DropdownMenuItem key="EmailAgent">EmailAgent</DropdownMenuItem>
-            <DropdownMenuItem key="TelAgent">TelAgent</DropdownMenuItem>
-            <DropdownMenuItem key="AdresseAgent">AdresseAgent</DropdownMenuItem>
-            <DropdownMenuItem key="VilleAgent">VilleAgent</DropdownMenuItem>
-            <DropdownMenuItem key="CodePostalAgent">CodePostalAgent</DropdownMenuItem>
+            <DropdownMenuItem key="NomAgent">Nom Agent</DropdownMenuItem>
+            <DropdownMenuItem key="PrenomAgent">Prenom Agent</DropdownMenuItem>
+            <DropdownMenuItem key="EmailAgent">Email Agent</DropdownMenuItem>
+            <DropdownMenuItem key="TelAgent">Tel Agent</DropdownMenuItem>
+            <DropdownMenuItem key="AdresseAgent">Adresse Agent</DropdownMenuItem>
+            <DropdownMenuItem key="VilleAgent">Ville Agent</DropdownMenuItem>
+            <DropdownMenuItem key="CodePostalAgent">CodePostal Agent</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
@@ -74,6 +74,7 @@ export const columns = [
     enableHiding: false,
   },
   {
+    id:"Nom",
     accessorKey: "NomAgent",
     header: ({ column }) => (
       <Button
@@ -86,6 +87,7 @@ export const columns = [
     ),
   },
   {
+    id:"Prenom",
     accessorKey: "PrenomAgent",
     header: ({ column }) => (
       <Button
@@ -98,6 +100,7 @@ export const columns = [
     ),
   },
   {
+    id:"Sexe",
     accessorKey: "SexeAgent",
     header: ({ column }) => (
       <Button
@@ -110,6 +113,7 @@ export const columns = [
     ),
   },
   {
+    id:"Email",
     accessorKey: "EmailAgent",
     header: ({ column }) => (
       <Button
@@ -122,6 +126,7 @@ export const columns = [
     ),
   },
   {
+    id:"Téléphone",
     accessorKey: "TelAgent",
     header: ({ column }) => (
       <Button
@@ -134,6 +139,7 @@ export const columns = [
     ),
   },
   {
+    id:"Adresse",
     accessorKey: "AdresseAgent",
     header: ({ column }) => (
       <Button
@@ -146,6 +152,7 @@ export const columns = [
     ),
   },
   {
+    id:"Ville",
     accessorKey: "VilleAgent",
     header: ({ column }) => (
       <Button
@@ -158,6 +165,7 @@ export const columns = [
     ),
   },
   {
+    id:"Code Postal",
     accessorKey: "CodePostalAgent",
     header: ({ column }) => (
       <Button
@@ -170,6 +178,7 @@ export const columns = [
     ),
   },
   {
+    id:"Agence",
     accessorKey: "id_agence",
     header: ({ column }) => (
       <Button
