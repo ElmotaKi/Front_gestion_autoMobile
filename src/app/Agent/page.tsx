@@ -11,7 +11,10 @@ async function getData() {
         if (!response) {
             throw new Error("Failed to fetch data");
         }
-        return response.data; // Return the data from response
+        console.log(response.data)
+        return response.data; 
+        
+        // Return the data from response
     } catch (error) {
         console.error("Error fetching data:", error);
         throw error; // Rethrow error to be caught by the component
@@ -26,7 +29,7 @@ export default function DemoPage() {
         const fetchData = async () => {
             try {
                 const fetchedData = await getData();
-                setData(fetchedData);
+                setData(fetchedData.agents);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 alert("An error occurred while loading data. Please try again later.");
