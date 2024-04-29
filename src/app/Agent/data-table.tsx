@@ -38,7 +38,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-  const [selectedColumn, setSelectedColumn] = useState("email") 
+  const [selectedColumn, setSelectedColumn] = useState("Email") 
 
   const table = useReactTable({
     data,
@@ -72,7 +72,7 @@ export function DataTable({
       <div className="flex items-center py-4">
         <div>
           <Input
-            placeholder={`Filtrer par ${selectedColumn}...`}
+            placeholder={`Filtrer par  ${selectedColumn}...`}
             value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn(selectedColumn)?.setFilterValue(event.target.value)

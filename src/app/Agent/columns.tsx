@@ -12,6 +12,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { Checkbox } from "../../components/ui/checkbox"
 import React from "react";
+import CustomDrawer from "@/components/customComponents/CustomDrawer";
 
 export type Agent = {
   id: number;
@@ -25,6 +26,7 @@ export type Agent = {
   CodePostalAgent: string;
   id_agence: number;
 };
+
 
 export const columns = [
   // Existing columns for displaying agent details
@@ -218,11 +220,10 @@ export const columns = [
                 </span>
               </DropdownMenuItem>
            
-            <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(agent.id)}>
-                    Modifier
-                </span>
-              </DropdownMenuItem>
+            
+              <span>
+                <CustomDrawer dataLibaghi={agent} textLtrigger={'Modifier'}/></span>
+              
           </DropdownMenuContent>
         </DropdownMenu>
       );
