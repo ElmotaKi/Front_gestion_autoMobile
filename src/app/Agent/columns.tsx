@@ -13,7 +13,7 @@ import {
 import { Checkbox } from "../../components/ui/checkbox"
 import React from "react";
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
-
+import CustomDialog from "@/components/customComponents/CustomDialog";
 export type Agent = {
   id: number;
   NomAgent: string;
@@ -215,12 +215,12 @@ export const columns = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(agent.id)}>
-                    Supprimer
-                </span>
               </DropdownMenuItem>
-           
-            
+                <span>
+                    
+                    <CustomDialog dataLibaghi={agent}/>
+                </span>
+            <br />
               <span>
                 <CustomDrawer dataLibaghi={agent} textLtrigger={'Modifier'}/></span>
               
