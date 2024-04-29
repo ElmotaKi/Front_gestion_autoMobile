@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -28,7 +29,7 @@ import AgentApi from '@/services/Admin/AgentApi';
 
 
 
-function CustomDrawer({ dataLibaghi, textLtrigger }) {
+function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
   const formSchema = z.object({
     // Validation du champ username
     
@@ -80,39 +81,53 @@ function CustomDrawer({ dataLibaghi, textLtrigger }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // Set default values for each field
-      NomAgent: dataLibaghi.NomAgent ,
-      PrenomAgent: dataLibaghi.PrenomAgent ,
-      SexeAgent: dataLibaghi.SexeAgent ,
-      EmailAgent: dataLibaghi.EmailAgent ,
-      TelAgent: dataLibaghi.TelAgent ,
-      AdresseAgent: dataLibaghi.AdresseAgent ,
-      VilleAgent: dataLibaghi.VilleAgent ,
-      CodePostalAgent: dataLibaghi.CodePostalAgent ,
-      id_agence: dataLibaghi.id_agence ,
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        NomAgent: "",
+        PrenomAgent: "",
+        SexeAgent: "",
+        EmailAgent: "",
+        TelAgent: "",
+        AdresseAgent: "",
+        VilleAgent: "",
+        CodePostalAgent: "",
+        id_agence: "",
+      },
     },
   });
+
+  useEffect(() => {
+    if (dataLibaghi) {
+      form.reset({
+        NomAgent: dataLibaghi.NomAgent || "",
+        PrenomAgent: dataLibaghi.PrenomAgent || "",
+        SexeAgent: dataLibaghi.SexeAgent || "",
+        EmailAgent: dataLibaghi.EmailAgent || "",
+        TelAgent: dataLibaghi.TelAgent || "",
+        AdresseAgent: dataLibaghi.AdresseAgent || "",
+        VilleAgent: dataLibaghi.VilleAgent || "",
+        CodePostalAgent: dataLibaghi.CodePostalAgent || "",
+        id_agence: dataLibaghi.id_agence || "",
+      });
+    }
+  },[dataLibaghi]);
+
+
   const submitHandler = async (formData) => {
     try {
-      // Call the update function from AgentApi with the id and form data
+      if (methode==="update"){
       const response = await AgentApi.update(dataLibaghi.id, formData);
-  
-      // Handle the successful response
       console.log("Form submitted successfully:", response);
-  
-      // Perform any additional actions you want after a successful submission
-  
+    } else if (methode==="create"){
+      const response = await AgentApi.create(formData);
+      console.log("Form submitted successfully:", response);
+    }
     } catch (error) {
-      // Handle errors
       if (error.response && error.response.status === 422) {
-        // Unprocessable Entity error - display validation errors to the user
         const validationErrors = error.response.data;
         console.error("Validation errors:", validationErrors);
-        // Display the validation errors to the user (e.g., set state or show a message)
-      } else {
-        // Handle other types of errors
+        } else {
         console.error("Form submission error:", error);
-        // Display a generic error message to the user
       }
     }
   };

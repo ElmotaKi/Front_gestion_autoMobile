@@ -222,7 +222,7 @@ export const columns = [
                 </span>
             <br />
               <span>
-                <CustomDrawer dataLibaghi={agent} textLtrigger={'Modifier'}/></span>
+                <CustomDrawer dataLibaghi={agent} textLtrigger={'Modifier'} methode={"update"}/></span>
               
           </DropdownMenuContent>
         </DropdownMenu>
