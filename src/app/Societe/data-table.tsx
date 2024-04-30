@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown,Plus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -29,7 +29,6 @@ import {
 
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
-import CustomDrawer from "../../components/customComponents/CustomDrawer"
 
 export function DataTable({
   columns,
@@ -39,7 +38,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-  //const [selectedColumn, setSelectedColumn] = useState("Email") 
+  const [selectedColumn, setSelectedColumn] = useState("RaisonSocial") 
 
   const table = useReactTable({
     data,
@@ -60,9 +59,9 @@ export function DataTable({
     },
   })
 
-  // const handleFilterChange = (columnName) => {
-  //   setSelectedColumn(columnName);
-  // };
+  const handleFilterChange = (columnName) => {
+    setSelectedColumn(columnName);
+  };
 
   return (
     <div>
@@ -71,7 +70,7 @@ export function DataTable({
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
       </div>
       <div className="flex items-center py-4">
-        {/* <div>
+        <div>
           <Input
             placeholder={`Filtrer par  ${selectedColumn}...`}
             value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
@@ -80,19 +79,9 @@ export function DataTable({
             }
             className="max-w-sm"
           />
-        </div> */}
-        <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter ..."
-          value={""}
-          onChange={(event) =>
-            table.getAllColumns().map((columns)=>columns.id).setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
+        </div>
         <div className="ml-5">
-          {/* <DropdownMenu>
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
                 Filtrer par
@@ -113,14 +102,8 @@ export function DataTable({
                   </DropdownMenuCheckboxItem>
                 ))}
             </DropdownMenuContent>
-          </DropdownMenu> */}
-         
-        </div> 
-        <div className="ml-5">
-        <Button variant="destructive" className="ml-auto">
-          <CustomDrawer textLtrigger={"AJOUTER"} dataLibaghi={null} methode={"create"}/>
-                <Plus className="ml-2 h-4 w-4" /></Button>
-          </div>
+          </DropdownMenu>
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

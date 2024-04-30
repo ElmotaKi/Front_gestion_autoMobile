@@ -39,7 +39,7 @@ export default function DemoPage() {
         };
 
         fetchData();
-    }, []);
+    }, data);
 
     return (
         <div className="container mx-auto py-10">
