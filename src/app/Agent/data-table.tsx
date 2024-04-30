@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown,Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
   Table,
@@ -19,27 +19,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table"
+} from "../../components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu"
+} from "../../components/ui/dropdown-menu";
 
-import { Button } from "../../components/ui/button"
-import { Input } from "../../components/ui/input"
-import CustomDrawer from "../../components/customComponents/CustomDrawer"
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import CustomDrawer from "../../components/customComponents/CustomDrawer";
 
 export function DataTable({
   columns,
   data,
 }) {
-  const [sorting, setSorting] = useState([])
-  const [columnFilters, setColumnFilters] = useState([])
-  const [columnVisibility, setColumnVisibility] = useState({})
-  const [rowSelection, setRowSelection] = useState({})
-  //const [selectedColumn, setSelectedColumn] = useState("Email") 
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [filtering, setFiltering] = useState('');
 
   const table = useReactTable({
     data,
@@ -57,94 +57,63 @@ export function DataTable({
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter: filtering,
     },
-  })
-
-  // const handleFilterChange = (columnName) => {
-  //   setSelectedColumn(columnName);
-  // };
+    onGlobalFilterChange: setFiltering,
+  });
 
   return (
     <div>
+            <div className="">
+        <Input
+          placeholder="Filter ..."
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
+          className="max-w-sm"
+        />
+      </div>
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
       </div>
       <div className="flex items-center py-4">
-        {/* <div>
-          <Input
-            placeholder={`Filtrer par ${selectedColumn}...`}
-            value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn(selectedColumn)?.setFilterValue(
-                e)
-            }
-            className="max-w-sm"
-          />
-        </div> */}
-        <div className="flex items-center py-4">
+      {/* <div className="">
         <Input
           placeholder="Filter ..."
-          value={""}
-          onChange={(event) =>
-            table.getAllColumns().map((columns)=>columns.id).setFilterValue(event.target.value)
-          }
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
           className="max-w-sm"
         />
-      </div>
-        <div className="ml-5">
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Filtrer par
-                <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    onCheckedChange={(value) => handleFilterChange(column.id)}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                ))}
-            </DropdownMenuContent>
-          </DropdownMenu> */}
-         
-        </div> 
-        <div className="ml-5">
+      </div> */}
+      <div className="">
         <Button variant="destructive" className="ml-auto">
           <CustomDrawer textLtrigger={"AJOUTER"} dataLibaghi={null} methode={"create"}/>
-                <Plus className="ml-2 h-4 w-4" /></Button>
-          </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Colonnes
-              <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <Plus className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="ml-auto">
+            Colonnes
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {table
+            .getAllColumns()
+            .filter((column) => column.getCanHide())
+            .map((column) => (
+              <DropdownMenuCheckboxItem
+                key={column.id}
+                className="capitalize"
+                checked={column.getIsVisible()}
+                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+              >
+                {column.id}
+              </DropdownMenuCheckboxItem>
+            ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>
