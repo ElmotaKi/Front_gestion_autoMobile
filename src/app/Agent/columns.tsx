@@ -210,7 +210,7 @@ export const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
               <span onClick={() => navigator.clipboard.writeText(agent.id)}>
-                Consulter information Agents
+                Consulter locations agents
               </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />

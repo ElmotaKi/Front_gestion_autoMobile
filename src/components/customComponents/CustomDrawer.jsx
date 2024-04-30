@@ -74,7 +74,7 @@ function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
     }),
     
     // Validation du champ id_agence
-    id_agence: z.number({
+    id_agence: z.string({
       message: "id_agence must be a positive integer.",
     }),
   });
@@ -138,7 +138,7 @@ function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
       <DrawerTrigger>{textLtrigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Modification</DrawerTitle>
+          <DrawerTitle>{textLtrigger}</DrawerTitle>
           <DrawerDescription>
     
           <Form {...form}>
@@ -274,7 +274,7 @@ function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
         <FormItem>
           <FormLabel>ID d'agence</FormLabel>
           <FormControl>
-            <Input type="number" placeholder="Entrez l'ID de l'agence" {...field} />
+            <Input type="text" placeholder="Entrez l'ID de l'agence" {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -282,7 +282,8 @@ function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
     />
 
     {/* Submit Button */}
-    <Button type="submit">Soumettre</Button>
+    <DrawerClose>
+    <Button type="submit">Soumettre</Button></DrawerClose>
   </form>
 </Form>
 

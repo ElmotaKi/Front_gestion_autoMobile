@@ -4,37 +4,23 @@ import { columns } from "./columns"; // Ensure correct import path
 import AgentApi from "@/services/Admin/AgentApi"; // Ensure correct import path
 import { DataTable } from "./data-table";
 
-// Asynchronous function to fetch data
-async function getData() {
-    try {
-        const response = await AgentApi.get(); // Fetch data from AgentApi
-        if (!response) {
-            throw new Error("Failed to fetch data");
-        }
-        console.log(response.data)
-        return response.data; 
-        
-        // Return the data from response
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error; // Rethrow error to be caught by the component
-    }
-}
 
 export default function DemoPage() {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true); // Loading state
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedData = await getData();
-                setData(fetchedData.agents);
+                const response = await AgentApi.get();
+                if (!response) {
+                    throw new Error("Failed to fetch data");
+                }
+                setData(response.data.agents);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 alert("An error occurred while loading data. Please try again later.");
             } finally {
-                setLoading(false); // Update loading state
+                setLoading(false);
             }
         };
 
