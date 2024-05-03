@@ -13,7 +13,7 @@ import {
     
   } from "../ui/alert-dialog"
   import { Button } from "../ui/button"
-const CustomDialog = ({dataLibaghi}) => {
+const CustomDialog = ({dataLibaghi,textLtrigger}) => {
     const handleClick = async (id) => {
         try {
             // Call the delete function from AgentApi with the provided ID
@@ -40,7 +40,7 @@ const CustomDialog = ({dataLibaghi}) => {
     
   return (
     <AlertDialog>
-  <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+  <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogTitle>Confirmation </AlertDialogTitle>

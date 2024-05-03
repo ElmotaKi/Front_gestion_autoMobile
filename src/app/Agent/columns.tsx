@@ -1,5 +1,5 @@
 
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
 
 import { Button } from "../../components/ui/button";
 import {
@@ -10,10 +10,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import { Checkbox } from "../../components/ui/checkbox"
 import React from "react";
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import CustomDialog from "@/components/customComponents/CustomDialog";
+import IconButton from "@/components/ui/IconButton";
 export type Agent = {
   id: number;
   NomAgent: string;
@@ -198,34 +203,19 @@ export const columns = [
     cell: ({ row }) => {
       const agent = row.original; // Access the current agency location data
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(agent.id)}>
-                Consulter locations agents
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              </DropdownMenuItem>
-                <span>
-                    
-                    <CustomDialog dataLibaghi={agent}/>
-                </span>
-            <br />
-              <span>
-                <CustomDrawer dataLibaghi={agent} textLtrigger={'Modifier'} methode={"update"}/></span>
-              
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },]
+      return (<div className="flex justify-between">
+        {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
+  <FontAwesomeIcon icon={faCopy} />
+</IconButton> */}
+<div>
+<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
+  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+  <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+</IconButton>
+</div>
+<div>
+<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+</IconButton>
+</div>
+</div>)}}]

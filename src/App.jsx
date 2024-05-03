@@ -1,16 +1,16 @@
-// import DemoPage from "./app/Agence/page"
-import DemoPage from "./app/Agent/page"
-//import DemoPage from "./app/application"
-//import DemoPage from "./app/Societe/page"
-//import CustomDrawer from './components/customComponents/CustomDrawer';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
-function App() {
-
+const App = () => {
   return (
-    
-    <DemoPage/>
-  
-  )
-}
+    <div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        
+      </Routes>
+    </div>
+  );
+};
 
-export default App
+export default App;

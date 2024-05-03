@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap");
 @tailwind base;
   @tailwind components;
   @tailwind utilities;
 
+  body {
+    @apply font-poppins bg-white;
+  }
   @layer base {
     :root {
       --background: 0 0% 100%;
@@ -58,7 +62,7 @@
       --accent-foreground: 210 40% 98%;
 
       --destructive: 0 62.8% 30.6%;
-      --destructive-foreground: 210 40% 98%;
+      --destructive-foreground: 210 4z0% 98%;
 
       --border: 217.2 32.6% 17.5%;
       --input: 217.2 32.6% 17.5%;
@@ -66,11 +70,8 @@
     }
   }
 
-  @layer base {
-    * {
-      @apply border-border;
-    }
-    body {
-      @apply bg-background text-foreground;
-    }
-  }
+
+
+
+
+ 

@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  mode: "jit",
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
@@ -17,6 +16,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        poppins: "Poppins",
+        kaushan: "Kaushan Script",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -71,7 +74,12 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        'hero1': "url('src/assets/images/hero1.jpg')",
+        'hero2': "url('src/assets/images/hero2.jpg')",
+        'hero3': "url('src/assets/images/hero3.jpg')",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-}
+  plugins: [],
+};

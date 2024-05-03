@@ -138,7 +138,7 @@ function CustomDrawer({ dataLibaghi, textLtrigger, methode }) {
       <DrawerTrigger>{textLtrigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>{textLtrigger}</DrawerTitle>
+          <DrawerTitle>{methode}</DrawerTitle>
           <DrawerDescription>
     
           <Form {...form}>
