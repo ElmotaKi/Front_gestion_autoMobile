@@ -12,9 +12,10 @@ const AgentApi = {
   delete: async (id) => {
     return await axiosClient.delete(`agents/${id}`);
   },
-  get: async () => {
-    return await axiosClient.get("agents");
+  get: async (id) => {
+    return await axiosClient.get(`agents/${id}`);
   },
+
   all: async (columns = []) => {
     return await axiosClient.get("agents", {
       params: {

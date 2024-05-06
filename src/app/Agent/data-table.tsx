@@ -66,7 +66,7 @@ export function DataTable({
     },
     onGlobalFilterChange: setFiltering,
   });
- 
+console.log('data dyali',data)
     const [menuVisible1, setMenuVisible1] = useState(false);
     const [menuVisible2, setMenuVisible2] = useState(false);
 
@@ -173,6 +173,7 @@ export function DataTable({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          
           {table
             .getAllColumns()
             .filter((column) => column.getCanHide())
@@ -255,31 +256,31 @@ export function DataTable({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+          {table.getRowModel().rows?.length ? (
+  table.getRowModel().rows.map((row) => (
+    <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : ""}>
+      {row.getVisibleCells().map((cell) => {
+        // Check if the header is not related to 'agence_location'
+        if (cell.column.columnDef.header !== "agence_location") {
+          console.log(cell.value); // Log cell value
+          return (
+            <TableCell key={cell.id}>
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          );
+        }
+        return null;
+      })}
+    </TableRow>
+  ))
+) : (
+  <TableRow>
+    <TableCell colSpan={columns.length} className="h-24 text-center">
+      No results.
+    </TableCell>
+  </TableRow>
+)}
+
         </Table>
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button

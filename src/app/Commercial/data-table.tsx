@@ -38,7 +38,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-  const [selectedColumn, setSelectedColumn] = useState("Email") 
+  const [selectedColumn, setSelectedColumn] = useState("RaisonSocial") 
 
   const table = useReactTable({
     data,

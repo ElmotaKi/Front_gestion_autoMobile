@@ -19,7 +19,7 @@ async function getSocieteData() {
   }
 }
 
-export default function DemoPage() {
+export default function DemoPageSociete() {
   const [data, setSocieteData] = useState([]);
   const [loading, setLoading] = useState(true);
 

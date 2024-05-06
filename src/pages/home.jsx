@@ -7,21 +7,71 @@ import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import {CarFront} from 'lucide-react';
-import DemoPage from "@/app/Agent/page";
+import {SquareParking} from 'lucide-react';
+import { MdGroups } from "react-icons/md";
+import { GrGroup } from "react-icons/gr";
+import {  UserRound  } from "lucide-react";
+import {ReceiptText } from 'lucide-react';
+import {Building2 } from 'lucide-react';
+import { BsInfoSquare } from "react-icons/bs";
+import DemoPageAgent from "@/app/Agent/page";
+import DemoPageCommercial from "@/app/Commercial/page";
+import DemoPageSociete from "@/app/Societe/page";
+import DemoPageAgence from "@/app/Agence/page";
 const Home = () => {
   const menus = [
-    { name: "dashboard", link: "/", icon: MdOutlineDashboard },
-    { name: "Agents", link: "/agents", icon: AiOutlineUser },
-    { name: "vehicules", link: "/", icon: CarFront },
-    { name: "commercial", link: "/", icon: TbReportAnalytics },
-    { name: "Societes", link: "/", icon: FiFolder },
-    { name: "Parking", link: "/", icon: FiShoppingCart },
-    { name: "Client", link: "/", icon: RiSettings4Line },
-    { name: "Contrat", link: "/", icon: RiSettings4Line },
-    { name: "Saved", link: "/", icon: AiOutlineHeart },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
+    { name: "dashboard", link: "/dashboard", icon: MdOutlineDashboard },
+    { name: "Agence", link: "/agence", icon: AiOutlineUser },
+    { name: "Agents", link: "/agents", icon: MdGroups },
+    { name: "vehicules", link: "/vehicules", icon: CarFront },
+    { name: "Parking", link: "/parking", icon: SquareParking },
+    { name: "Societes", link: "/societes", icon: Building2 },
+    { name: "Commerciaux", link: "/commerciaux", icon: GrGroup  },
+    { name: "Client", link: "/client", icon: UserRound  },
+    { name: "Contrat", link: "/contrat", icon: ReceiptText},
+    { name: "Infos", link: "/infos", icon: BsInfoSquare },
+    
   ];
   const [open, setOpen] = useState(true);
+  const [content,setContent]=useState(null)
+  const handleMenuClick = (name) => {
+    switch (name) {
+      case 'Agence':
+        setContent(<DemoPageAgence/>);
+        break;
+      case 'Agents':
+        setContent(<DemoPageAgent />);
+        break;
+      case 'dashboard':
+        setContent('dashboard content');
+        break;
+      case 'vehicules':
+        setContent('vehicules content');
+        break;
+      case 'Parking':
+        setContent('Parking content');
+        break;
+      case 'Societes':
+        setContent(<DemoPageSociete/>);
+        break;
+      case 'Commerciaux':
+        setContent(<DemoPageCommercial/>);
+        break;
+      case 'Client':
+        setContent('Client content');
+        break;
+      case 'Contrat':
+        setContent('Contrat content');
+        break;
+      case 'Infos':
+        setContent('Infos content');
+        break;
+      default:
+        setContent('');
+        break;
+    }
+  };
+  
   return (
     <section className="flex gap-6 ">
       <div
@@ -44,6 +94,7 @@ const Home = () => {
               className={` ${
                 menu?.margin && "mt-5"
               } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-200 rounded-md`}
+              onClick={() => handleMenuClick(menu.name)}
             >
               <div>{React.createElement(menu?.icon, { size: "20" })}</div>
               <h2
@@ -68,7 +119,9 @@ const Home = () => {
         </div>
       </div>
       <div className="m-3 text-xl text-gray-900 font-semibold">
-        <DemoPage/>
+      <div className="m-3 text-xl text-gray-900 font-semibold">
+          {content}
+      </div>
       </div>
     </section>
   );

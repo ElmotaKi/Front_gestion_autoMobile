@@ -1,6 +1,8 @@
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
+
+  
 import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
@@ -13,133 +15,151 @@ import {
 import { Checkbox } from "../../components/ui/checkbox"
 import React from "react";
 
-export type AgenceLocation = {
-  id: string;
+export type Societe = {
+  id: number;
   NomAgence: string;
   AdresseAgence: string;
   VilleAgence: string;
   CodePostalAgence: string;
   TelAgence: string;
-  EmailAgence: string;
+  EmailAgence:string;
+  
+  
 };
 
 export const columns = [
-  // Existing columns for displaying agency detail  s
+  // Existing columns for displaying agent details
   
     {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
+      id: "filter-select",
+      header: () => (
+        <DropdownMenu>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <span>Filtrer par:</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem key="NomAgence">NomAgence</DropdownMenuItem>
+            <DropdownMenuItem key="AdresseAgence">AdresseAgence</DropdownMenuItem>
+            <DropdownMenuItem key="VilleAgence">VilleAgence</DropdownMenuItem>
+            <DropdownMenuItem key="CodePostalAgence">CodePostalAgence</DropdownMenuItem>
+            <DropdownMenuItem key="TelAgence">TelAgence</DropdownMenuItem>
+            <DropdownMenuItem key="EmailAgence">EmailAgence</DropdownMenuItem>
+            
+          </DropdownMenuContent>
+        </DropdownMenu>
       ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
+      cell: () => null, // Empty cell for the dropdown
       enableSorting: false,
       enableHiding: false,
     },
-    ,
     {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    id:"NomAgence",
     accessorKey: "NomAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Nom Agence
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+       NomAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
+    id:"AdresseAgence",
     accessorKey: "AdresseAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Adresse Agence
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+       AdresseAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
+    id:"VilleAgence",
     accessorKey: "VilleAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Ville agence
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        VilleAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
+    id:"CodePostalAgence",
     accessorKey: "CodePostalAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Code Postal
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        CodePostalAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
+    id:"TelAgence",
     accessorKey: "TelAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Téléphone
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+       TelAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
   {
+    id:"EmailAgence",
     accessorKey: "EmailAgence",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+       EmailAgence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
-
-  // Column for actions dropdown
+ 
+  
+  
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const agence = row.original; // Access the current agency location data
+      const societe = row.original; // Access the current agency location data
 
       return (
         <DropdownMenu>
@@ -152,19 +172,19 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(agence.id)}>
-                Consulter agents liés
+              <span onClick={() => navigator.clipboard.writeText(societe.id)}>
+                Consulter information Societes
               </span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(agence.id)}>
+                <span onClick={() => navigator.clipboard.writeText(societe.id)}>
                     Supprimer
                 </span>
               </DropdownMenuItem>
            
             <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(agence.id)}>
+                <span onClick={() => navigator.clipboard.writeText(societe.id)}>
                     Modifier
                 </span>
               </DropdownMenuItem>
@@ -172,5 +192,4 @@ export const columns = [
         </DropdownMenu>
       );
     },
-  },
-];
+  },]

@@ -5,17 +5,30 @@ import AgentApi from "@/services/Admin/AgentApi"; // Ensure correct import path
 import { DataTable } from "./data-table";
 
 
-export default function DemoPage() {
+export default function DemoPageAgent() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [ids,setIds]=useState([])
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await AgentApi.get();
+                const response = await AgentApi.all();
+                const agentsIds = response.data.agents.map(agent => agent.id);
+                setIds(agentsIds);
+    
+                let newdata = [];
+                for (let i = 0; i < ids.length; i++) {
+                    const agentData = await AgentApi.get(ids[i]);
+                    newdata = [...newdata, agentData];
+                    
+                }
+                setData(newdata);
+                
+                
                 if (!response) {
                     throw new Error("Failed to fetch data");
                 }
-                setData(response.data.agents);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 alert("An error occurred while loading data. Please try again later.");
@@ -23,16 +36,19 @@ export default function DemoPage() {
                 setLoading(false);
             }
         };
-
+    
         fetchData();
-    }, data);
+    }, [data]);
+    
+    
+
 
     return (
         <div className="container mx-auto py-10">
             {loading ? (
                 <div>Loading...</div> // Display loading message
             ) : (
-                <DataTable columns={columns} data={data} /> // Display DataTable
+                <DataTable columns={columns} data={data[0].data} /> // Display DataTable
             )}
         </div>
     );

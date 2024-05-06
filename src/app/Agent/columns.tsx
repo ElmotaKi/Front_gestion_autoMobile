@@ -29,7 +29,7 @@ export type Agent = {
   AdresseAgent: string;
   VilleAgent: string;
   CodePostalAgent: string;
-  id_agence: number;
+  agence_location: string;
 };
 
 
@@ -185,8 +185,8 @@ export const columns = [
     ),
   },
   {
-    id:"Agence",
-    accessorKey: "id_agence",
+    id: "agence_location",
+    accessorKey: "agence_location", // Accéder à la clé NomAgence au lieu de id_agence
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -197,6 +197,7 @@ export const columns = [
       </Button>
     ),
   },
+  
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
