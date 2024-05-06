@@ -14,6 +14,7 @@ import {  UserRound  } from "lucide-react";
 import {ReceiptText } from 'lucide-react';
 import {Building2 } from 'lucide-react';
 import { BsInfoSquare } from "react-icons/bs";
+<<<<<<< HEAD
 import DemoPageAgent from "@/app/Agent/page";
 import DemoPageCommercial from "@/app/Commercial/page";
 import DemoPageSociete from "@/app/Societe/page";
@@ -30,6 +31,21 @@ const Home = () => {
     { name: "Client", link: "/client", icon: UserRound  },
     { name: "Contrat", link: "/contrat", icon: ReceiptText},
     { name: "Infos", link: "/infos", icon: BsInfoSquare },
+=======
+import DemoPage from "@/app/Agent/page";
+const Home = () => {
+  const menus = [
+    { name: "dashboard", link: "/", icon: MdOutlineDashboard },
+    { name: "Agence", link: "/agence", icon: AiOutlineUser },
+    { name: "Agents", link: "/agents", icon: MdGroups },
+    { name: "vehicules", link: "/", icon: CarFront },
+    { name: "Parking", link: "/", icon: SquareParking },
+    { name: "Societes", link: "/", icon: Building2 },
+    { name: "Commerciaux", link: "/", icon: GrGroup  },
+    { name: "Client", link: "/", icon: UserRound  },
+    { name: "Contrat", link: "/", icon: ReceiptText},
+    { name: "Infos", link: "/", icon: BsInfoSquare },
+>>>>>>> aa683935eb04c7e5c174c47f43986bc92217fc6b
     
   ];
   const [open, setOpen] = useState(true);
