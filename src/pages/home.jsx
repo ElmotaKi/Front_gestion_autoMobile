@@ -7,19 +7,27 @@ import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import {CarFront} from 'lucide-react';
+import {SquareParking} from 'lucide-react';
+import { MdGroups } from "react-icons/md";
+import { GrGroup } from "react-icons/gr";
+import {  UserRound  } from "lucide-react";
+import {ReceiptText } from 'lucide-react';
+import {Building2 } from 'lucide-react';
+import { BsInfoSquare } from "react-icons/bs";
 import DemoPage from "@/app/Agent/page";
 const Home = () => {
   const menus = [
     { name: "dashboard", link: "/", icon: MdOutlineDashboard },
-    { name: "Agents", link: "/agents", icon: AiOutlineUser },
+    { name: "Agence", link: "/agence", icon: AiOutlineUser },
+    { name: "Agents", link: "/agents", icon: MdGroups },
     { name: "vehicules", link: "/", icon: CarFront },
-    { name: "commercial", link: "/", icon: TbReportAnalytics },
-    { name: "Societes", link: "/", icon: FiFolder },
-    { name: "Parking", link: "/", icon: FiShoppingCart },
-    { name: "Client", link: "/", icon: RiSettings4Line },
-    { name: "Contrat", link: "/", icon: RiSettings4Line },
-    { name: "Saved", link: "/", icon: AiOutlineHeart },
-    { name: "Setting", link: "/", icon: RiSettings4Line },
+    { name: "Parking", link: "/", icon: SquareParking },
+    { name: "Societes", link: "/", icon: Building2 },
+    { name: "Commerciaux", link: "/", icon: GrGroup  },
+    { name: "Client", link: "/", icon: UserRound  },
+    { name: "Contrat", link: "/", icon: ReceiptText},
+    { name: "Infos", link: "/", icon: BsInfoSquare },
+    
   ];
   const [open, setOpen] = useState(true);
   return (
