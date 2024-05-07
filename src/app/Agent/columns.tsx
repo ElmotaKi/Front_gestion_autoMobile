@@ -29,7 +29,7 @@ export type Agent = {
   AdresseAgent: string;
   VilleAgent: string;
   CodePostalAgent: string;
-  agence_location: string;
+  NomAgence:string
 };
 
 
@@ -185,19 +185,21 @@ export const columns = [
     ),
   },
   {
-    id: "agence_location",
-    accessorKey: "agence_location", // Accéder à la clé NomAgence au lieu de id_agence
+    id: "NomAgence",
+    accessorKey: "NomAgence", 
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Agence
+        Nom Agence
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
-  
+  {
+    accessorKey: "id_agence", 
+  },
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text

@@ -16,15 +16,13 @@ export default function DemoPageAgent() {
                 const response = await AgentApi.all();
                 const agentsIds = response.data.agents.map(agent => agent.id);
                 setIds(agentsIds);
-    
                 let newdata = [];
                 for (let i = 0; i < ids.length; i++) {
                     const agentData = await AgentApi.get(ids[i]);
-                    newdata = [...newdata, agentData];
+                    newdata = [...newdata, agentData.data];
                     
                 }
                 setData(newdata);
-                
                 
                 if (!response) {
                     throw new Error("Failed to fetch data");
@@ -48,7 +46,7 @@ export default function DemoPageAgent() {
             {loading ? (
                 <div>Loading...</div> // Display loading message
             ) : (
-                <DataTable columns={columns} data={data[0].data} /> // Display DataTable
+                <DataTable columns={columns} data={data} /> // Display DataTable
             )}
         </div>
     );

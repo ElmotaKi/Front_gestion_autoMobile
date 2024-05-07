@@ -5,7 +5,7 @@ import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {CarFront} from 'lucide-react';
 import {SquareParking} from 'lucide-react';
 import { MdGroups } from "react-icons/md";
@@ -14,12 +14,15 @@ import {  UserRound  } from "lucide-react";
 import {ReceiptText } from 'lucide-react';
 import {Building2 } from 'lucide-react';
 import { BsInfoSquare } from "react-icons/bs";
-<<<<<<< HEAD
 import DemoPageAgent from "@/app/Agent/page";
 import DemoPageCommercial from "@/app/Commercial/page";
 import DemoPageSociete from "@/app/Societe/page";
 import DemoPageAgence from "@/app/Agence/page";
+import CustomAvatar from "./CustomAvatar";
 const Home = () => {
+  if(!window.localStorage.getItem("token")){
+    return <Navigate to="/" />;
+}
   const menus = [
     { name: "dashboard", link: "/dashboard", icon: MdOutlineDashboard },
     { name: "Agence", link: "/agence", icon: AiOutlineUser },
@@ -31,21 +34,6 @@ const Home = () => {
     { name: "Client", link: "/client", icon: UserRound  },
     { name: "Contrat", link: "/contrat", icon: ReceiptText},
     { name: "Infos", link: "/infos", icon: BsInfoSquare },
-=======
-import DemoPage from "@/app/Agent/page";
-const Home = () => {
-  const menus = [
-    { name: "dashboard", link: "/", icon: MdOutlineDashboard },
-    { name: "Agence", link: "/agence", icon: AiOutlineUser },
-    { name: "Agents", link: "/agents", icon: MdGroups },
-    { name: "vehicules", link: "/", icon: CarFront },
-    { name: "Parking", link: "/", icon: SquareParking },
-    { name: "Societes", link: "/", icon: Building2 },
-    { name: "Commerciaux", link: "/", icon: GrGroup  },
-    { name: "Client", link: "/", icon: UserRound  },
-    { name: "Contrat", link: "/", icon: ReceiptText},
-    { name: "Infos", link: "/", icon: BsInfoSquare },
->>>>>>> aa683935eb04c7e5c174c47f43986bc92217fc6b
     
   ];
   const [open, setOpen] = useState(true);
@@ -87,6 +75,7 @@ const Home = () => {
         break;
     }
   };
+
   
   return (
     <section className="flex gap-6 ">
@@ -134,10 +123,12 @@ const Home = () => {
           ))}
         </div>
       </div>
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-          {content}
-      </div>
+      <div className=" text-xl">
+      
+      <div className="  flex justify-end mt-5 mr-5" style={{marginBottom:"-65px"}}> <CustomAvatar/></div>
+      <div className="">  {content}</div>
+    
+      
       </div>
     </section>
   );

@@ -27,17 +27,6 @@ import {
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu"
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-
-
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 
@@ -49,7 +38,7 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-  const [selectedColumn, setSelectedColumn] = useState("pannes") 
+  const [selectedColumn, setSelectedColumn] = useState("RaisonSocial") 
 
   const table = useReactTable({
     data,
@@ -83,7 +72,7 @@ export function DataTable({
       <div className="flex items-center py-4">
         <div>
           <Input
-            placeholder={`Filtrer par ${selectedColumn}...`}
+            placeholder={`Filtrer par  ${selectedColumn}...`}
             value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn(selectedColumn)?.setFilterValue(event.target.value)
@@ -197,9 +186,6 @@ export function DataTable({
           >
             Page suivante
           </Button>
-          
-      
-
         </div>
       </div>
     </div>

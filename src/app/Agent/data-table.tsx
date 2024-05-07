@@ -1,10 +1,5 @@
-import React, { useState } from "react";
-import { BsFiletypeXls } from "react-icons/bs";
-import { FaFileExcel, FaFilePdf } from "react-icons/fa6";
-import './btn.css'
-import { ChevronDown, Plus } from "lucide-react";
-import { ImPrinter } from "react-icons/im";
-import { Form } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import {
   flexRender,
   getCoreRowModel,
@@ -15,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
   VisibilityState,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"
 
 import {
   Table,
@@ -24,27 +19,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
+} from "../../components/ui/table"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu"
 
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import CustomDrawer from "../../components/customComponents/CustomDrawer";
-import { Sheet, FileText ,Printer} from "lucide-react";
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
+
 export function DataTable({
   columns,
   data,
 }) {
-  const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] = useState([]);
-  const [columnVisibility, setColumnVisibility] = useState({});
-  const [rowSelection, setRowSelection] = useState({});
-  const [filtering, setFiltering] = useState('');
+  const [sorting, setSorting] = useState([])
+  const [columnFilters, setColumnFilters] = useState([])
+  const [columnVisibility, setColumnVisibility] = useState({})
+  const [rowSelection, setRowSelection] = useState({})
+  const [selectedColumn, setSelectedColumn] = useState("RaisonSocial") 
 
   const table = useReactTable({
     data,
@@ -62,185 +56,77 @@ export function DataTable({
       columnFilters,
       columnVisibility,
       rowSelection,
-      globalFilter: filtering,
     },
-    onGlobalFilterChange: setFiltering,
-  });
-console.log('data dyali',data)
-    const [menuVisible1, setMenuVisible1] = useState(false);
-    const [menuVisible2, setMenuVisible2] = useState(false);
+  })
+  const handleFilterChange = (columnName) => {
+    setSelectedColumn(columnName);
+  };
 
-    const [menuVisible3, setMenuVisible3] = useState(false);
-
-    const toggleMenu = (id) => {
-      if (id === 1) {
-        setMenuVisible1(!menuVisible1);
-        setMenuVisible2(false)
-        setMenuVisible3(false)
-      }
-      if (id === 2) {
-        setMenuVisible2(!menuVisible2);
-        setMenuVisible1(false)
-        setMenuVisible3(false)
-      }
-      if (id === 3) {
-        setMenuVisible3(!menuVisible3);
-        setMenuVisible1(false)
-        setMenuVisible2(false)
-      }
-    };
   return (
     <div>
-         <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
       </div>
-     
-     <div className="flex items-center mt-4 mb-4">
-      {/* Bouton Ajouter à gauche */}
-      <div className="mr-auto">
-        <Button variant="destructive">
-          <CustomDrawer textLtrigger={"AJOUTER"} dataLibaghi={null} methode={"create"}/>
-          <Plus className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-      <div >
-      <Button className="btn mx-2" onClick={() => toggleMenu(1)}>
-      <FaFileExcel  color="green"/>
-      
-        </Button>
-        
-        
-      </div>
-      {menuVisible1 && (
-        <div className="menu1">
-              <Form.Check aria-label="option 1" label=" NomAgent"/>
-              <Form.Check aria-label="option 1" label=" PrenomAgent"/>
-              <Form.Check aria-label="option 1" label=" SexeAgent"/>
-              <Form.Check aria-label="option 1" label=" EmailAgent"/>
-              <Form.Check aria-label="option 1" label=" TelAgent"/>
-              <Form.Check aria-label="option 1" label=" AdresseAgent"/>
-              <Form.Check aria-label="option 1" label=" VilleAgent"/>
-              <Form.Check aria-label="option 1" label=" codePostalAgent"/>
-              <Form.Check aria-label="option 1" label=" Agence"/>
+      <div className="flex items-center py-4">
+        <div>
+          <Input
+            placeholder={`Filtrer par  ${selectedColumn}...`}
+            value={(table.getColumn(selectedColumn)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(selectedColumn)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
         </div>
-      )}
-      <div >
-        <Button className="btn mx-2" onClick={() => toggleMenu(2)} >
-        <ImPrinter color="black" />
-        </Button>
-      </div>
-     
-      {menuVisible2 && (
-        <div className="menu2">
-              <Form.Check aria-label="option 1" label=" NomAgent"/>
-              <Form.Check aria-label="option 1" label=" PrenomAgent"/>
-              <Form.Check aria-label="option 1" label=" SexeAgent"/>
-              <Form.Check aria-label="option 1" label=" EmailAgent"/>
-              <Form.Check aria-label="option 1" label=" TelAgent"/>
-              <Form.Check aria-label="option 1" label=" AdresseAgent"/>
-              <Form.Check aria-label="option 1" label=" VilleAgent"/>
-              <Form.Check aria-label="option 1" label=" codePostalAgent"/>
-              <Form.Check aria-label="option 1" label=" Agence"/>
+        <div className="ml-5">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Filtrer par
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    onCheckedChange={(value) => handleFilterChange(column.id)}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      )}
-      <div >
-        <Button className="btn mx-2" onClick={() => toggleMenu(3)}>
-        <FaFilePdf color="red" />
-
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Colonnes
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      
-      {menuVisible3 && (
-        <div className="menu3">
-              <Form.Check aria-label="option 1" label=" NomAgent"/>
-              <Form.Check aria-label="option 1" label=" PrenomAgent"/>
-              <Form.Check aria-label="option 1" label=" SexeAgent"/>
-              <Form.Check aria-label="option 1" label=" EmailAgent"/>
-              <Form.Check aria-label="option 1" label=" TelAgent"/>
-              <Form.Check aria-label="option 1" label=" AdresseAgent"/>
-              <Form.Check aria-label="option 1" label=" VilleAgent"/>
-              <Form.Check aria-label="option 1" label=" codePostalAgent"/>
-              <Form.Check aria-label="option 1" label=" Agence"/>
-        </div>
-      )}
-      {/* Dropdown Colonnes à droite */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">
-            Colonnes
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          
-          {table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-              >
-                {column.id}
-              </DropdownMenuCheckboxItem>
-            ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-      {/* Input de recherche */}
-      
-    </div>
-    
-            <div className="mb-4">
-        <Input
-          placeholder="Rechercher ..."
-          value={filtering}
-          onChange={(e) => setFiltering(e.target.value)}
-          className="w-full"
-        />
-      </div>
-      
-      
-      {/* <div className="">
-        <Input
-          placeholder="Filter ..."
-          value={filtering}
-          onChange={(e) => setFiltering(e.target.value)}
-          className="max-w-sm"
-        />
-      </div> */}
-      {/* <div className="">
-        <Button variant="destructive" className="ml-auto">
-          <CustomDrawer textLtrigger={"AJOUTER"} dataLibaghi={null} methode={"create"}/>
-          <Plus className="ml-2 h-4 w-4" />
-        </Button>
-      </div> */}
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="ml-auto">
-            Colonnes
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-              >
-                {column.id}
-              </DropdownMenuCheckboxItem>
-            ))}
-        </DropdownMenuContent>
-      </DropdownMenu> */}
-     
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -256,31 +142,31 @@ console.log('data dyali',data)
               </TableRow>
             ))}
           </TableHeader>
-          {table.getRowModel().rows?.length ? (
-  table.getRowModel().rows.map((row) => (
-    <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : ""}>
-      {row.getVisibleCells().map((cell) => {
-        // Check if the header is not related to 'agence_location'
-        if (cell.column.columnDef.header !== "agence_location") {
-          console.log(cell.value); // Log cell value
-          return (
-            <TableCell key={cell.id}>
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </TableCell>
-          );
-        }
-        return null;
-      })}
-    </TableRow>
-  ))
-) : (
-  <TableRow>
-    <TableCell colSpan={columns.length} className="h-24 text-center">
-      No results.
-    </TableCell>
-  </TableRow>
-)}
-
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
         </Table>
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button

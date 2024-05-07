@@ -58,7 +58,7 @@ export function DataTable({
       rowSelection,
     },
   })
-
+console.log('data commercial:',data)
   const handleFilterChange = (columnName) => {
     setSelectedColumn(columnName);
   };
