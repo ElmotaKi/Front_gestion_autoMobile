@@ -1,8 +1,8 @@
-import AgentApi from "@/services/Admin/AgentApi"
+import { useState } from 'react';
+import CommercialApi from "@/services/Admin/CommercialApi"
 import {
     AlertDialog,
     AlertDialogAction,
-    // AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -10,53 +10,44 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-    
-  } from "../ui/alert-dialog"
-  import { Button } from "../ui/button"
-const CustomDialog = ({dataLibaghi,textLtrigger}) => {
+} from "../ui/alert-dialog"
+import { Button } from "../ui/button"
+import { Navigate } from 'react-router-dom';
+
+const CustomDialog = ({ dataLibaghi, textLtrigger, nomApi }) => {
     const handleClick = async (id) => {
         try {
-            // Call the delete function from AgentApi with the provided ID
-            await AgentApi.delete(id);
-            
-            // Handle successful delete (e.g., refresh the list of agents or notify the user)
-            console.log("Agent deleted successfully");
-    
-            // Add additional post-delete actions here, if necessary
-        } catch (error) {
-            // Handle errors
-            if (error.response && error.response.status === 500) {
-                // Internal server error - display a user-friendly error message
-                console.error("Internal server error:", error);
-                // Display a user-friendly error message to the user
-                alert("An internal server error occurred. Please try again later.");
-            } else {
-                // Handle other types of errors
-                console.error("Error deleting agent:", error);
-                // Display a generic error message to the user
+            if (nomApi === 'commercial') {
+                await CommercialApi.delete(id);
+                console.log('Commercial deleted successfully');
             }
+        } catch (error) {
+            console.error('Error deleting commercial:', error);
+            alert('An internal server error occurred. Please try again later.');
         }
     };
-    
-  return (
-    <AlertDialog>
-  <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Confirmation </AlertDialogTitle>
-      <AlertDialogDescription>
-      voulez vous vraiment supprimer {dataLibaghi.NomAgent}:( ?
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction><Button onClick={() => handleClick(dataLibaghi.id)}>Supprimer</Button></AlertDialogAction>
-      
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
 
-  )
+    return (
+        <>
+            <AlertDialog>
+                <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Confirmation </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Voulez-vous vraiment supprimer {dataLibaghi.Nom} : ?
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                        <AlertDialogAction>
+                            <Button onClick={() => handleClick(dataLibaghi.id)}>Supprimer </Button>
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
+    );
 }
 
-export default CustomDialog
+export default CustomDialog;

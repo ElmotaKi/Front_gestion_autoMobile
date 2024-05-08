@@ -12,8 +12,8 @@ const CommercialApi = {
   delete: async (id) => {
     return await axiosClient.delete(`commercials/${id}`);
   },
-  get: async () => {
-    return await axiosClient.get("commercials");
+  get: async (id) => {
+    return await axiosClient.get(`commercials/${id}`);
   },
   all: async (columns = []) => {
     return await axiosClient.get("commercials", {

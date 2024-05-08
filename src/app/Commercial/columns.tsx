@@ -1,9 +1,11 @@
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
-
-  
+import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import { Button } from "../../components/ui/button";
+import CustomDialog from "@/components/customComponents/CustomDialog";
+import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import IconButton from "@/components/ui/IconButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +15,22 @@ import {
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import { Checkbox } from "../../components/ui/checkbox"
-import React from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog"
+import React, { useState } from "react";
+import CommercialApi from "@/services/Admin/CommercialApi";
+import { Navigate } from "react-router-dom";
 
-export type Societe = {
+export type Commercial = {
   id: number;
   CIN:number;
   Nom: string;
@@ -25,12 +40,13 @@ export type Societe = {
   Tel:string;
   Adresse:string;
   Ville:string;
-  
+  RaisonSocial:string
   
 };
-
 export const columns = [
-  // Existing columns for displaying agent details
+
+  
+  // Existing columns for displaying commercial details
   
     {
       id: "filter-select",
@@ -181,43 +197,69 @@ export const columns = [
       </Button>
     ),
   },
-  
-  
+  {
+    id: "Societe",
+    accessorKey: "RaisonSocial", 
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Societe
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
+    accessorKey: "id_societe", 
+  },
+
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const societe = row.original; // Access the current agency location data
-
+      const commercial = row.original; // Access the current agency location data
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(societe.id)}>
-                Consulter information Societes
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(societe.id)}>
-                    Supprimer
-                </span>
-              </DropdownMenuItem>
-           
-            <DropdownMenuItem>
-                <span onClick={() => navigator.clipboard.writeText(societe.id)}>
-                    Modifier
-                </span>
-              </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <div className="flex justify-between">
+            <div>
+              <IconButton onClick={() => navigator.clipboard.writeText(commercial.id)} color="red">
+                <AlertDialog>
+                  <AlertDialogTrigger><FontAwesomeIcon icon={faTrash} /></AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Confirmation</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Voulez-vous vraiment supprimer {commercial.Nom} ?
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogAction>
+                        <Button onClick={async () => {
+                          try {
+                            await CommercialApi.delete(commercial.id);
+window.location.reload()
+                            console.log('Commercial deleted successfully');
+                          } catch (error) {
+                            console.error('Error deleting commercial:', error);
+                            alert('An internal server error occurred. Please try again later.');
+                          }
+                        }}>Supprimer</Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </IconButton>
+            </div>
+            <div>
+              <IconButton onClick={() => navigator.clipboard.writeText(commercial.id)} color="green">
+                <CustomDrawer dataLibaghi={commercial} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+              </IconButton>
+            </div>
+          </div>
+        </>
       );
-    },
-  },]
+    }
+  }
+]  

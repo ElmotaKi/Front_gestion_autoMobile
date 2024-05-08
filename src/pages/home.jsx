@@ -128,7 +128,6 @@ const Home = () => {
       <div className="  flex justify-end mt-5 mr-5" style={{marginBottom:"-65px"}}> <CustomAvatar/></div>
       <div className="">  {content}</div>
     
-      
       </div>
     </section>
   );
