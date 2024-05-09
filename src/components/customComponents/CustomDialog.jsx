@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import CommercialApi from "@/services/Admin/CommercialApi"
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,6 +15,8 @@ import {
 import { Button } from "../ui/button"
 import { Navigate } from 'react-router-dom';
 
+import AgenceApi from '@/services/Admin/AgenceApi';
+
 const CustomDialog = ({ dataLibaghi, textLtrigger, nomApi }) => {
     const handleClick = async (id) => {
         try {
@@ -25,6 +28,7 @@ const CustomDialog = ({ dataLibaghi, textLtrigger, nomApi }) => {
             console.error('Error deleting commercial:', error);
             alert('An internal server error occurred. Please try again later.');
         }
+       
     };
 
     return (

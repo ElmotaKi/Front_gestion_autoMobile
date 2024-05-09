@@ -40,3 +40,123 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.container {
+  position: relative;
+  min-height: 80vh;
+  
+}
+
+ .form-container {
+  position: absolute;
+  top: 10%;
+  left: 1%; 
+  transform: translate(-50%, -50%); 
+  z-index: 9999;
+}
+
+
+
+form {
+  background-color: #ffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 15px;
+  
+}
+
+form label {
+  margin-bottom: 5px;
+  height: 50px;
+  width: 20px;
+}
+form select {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 210px;
+  COLOR: #858484;
+  height: 37PX;
+  FONT-SIZE: 15PX;
+}
+
+form input {
+  padding: 5px;
+
+  /* margin-bottom: 2px; */
+  margin-bottom: none;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+
+
+form button {
+  padding: 8px;
+  background-color: #EF4444;
+  color: #eeee;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #eeee;
+  color: #EF4444;
+    
+}
+form input:hover{
+  border: none;
+}
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(55rem);
+  }
+  to {
+    transform: translateX(33rem);
+  }
+}
+.slide-in {
+  animation: slideInFromRight 0.3s ease forwards;
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(33rem);
+  }
+  to {
+    transform: translateX(100rem);
+    display: none;
+  }
+}
+.slide-out{
+  animation: slideOut 0.3s ease forwards;
+}
+
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+}
+.btn button{
+  margin-right: 5px;
+  background-color: #EF4444;
+  color: #eeee;
+}
+.btn button:hover{
+  background-color: #eeee;
+  color: #EF4444;
+}
+.titre{
+  font-weight: 500;
+  font-size: large;
+  padding: 8px;
+  margin-bottom:none;
+  border-radius: 5px;
+}

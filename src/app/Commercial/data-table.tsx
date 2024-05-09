@@ -43,6 +43,7 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
   const [filtering, setFiltering] = useState("");
+  const [open, setOpen] = useState(true);
 
   const table = useReactTable({
     data,
@@ -86,7 +87,7 @@ export function DataTable({
   };
   
   return (
-    <div>
+    <div style={open?{width:"105%"}:{}}>
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.

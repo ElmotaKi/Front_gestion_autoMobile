@@ -1,7 +1,8 @@
 import { createPortal } from "react-dom";
 import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
-import React, { useState, useEffect } from "react";
+ import FormulaireComponent from "../formulaire/FormulaireComponent";
 import { Button } from "../../components/ui/button";
+import React,{useState,useEffect} from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,25 +13,20 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FormulaireComponent from "../formulaire/FormulaireComponent";
+
+
 import { Checkbox } from "../../components/ui/checkbox"
+
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import CustomDialog from "@/components/customComponents/CustomDialog";
 import IconButton from "@/components/ui/IconButton";
 
-export type Agent = {
-  id: number;
-  NomAgent: string;
-  PrenomAgent: string;
-  SexeAgent: string;
-  EmailAgent: string;
-  TelAgent: string;
-  AdresseAgent: string;
-  VilleAgent: string;
-  CodePostalAgent: string;
-  NomAgence:string
+export type Contrat = {
+    id: number;
+    nomContrat:string;
+    typeContrat:string;
+    descriptionContrat:string;
 };
-
 
 export const columns = [
   // Existing columns for displaying agent details
@@ -43,13 +39,9 @@ export const columns = [
             <DropdownMenuItem>
               <span>Filtrer par:</span>
             </DropdownMenuItem>
-            <DropdownMenuItem key="NomAgent">Nom Agent</DropdownMenuItem>
-            <DropdownMenuItem key="PrenomAgent">Prenom Agent</DropdownMenuItem>
-            <DropdownMenuItem key="EmailAgent">Email Agent</DropdownMenuItem>
-            <DropdownMenuItem key="TelAgent">Tel Agent</DropdownMenuItem>
-            <DropdownMenuItem key="AdresseAgent">Adresse Agent</DropdownMenuItem>
-            <DropdownMenuItem key="VilleAgent">Ville Agent</DropdownMenuItem>
-            <DropdownMenuItem key="CodePostalAgent">CodePostal Agent</DropdownMenuItem>
+            <DropdownMenuItem key="nomContrat">nom Contrat</DropdownMenuItem>
+            <DropdownMenuItem key="typeContrat">type Contrat</DropdownMenuItem>
+            <DropdownMenuItem key="descriptionContrat">description Contrat</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
@@ -80,130 +72,49 @@ export const columns = [
     enableHiding: false,
   },
   {
-    id:"Nom",
-    accessorKey: "NomAgent",
+    id:"nom",
+    accessorKey: "nomContrat",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        NomAgent
+        nomContrat
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"Prenom",
-    accessorKey: "PrenomAgent",
+    id:"type",
+    accessorKey: "typeContrat",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        PrenomAgent
+        typeContrat
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"Sexe",
-    accessorKey: "SexeAgent",
+    id:"description",
+    accessorKey: "descriptionContrat",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        SexeAgent
+        descriptionContrat
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-  },
-  {
-    id:"Email",
-    accessorKey: "EmailAgent",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        EmailAgent
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    id:"Téléphone",
-    accessorKey: "TelAgent",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        TelAgent
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    id:"Adresse",
-    accessorKey: "AdresseAgent",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        AdresseAgent
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    id:"Ville",
-    accessorKey: "VilleAgent",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        VilleAgent
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    id:"Code Postal",
-    accessorKey: "CodePostalAgent",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        CodePostalAgent
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    id: "NomAgence",
-    accessorKey: "NomAgence", 
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Nom Agence
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-  },
-  {
-    accessorKey: "id_agence", 
   },
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const agent = row.original; // Access the current agency location data
+      const contrat = row.original; // Access the current agency location data
       const [formVisible, setFormVisible] = useState(false);
       const toggleform = ()=>{
         setFormVisible(!formVisible);
@@ -213,16 +124,16 @@ export const columns = [
     <FontAwesomeIcon icon={faCopy} />
   </IconButton> */}
   <div>
-  <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
+  <IconButton onClick={() => navigator.clipboard.writeText(contrat.id)} color="red" >
     {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={agent} nomApi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+    <CustomDialog dataLibaghi={contrat} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
   </IconButton>
   </div>
   <div>
   {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
     <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
   </IconButton> */}
-  <IconButton onClick={()=>{navigator.clipboard.writeText(agent.id);
+  <IconButton onClick={()=>{navigator.clipboard.writeText(contrat.id);
   toggleform();}
   } color="green">
    <FontAwesomeIcon icon={faEdit} />
@@ -230,9 +141,11 @@ export const columns = [
   
    {formVisible &&
    createPortal(
-   <FormulaireComponent formVisible={formVisible} titre={'Modifier'} dataLibaghi={agent} methode={"update"}/>,
+   <FormulaireComponent formVisible={formVisible} titre={'Modifier'} dataLibaghi={contrat} methode={"update"}/>,
    document.getElementById('modifierDiv'))
    }
   
   </div>
-  </div>)}}]
+  </div>)
+    },
+  },]

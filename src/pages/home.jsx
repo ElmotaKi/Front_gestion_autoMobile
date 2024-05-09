@@ -18,7 +18,9 @@ import DemoPageAgent from "@/app/Agent/page";
 import DemoPageCommercial from "@/app/Commercial/page";
 import DemoPageSociete from "@/app/Societe/page";
 import DemoPageAgence from "@/app/Agence/page";
+import DemoPageClientParticulier from "@/app/ClientParticulier/page";
 import CustomAvatar from "./CustomAvatar";
+import DemoPageContrat from "@/app/Contrat/page";
 const Home = () => {
   if(!window.localStorage.getItem("token")){
     return <Navigate to="/" />;
@@ -31,7 +33,7 @@ const Home = () => {
     { name: "Parking", link: "/parking", icon: SquareParking },
     { name: "Societes", link: "/societes", icon: Building2 },
     { name: "Commerciaux", link: "/commerciaux", icon: GrGroup  },
-    { name: "Client", link: "/client", icon: UserRound  },
+    { name: "Client", link: "/ClientParticulier", icon: UserRound  },
     { name: "Contrat", link: "/contrat", icon: ReceiptText},
     { name: "Infos", link: "/infos", icon: BsInfoSquare },
     
@@ -62,10 +64,10 @@ const Home = () => {
         setContent(<DemoPageCommercial/>);
         break;
       case 'Client':
-        setContent('Client content');
+        setContent(<DemoPageClientParticulier/>);
         break;
       case 'Contrat':
-        setContent('Contrat content');
+        setContent(<DemoPageContrat/>);
         break;
       case 'Infos':
         setContent('Infos content');
@@ -78,20 +80,20 @@ const Home = () => {
 
   
   return (
-    <section className="flex gap-6 ">
-      <div
-        className={`bg-[#ffffff] min-h-screen border ${
-          open ? "w-72" : "w-16"
-        } duration-500 text-gray-700 px-4`}
-      >
-        <div className="py-3 flex justify-end">
+    <section className="flex gap-6">
+     <div
+  className={`bg-[#ffffff] min-h-screen border ${open ? "w-70" : "w-16"} duration-500 text-gray-700 px-4`}
+  style={open ? { position: 'absolute', left: 0, top: 0 } : {position: 'absolute', left: 0, top: 0 }}
+>
+
+        <div className="py-3 flex justify-end" >
           <HiMenuAlt3
             size={26}
             className="cursor-pointer"
             onClick={() => setOpen(!open)}
           />
         </div>
-        <div className="mt-4 flex flex-col gap-4 relative">
+        <div className="mt-4 flex flex-col gap-4 relative" >
           {menus?.map((menu, i) => (
             <Link
               to={menu?.link}
@@ -125,8 +127,9 @@ const Home = () => {
       </div>
       <div className=" text-xl">
       
-      <div className="  flex justify-end mt-5 mr-5" style={{marginBottom:"-65px"}}> <CustomAvatar/></div>
-      <div className="">  {content}</div>
+      <div className="  flex justify-end mt-5 mr-5" style={open ? { position: 'absolute', right: -10, top: 10 } : {position: 'absolute', right: 110, top: 10}} ><CustomAvatar/></div>
+      
+      <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}>  {content}</div>
     
       </div>
     </section>

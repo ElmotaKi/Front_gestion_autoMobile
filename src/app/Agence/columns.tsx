@@ -18,6 +18,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { Checkbox } from "../../components/ui/checkbox"
 import React from "react";
+import { Agent } from "http";
 
 export type Societe = {
   id: number;
@@ -169,12 +170,12 @@ export const columns = [
 <div>
 <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
   {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-  <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  <CustomDialog dataLibaghi={"agence"} nomApi={"agence"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
 </IconButton>
 </div>
 <div>
 <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+  <CustomDrawer dataLibaghi={"agence"} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
 </IconButton>
 </div>
 </div>)}}]
