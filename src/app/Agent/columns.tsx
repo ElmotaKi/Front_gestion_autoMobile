@@ -215,7 +215,7 @@ export const columns = [
   <div>
   <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
     {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={agent} nomApi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+    <CustomDialog dataLibaghi={agent} nomApi={"agent"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
   </IconButton>
   </div>
   <div>

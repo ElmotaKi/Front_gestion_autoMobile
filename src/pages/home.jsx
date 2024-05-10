@@ -5,7 +5,7 @@ import { RiSettings4Line } from "react-icons/ri";
 import { TbReportAnalytics } from "react-icons/tb";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import {CarFront} from 'lucide-react';
 import {SquareParking} from 'lucide-react';
 import { MdGroups } from "react-icons/md";
@@ -129,7 +129,8 @@ const Home = () => {
       
       <div className="  flex justify-end mt-5 mr-5" style={open ? { position: 'absolute', right: -10, top: 10 } : {position: 'absolute', right: 110, top: 10}} ><CustomAvatar/></div>
       
-      <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}>  {content}</div>
+      <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}><Outlet/></div>
+      {/* <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}>  {content}</div> */}
     
       </div>
     </section>

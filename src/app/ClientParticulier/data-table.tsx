@@ -1,4 +1,3 @@
-
 import React, { useState ,useEffect} from "react";
 import ReactDOM from 'react-dom';
 import { BsFiletypeXls } from "react-icons/bs";
@@ -11,7 +10,7 @@ import { Form } from 'react-bootstrap';
 import FormulaireComponent from "../formulaire/FormulaireComponent";
 import FormulaireComponentClient from "../formulaire/FormulaireComponentClient";
 import ClientParticulierApi from "@/services/Admin/ClientParticulierApi";
-import axios from "axios";
+
 
 import {
   flexRender,
@@ -66,7 +65,6 @@ export function DataTable({
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
   const [rowSelection, setRowSelection] = useState({})
-  const [selectedColumn, setSelectedColumn] = useState("nom")
   const [filtering, setFiltering] = useState('');
 
   const [formVisible, setFormVisible] = useState(false);
@@ -143,7 +141,7 @@ export function DataTable({
     }
   };
   return (
-    <>
+    <div>
     <div id="modifierDiv"></div>
     <div>
            <div className="flex-1 text-sm text-muted-foreground">
@@ -413,6 +411,7 @@ export function DataTable({
           </PaginationContent>
         </Pagination>
         </div>
-      </div></>
+      </div>
+      </div>
     ); 
 }

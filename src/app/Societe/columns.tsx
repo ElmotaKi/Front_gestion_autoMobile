@@ -1,22 +1,20 @@
-
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowUpDown } from "lucide-react";
+import { createPortal } from "react-dom";
 import IconButton from "@/components/ui/IconButton";
-
 import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import { Checkbox } from "../../components/ui/checkbox"
-import React from "react";
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import CustomDialog from "@/components/customComponents/CustomDialog";
-import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FormulaireComponentSociete from "../formulaire/FormulaireComponentSociete";
+
 export type Societe = {
   id: number;
   RaisonSocial: string;
@@ -25,9 +23,8 @@ export type Societe = {
   NumeroFiscale:number;
   RegistreCommercial:string;
   AdresseSociete:string;
-  
-  
 };
+
 export const columns = [
   // Existing columns for displaying agent details
   
@@ -159,21 +156,40 @@ export const columns = [
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const agent = row.original; // Access the current agency location data
+      const societe = row.original; // Access the current agency location data
 
-      return (<div className="flex justify-between">
-        {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
-  <FontAwesomeIcon icon={faCopy} />
-</IconButton> */}
-<div>
-<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
-  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-  <CustomDialog dataLibaghi={agent} nomApi={'societe'}textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
-</IconButton>
-</div>
-<div>
-<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-</IconButton>
-</div>
-</div>)}}] 
+      const [formVisible, setFormVisible] = useState(false);
+      const toggleform = ()=>{
+        setFormVisible(!formVisible);
+      }
+        return (<div className="flex justify-between">
+          {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
+    <FontAwesomeIcon icon={faCopy} />
+  </IconButton> */}
+  <div>
+  <IconButton onClick={() => navigator.clipboard.writeText(societe.id)} color="red" >
+    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={societe} nomApi={societe} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  </IconButton>
+  </div>
+  <div>
+  {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+    <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+  </IconButton> */}
+  <IconButton onClick={()=>{
+  toggleform();}
+  } color="green">
+   <FontAwesomeIcon icon={faEdit} />
+   </IconButton>
+  
+   {formVisible &&
+   createPortal(
+   <FormulaireComponentSociete formVisible={formVisible} titre={'Modifier'} dataLibaghi={societe} methode={"update"}/>,
+   document.getElementById('modifierDiv'))
+   }
+  
+  </div>
+  </div>)
+    }
+  }
+];

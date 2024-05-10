@@ -19,7 +19,7 @@ export default function DemoPageAgence() {
                 setData(response.data.agences);
             } catch (error) {
                 console.error("Error fetching data:", error);
-                alert("An error occurred while loading data. Please try again later.");
+                // alert("An error occurred while loading data. Please try again later.");
             } finally {
                 setLoading(false);
             }

@@ -2,25 +2,36 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./components/Auth/Login";
+import DemoPageAgent from "./app/Agent/page";
+import DemoPageClientParticulier from "./app/ClientParticulier/page";
+import Dashboard from "./Dashboard/dashboard";
+import DemoPageSociete from "./app/Societe/page";
+import DemoPageCommercial from "./app/Commercial/page";
+import DemoPageContrat from "./app/Contrat/page";
+import DemoPageAgence from "./app/Agence/page";
+import DemoPageParkings from "./app/Parking/page";
+import DemoPageVehicule from "./app/Vehicule/page";
 
 const App = () => {
   return (
-    <div>
-      <Routes>
-       <Route exact path="/" element={<Login />} />
-       <Route path="/dashboard" element={<Home />} />
-        <Route path="/agence" element={<Home />} />
-        <Route path="/agents" element={<Home />} />
-        <Route path="/vehicules" element={<Home />} />
-        <Route path="/parking" element={<Home />} />
-        <Route path="/societes" element={<Home />} />
-        <Route path="/commerciaux" element={<Home />} />
-        <Route path="/ClientParticulier" element={<Home />} />
-        <Route path="/contrat" element={<Home />} />
-        <Route path="/infos" element={<Home />} />
+   
+<Routes>
+  <Route exact path="/" element={<Login />} />
+  <Route element={<Home/>}>
+  <Route path="/dashboard" element={<Dashboard/>} />
+  <Route path="/agents" element={<DemoPageAgent/>} />
+  <Route path="/ClientParticulier" element={<DemoPageClientParticulier/>} />
+  <Route path="/societes" element={<DemoPageSociete/>} />
+  <Route path="/commerciaux" element={<DemoPageCommercial/>} />
+  <Route path="/contrat" element={<DemoPageContrat/>} />
+  <Route path="/agence" element={<DemoPageAgence/>} />
+  <Route path="/parking" element={<DemoPageParkings/>} />
+  <Route path="/vehicules" element={<DemoPageVehicule/>} />
+  </Route>
+</Routes>
+
      
-        </Routes>
-    </div>
+    
   );
 };
 

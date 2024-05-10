@@ -50,9 +50,23 @@ export const columns = [
             <DropdownMenuItem>
               <span>Filtrer par:</span>
             </DropdownMenuItem>
-            <DropdownMenuItem key="nomContrat">nom Contrat</DropdownMenuItem>
-            <DropdownMenuItem key="typeContrat">type Contrat</DropdownMenuItem>
-            <DropdownMenuItem key="descriptionContrat">description Contrat</DropdownMenuItem>
+            <DropdownMenuItem key=" Nom">Nom</DropdownMenuItem>
+            <DropdownMenuItem key=" Prenom">Prenom</DropdownMenuItem>
+            <DropdownMenuItem key="Sexe">Sexe</DropdownMenuItem>
+            <DropdownMenuItem key="  DateNaissance">DateNaissance</DropdownMenuItem>
+            <DropdownMenuItem key="Tel">Tel</DropdownMenuItem>
+            <DropdownMenuItem key="Email">Email</DropdownMenuItem>
+            <DropdownMenuItem key="Adresse">Adresse</DropdownMenuItem>
+            <DropdownMenuItem key="Ville">Ville</DropdownMenuItem>
+            <DropdownMenuItem key=" CodePostal">CodePostal</DropdownMenuItem>
+            <DropdownMenuItem key="CIN">CIN</DropdownMenuItem>
+            <DropdownMenuItem key="DateValidCIN">DateValidCIN</DropdownMenuItem>
+            <DropdownMenuItem key="NumeroPermis">NumeroPermis</DropdownMenuItem>
+            <DropdownMenuItem key="TypePermis">TypePermis</DropdownMenuItem>
+            <DropdownMenuItem key="NumeroPasseport">NumeroPasseport</DropdownMenuItem>
+            <DropdownMenuItem key=" TypePassport">TypePassport</DropdownMenuItem>
+            <DropdownMenuItem key="DateFinPassport">DateFinPassport</DropdownMenuItem>
+            <DropdownMenuItem key=" AdresseEtrangere"> AdresseEtrangere</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),
@@ -83,7 +97,7 @@ export const columns = [
     enableHiding: false,
   },
   {
-    id:"nom",
+    id:"Nom",
     accessorKey: "Nom",
     header: ({ column }) => (
       <Button

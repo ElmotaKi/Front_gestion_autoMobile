@@ -1,5 +1,9 @@
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+
+import { createPortal } from "react-dom";
+import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
+import FormulaireComponentParking from "../formulaire/FormulaireComponentParking";
 import { Button } from "../../components/ui/button";
+import React,{useState,useEffect} from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import { Checkbox } from "../../components/ui/checkbox"
-import React from "react";
+
+import CustomDrawer from "@/components/customComponents/CustomDrawer";
+import CustomDialog from "@/components/customComponents/CustomDialog";
+import IconButton from "@/components/ui/IconButton";
 
 export type Parking = {
   id: number;
@@ -102,40 +113,40 @@ export const columns = [
     Cell: ({ value }) => <span>{value}</span>,
   },
   {
-    id: "actions",
-    header: () => <span>Actions</span>,
+    id: "actions", // Unique identifier for the column
+    header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const parking = row.original;
+      const parking = row.original; // Access the current agency location data
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(parking.id)}>
-                Consulter information Parking
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(parking.id)}>
-                Supprimer
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(parking.id)}>
-                Modifier
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-]
+      const [formVisible, setFormVisible] = useState(false);
+      const toggleform = ()=>{
+        setFormVisible(!formVisible);
+      }
+        return (<div className="flex justify-between">
+          {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
+    <FontAwesomeIcon icon={faCopy} />
+  </IconButton> */}
+  <div>
+  <IconButton onClick={() => navigator.clipboard.writeText(parking.id)} color="red" >
+    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={parking} nomApi={parking} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  </IconButton>
+  </div>
+  <div>
+  {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+    <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+  </IconButton> */}
+  <IconButton onClick={()=>{navigator.clipboard.writeText(parking.id);
+  toggleform();}
+  } color="green">
+   <FontAwesomeIcon icon={faEdit} />
+   </IconButton>
+  
+   {formVisible &&
+   createPortal(
+   <FormulaireComponentParking formVisible={formVisible} titre={'Modifier'} dataLibaghi={parking} methode={"update"}/>,
+   document.getElementById('modifierDiv'))
+   }
+  
+  </div>
+  </div>)}}]

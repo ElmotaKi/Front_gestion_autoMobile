@@ -16,7 +16,7 @@ async function getParkingData() {
   }
 }
 
-export default function DemoPage() {
+export default function DemoPageParkings() {
   const [parkingData, setParkingData] = useState([]);
   const [loading, setLoading] = useState(true);
 

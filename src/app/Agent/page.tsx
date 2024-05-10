@@ -23,7 +23,7 @@ export default function DemoPageAgent() {
                     
                 }
                 setData(newdata);
-                
+                console.log('data aya',data)
                 if (!response) {
                     throw new Error("Failed to fetch data");
                 }

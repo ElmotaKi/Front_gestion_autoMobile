@@ -223,34 +223,10 @@ export const columns = [
         <>
           <div className="flex justify-between">
             <div>
-              <IconButton onClick={() => navigator.clipboard.writeText(commercial.id)} color="red">
-                <AlertDialog>
-                  <AlertDialogTrigger><FontAwesomeIcon icon={faTrash} /></AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Confirmation</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Voulez-vous vraiment supprimer {commercial.Nom} ?
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Annuler</AlertDialogCancel>
-                      <AlertDialogAction>
-                        <Button onClick={async () => {
-                          try {
-                            await CommercialApi.delete(commercial.id);
-window.location.reload()
-                            console.log('Commercial deleted successfully');
-                          } catch (error) {
-                            console.error('Error deleting commercial:', error);
-                            alert('An internal server error occurred. Please try again later.');
-                          }
-                        }}>Supprimer</Button>
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </IconButton>
+            <IconButton onClick={() => navigator.clipboard.writeText(commercial.id)} color="red" >
+  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+  <CustomDialog dataLibaghi={commercial} nomApi={"commercial"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+</IconButton>
             </div>
             <div>
               <IconButton onClick={() => navigator.clipboard.writeText(commercial.id)} color="green">

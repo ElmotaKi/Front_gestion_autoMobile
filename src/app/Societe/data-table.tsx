@@ -32,6 +32,8 @@ import {
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 import CustomDrawer from "../../components/customComponents/CustomDrawer";
+import FormulaireComponentSociete from "../formulaire/FormulaireComponentSociete";
+
 
 export function DataTable({
   columns,
@@ -62,6 +64,12 @@ export function DataTable({
       rowSelection,
     },
   });
+  const [formVisible, setFormVisible] = useState(false);
+    const toggleForm = () => {
+      const newValue = !formVisible;
+      setFormVisible(newValue);
+      
+      };
 
   const [menuVisible1, setMenuVisible1] = useState(false);
   const [menuVisible2, setMenuVisible2] = useState(false);
@@ -87,6 +95,7 @@ export function DataTable({
   
   return (
     <div>
+          <div id="modifierDiv"></div>
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
@@ -95,10 +104,11 @@ export function DataTable({
         <div className="flex items-center mt-4 mb-4">
           {/* Bouton Ajouter à gauche */}
           <div className="mr-auto">
-            <Button variant="destructive">
-              <CustomDrawer textLtrigger={"AJOUTER"} dataLibaghi={null} methode={"create"}/>
-              <Plus className="ml-2 h-4 w-4" />
-            </Button>
+          <Button variant="destructive" onClick={toggleForm} className="ml-auto" >
+                 Ajouter
+                   <Plus className="ml-2 h-4 w-4" />
+             </Button>
+             {formVisible && <FormulaireComponentSociete formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>}
           </div>
           <div >
             <Button className="btn mx-2" onClick={() => toggleMenu(1)}>

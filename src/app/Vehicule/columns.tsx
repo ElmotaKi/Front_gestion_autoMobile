@@ -1,4 +1,5 @@
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import {
   DropdownMenu,
@@ -8,8 +9,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
+import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+
 import { Checkbox } from "../../components/ui/checkbox"
-import React from "react";
+import CustomDrawer from "@/components/customComponents/CustomDrawer";
+import CustomDialog from "@/components/customComponents/CustomDialog";
+import IconButton from "@/components/ui/IconButton";
+
 export type Vehicule = {
     id: number;
     Marque: string;
@@ -311,19 +319,6 @@ export const columns = [
     Cell: ({ value }) => <span>{value}</span>,
   },
   {
-    accessorKey: "id_agence",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        ID de l'agence
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
-    Cell: ({ value }) => <span>{value}</span>,
-  },
-  {
     accessorKey: "id_parking",
     header: ({ column }) => (
       <Button
@@ -337,40 +332,41 @@ export const columns = [
     Cell: ({ value }) => <span>{value}</span>,
   },
   {
-    id: "actions",
-    header: () => <span>Actions</span>,
-    cell: ({ row }) => {
-      const vehicule = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0" >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(vehicule.id)}>
-                Consulter informations Véhicule
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(vehicule.id)}>
-                Supprimer
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <span onClick={() => navigator.clipboard.writeText(vehicule.id)}>
-                Modifier
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    id: "NomAgence",
+    accessorKey: "NomAgence", 
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Nom Agence
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
   },
-];
+  {
+    accessorKey: "id_agence", 
+  },
+
+{
+  id: "actions", // Unique identifier for the column
+  header: () => <span>Actions</span>, // Header text
+  cell: ({ row }) => {
+    const agent = row.original; // Access the current agency location data
+
+    return (<div className="flex justify-between">
+      {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
+<FontAwesomeIcon icon={faCopy} />
+</IconButton> */}
+<div>
+<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
+{/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+<CustomDialog dataLibaghi={agent} nomApi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
+</IconButton>
+</div>
+<div>
+<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+<CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+</IconButton>
+</div>
+</div>)}}]

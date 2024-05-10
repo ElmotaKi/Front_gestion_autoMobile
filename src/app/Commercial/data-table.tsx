@@ -88,6 +88,8 @@ export function DataTable({
   
   return (
     <div style={open?{width:"105%"}:{}}>
+          <div id="modifierDiv"></div>
+
       <div className="flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.

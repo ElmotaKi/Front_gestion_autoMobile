@@ -52,7 +52,7 @@ export function DataTable({
   columns,
   data,
 }) {
-
+console.log('data dylhom',data)
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [columnVisibility, setColumnVisibility] = useState({})
