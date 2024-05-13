@@ -10,39 +10,40 @@ import {
 } from "../components/ui/dropdown-menu"
 import { useNavigate } from 'react-router-dom'; // Importer useNavigate pour la navigation
 
-function CustomAvatar() {
-  const navigate = useNavigate(); // Initialiser useNavigate
+function CustomAvatar(props) {
+  const navigate = useNavigate(); // Initialize useNavigate
 
-  // Fonction pour gérer la déconnexion
+  // Function to handle logout
   const handleLogout = () => {
-    // Effacer le jeton du stockage local (supposant qu'il est stocké sous le nom 'token')
+    // Remove token from local storage (assuming it's stored under the name 'token')
     localStorage.removeItem('token');
-    // Naviguer vers la page de connexion après la déconnexion
-    navigate("/"); // Naviguer vers la route de votre page de connexion
+    // Navigate to the login page after logout
+    navigate("/"); // Navigate to the route of your login page
   };
 
   return (
-    <>
-      {/* Avatar avec un menu déroulant */}
+    <div className='flex justify-between items-center border'>
+      {/* Display the content prop */}
+      <h3>{props.content}</h3>
+      {/* Dropdown menu */}
       <DropdownMenu>
         <DropdownMenuTrigger>
-        <Avatar avatarWidth="20" avatarHeight="20">
-            <AvatarImage src="https://github.com/shadcn.png"/>
+          <Avatar avatarWidth="20" avatarHeight="20">
+            {/* Avatar image */}
+            <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {/* Label du menu déroulant */}
+          {/* Dropdown menu items */}
           <DropdownMenuLabel>Nom</DropdownMenuLabel>
-          {/* Séparateur */}
           <DropdownMenuSeparator />
-          {/* Éléments du menu déroulant */}
           <DropdownMenuItem>Mon Profile</DropdownMenuItem>
-          {/* Élément du menu déroulant pour se déconnecter avec gestionnaire d'événements onClick */}
+          {/* Logout option */}
           <DropdownMenuItem onClick={handleLogout}>se déconnecter</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+    </div>
   );
 }
 

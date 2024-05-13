@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import CommercialApi from "@/services/Admin/CommercialApi"
-
+// CustomDialog.jsx
+import AgentApi from "@/services/Admin/AgentApi";
+import React from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,64 +11,52 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "../ui/alert-dialog"
-import { Button } from "../ui/button"
-import { Navigate } from 'react-router-dom';
+} from "../ui/alert-dialog";
+import { Button } from "../ui/button";
+import { useQueryClient } from "react-query";
 
-import AgenceApi from '@/services/Admin/AgenceApi';
-import AgentApi from '@/services/Admin/AgentApi';
-import SocieteApi from '@/services/Admin/SocieteApi';
+const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
+    const queryClient = useQueryClient();
 
-const CustomDialog = ({ dataLibaghi, textLtrigger, nomApi }) => {
     const handleClick = async (id) => {
         try {
-            if (nomApi === 'agent') {
-                await AgentApi.delete(id);
-                console.log('Agent deleted successfully');
-            } else if (nomApi === 'agence') {
-                await AgenceApi.delete(id);
-                console.log('Agence deleted successfully');
-            }
-            else if (nomApi === 'societe') {
-                await SocieteApi.delete(id);
-                console.log('societe deleted successfully');
-            }
-            else if (nomApi === 'commercial') {
-                await CommercialApi.delete(id);
-                console.log('commercial deleted successfully');
-            }
-            else if (nomApi === 'vehicule') {
-                await CommercialApi.delete(id);
-                console.log('commercial deleted successfully');
-            }
+            console.log(id)
+            if (nomApi==="agent"){
+               
+            await AgentApi.delete(id, queryClient);
+            console.log("Agent deleted successfully");
+            onDeleteSuccess();}
         } catch (error) {
-            console.error('Error deleting:', error);
-            alert('An internal server error occurred. Please try again later.');
+            if (error.response && error.response.status === 500) {
+                console.error("Internal server error:", error);
+                alert("An internal server error occurred. Please try again later.");
+            } else {
+                console.error("Error deleting agent:", error);
+            }
         }
-    }
-    
+    };
 
     return (
-        <>
-            <AlertDialog>
-                <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Confirmation </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Voulez-vous vraiment supprimer {dataLibaghi.Nom} : ?
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Annuler</AlertDialogCancel>
-                        <AlertDialogAction>
-                            <Button onClick={() => handleClick(dataLibaghi.id)}>Supprimer </Button>
-                        </AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-        </>
+        <AlertDialog>
+            <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Confirmation</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Voulez-vous vraiment supprimer {dataLibaghi.NomAgent} :(
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>
+                        <Button onClick={() => 
+                            
+                            handleClick(dataLibaghi.id)}>Supprimer</Button>
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
-}
+};
 
 export default CustomDialog;

@@ -12,7 +12,7 @@ const AgenceApi = {
     delete: async (id) => {
         return await axiosClient.delete(`agences/${id}`);
     },
-    all: async (columns = []) => {
+    getAll: async (columns = []) => {
         return await axiosClient.get("agences", {
             params: {
                 columns: columns,

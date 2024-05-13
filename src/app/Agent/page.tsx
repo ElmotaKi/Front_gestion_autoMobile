@@ -1,53 +1,48 @@
-import React, { useState, useEffect } from "react";
-// import DataTable from "./data-table"; // Ensure correct import path
-import { columns } from "./columns"; // Ensure correct import path
-import AgentApi from "@/services/Admin/AgentApi"; // Ensure correct import path
+import React from "react";
+import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
+import { columns } from "./columns";
+import AgentApi from "@/services/Admin/AgentApi";
 
 
-export default function DemoPageAgent() {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [ids,setIds]=useState([])
+const DemoPageAgent = () => {
+    const { isLoading, isError, data: agentsData, refetch } = useQuery("agents", fetchData);
+    // hook notifikasyo
+  
+    console.log(agentsData)
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error fetching data</div>;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await AgentApi.all();
-                const agentsIds = response.data.agents.map(agent => agent.id);
-                setIds(agentsIds);
-                let newdata = [];
-                for (let i = 0; i < ids.length; i++) {
-                    const agentData = await AgentApi.get(ids[i]);
-                    newdata = [...newdata, agentData.data];
-                    
-                }
-                setData(newdata);
-                console.log('data aya',data)
-                if (!response) {
-                    throw new Error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                // alert("An error occurred while loading data. Please try again later.");
-            } finally {
-                setLoading(false);
-            }
-        };
+    const onDeleteSuccess = () => {
+        refetch(); 
+    };
     
-        fetchData();
-    }, [data]);
-    
-    
-
-
     return (
         <div className="container mx-auto py-10">
-            {loading ? (
-                <div>Loading...</div> // Display loading message
-            ) : (
-                <DataTable columns={columns} data={data} /> // Display DataTable
-            )}
+            <DataTable columns={columns} data={agentsData} onDeleteSuccess={onDeleteSuccess} />
         </div>
     );
-}
+
+    async function fetchData() {
+        const response = await AgentApi.getAll();
+        console.log(response.data[0])
+        const filteredData = response.data[0].map((agent) => ({
+            id:agent.id,
+          NomAgent: agent.NomAgent,
+          PrenomAgent: agent.PrenomAgent,
+          SexeAgent: agent.SexeAgent,
+          EmailAgent: agent.EmailAgent,
+          TelAgent: agent.TelAgent,
+          AdresseAgent: agent.AdresseAgent,
+          VilleAgent: agent.VilleAgent,
+          CodePostalAgent: agent.CodePostalAgent,
+          id_agence:agent.id_agence,
+          NomAgence: agent.agence_location.NomAgence,
+        }));
+      
+        return filteredData;
+      }
+      
+};
+
+export default DemoPageAgent;

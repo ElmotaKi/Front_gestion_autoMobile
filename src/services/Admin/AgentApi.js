@@ -1,4 +1,6 @@
+// AgentApi.js
 import { axiosClient } from "./../../api/axios";
+
 const AgentApi = {
   create: async (payload) => {
     return await axiosClient.post("agents", payload);
@@ -9,14 +11,16 @@ const AgentApi = {
       id,
     });
   },
-  delete: async (id) => {
-    return await axiosClient.delete(`agents/${id}`);
+  delete: async (id, queryClient) => {
+    console.log(id);
+    await axiosClient.delete(`agents/${id}`); // Added backticks for string interpolation
+    queryClient.invalidateQueries("agents");
   },
-  get: async (id) => {
+  getById: async (id) => { 
     return await axiosClient.get(`agents/${id}`);
   },
 
-  all: async (columns = []) => {
+  getAll: async (columns = []) => { 
     return await axiosClient.get("agents", {
       params: {
         columns: columns,
@@ -24,4 +28,5 @@ const AgentApi = {
     });
   },
 };
+
 export default AgentApi;

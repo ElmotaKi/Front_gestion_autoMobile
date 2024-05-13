@@ -1,7 +1,8 @@
 import { createPortal } from "react-dom";
 import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
-import React, { useState, useEffect } from "react";
+ import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
 import { Button } from "../../components/ui/button";
+import React,{useState,useEffect} from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +13,12 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import FormulaireComponent from "../formulaire/FormulaireComponent";
+
+
 import { Checkbox } from "../../components/ui/checkbox"
-import CustomDrawer from "@/components/customComponents/CustomDrawer";
+
 import CustomDialog from "@/components/customComponents/CustomDialog";
 import IconButton from "@/components/ui/IconButton";
-
 export type Agent = {
   id: number;
   NomAgent: string;
@@ -28,7 +29,13 @@ export type Agent = {
   AdresseAgent: string;
   VilleAgent: string;
   CodePostalAgent: string;
-  NomAgence:string
+  id_agnce:Number;
+  NomAgence: string;
+};
+
+const onDeleteSuccess = () => {
+  // Placeholder function to trigger data refresh
+  console.log("Delete operation successful, refreshing data...");
 };
 
 
@@ -184,55 +191,53 @@ export const columns = [
     ),
   },
   {
-    id: "NomAgence",
-    accessorKey: "NomAgence", 
+    id:"Agence",
+    accessorKey: "NomAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Nom Agence
+        Agence
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-  },
-  {
-    accessorKey: "id_agence", 
   },
   {
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
       const agent = row.original; // Access the current agency location data
-      const [formVisible, setFormVisible] = useState(false);
-      const toggleform = ()=>{
-        setFormVisible(!formVisible);
-      }
-        return (<div className="flex justify-between">
-          {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
-    <FontAwesomeIcon icon={faCopy} />
-  </IconButton> */}
-  <div>
-  <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
-    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={agent} nomApi={"agent"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+            const [formVisible, setFormVisible] = useState(false);
+    const toggleform = ()=>{
+      setFormVisible(!formVisible);
+    }
+      return (<div className="flex justify-between">
+        {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
+  <FontAwesomeIcon icon={faCopy} />
+</IconButton> */}
+<div>
+{/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+</IconButton> */}
+<IconButton onClick={()=>{navigator.clipboard.writeText(agent.id);
+toggleform();}
+} color="green">
+ <FontAwesomeIcon icon={faEdit} />
+ </IconButton>
+
+ {formVisible &&
+ createPortal(
+ <FormulaireComponentAgent formVisible={formVisible} titre={'Modifier'} dataLibaghi={agent} methode={"update"}/>,
+ document.getElementById('modifierDiv'))
+ }
+
+</div>
+<div>
+<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
+  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={agent} onDeleteSuccess={onDeleteSuccess} nomApi={'agent'} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
   </IconButton>
-  </div>
-  <div>
-  {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-    <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-  </IconButton> */}
-  <IconButton onClick={()=>{navigator.clipboard.writeText(agent.id);
-  toggleform();}
-  } color="green">
-   <FontAwesomeIcon icon={faEdit} />
-   </IconButton>
-  
-   {formVisible &&
-   createPortal(
-   <FormulaireComponent formVisible={formVisible} titre={'Modifier'} dataLibaghi={agent} methode={"update"}/>,
-   document.getElementById('modifierDiv'))
-   }
-  
-  </div>
-  </div>)}}]
+</div>
+
+</div>)}}]

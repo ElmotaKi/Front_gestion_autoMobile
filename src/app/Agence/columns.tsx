@@ -17,8 +17,9 @@ import {
   DropdownMenuTrigger,
 } from "../../components/ui/dropdown-menu";
 import { Checkbox } from "../../components/ui/checkbox"
-import React from "react";
-import { Agent } from "http";
+import React, { useState } from "react";
+import FormulaireComponentAgence from "@/components/customComponents/FormComponents/FormulaireComponentAgence";
+import { createPortal } from "react-dom";
 
 export type Societe = {
   id: number;
@@ -31,7 +32,10 @@ export type Societe = {
   
   
 };
-
+const onDeleteSuccess = () => {
+  // Placeholder function to trigger data refresh
+  console.log("Delete operation successful, refreshing data...");
+};
 export const columns = [
   // Existing columns for displaying agent details
   
@@ -161,22 +165,38 @@ export const columns = [
     id: "actions", // Unique identifier for the column
     header: () => <span>Actions</span>, // Header text
     cell: ({ row }) => {
-      const agent = row.original; // Access the current agency location data
-
+      const agence = row.original; // Access the current agency location data
+            const [formVisible, setFormVisible] = useState(false);
+    const toggleform = ()=>{
+      setFormVisible(!formVisible);
+    }
       return (<div className="flex justify-between">
         {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
   <FontAwesomeIcon icon={faCopy} />
 </IconButton> */}
 <div>
-<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="red" >
-  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-  <CustomDialog dataLibaghi={"agence"} nomApi={"agence"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
-</IconButton>
+{/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
+  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
+</IconButton> */}
+<IconButton onClick={()=>{navigator.clipboard.writeText(agence.id);
+toggleform();}
+} color="green">
+ <FontAwesomeIcon icon={faEdit} />
+ </IconButton>
+
+ {formVisible &&
+ createPortal(
+ <FormulaireComponentAgence formVisible={formVisible} titre={'Modifier'} dataLibaghi={agence} methode={"update"}/>,
+ document.getElementById('modifierDiv'))
+ }
+
 </div>
 <div>
-<IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-  <CustomDrawer dataLibaghi={"agence"} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-</IconButton>
+<IconButton onClick={() => navigator.clipboard.writeText(agence.id)} color="red" >
+  {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={agence} onDeleteSuccess={onDeleteSuccess} nomApi={'agent'} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
+  </IconButton>
 </div>
+
 </div>)}}]
   
