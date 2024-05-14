@@ -1,0 +1,45 @@
+.btn{
+    border: 1px solid rgb(231, 226, 226);
+    border-radius: 1px;
+   background-color: #ffff !important;
+  }
+  .btn:hover{
+    background-color: rgb(231, 226, 226) !important;
+  }
+  .menu1 {
+    position: fixed;
+    top: 120px;
+    right: 290px;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+    z-index: 2000;
+  }
+  .menu2 {
+    position: fixed;
+    top: 120px;
+    right: 230px;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+    z-index: 2000;
+  }
+  .menu3 {
+    position: fixed;
+    top: 120px;
+    right: 170px;
+    border: solid 1px black;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px;
+    z-index: 2000;
+  }
+  .posform{
+    position:relative;
+    right: 35%;
+    top: 100px;
+  }
+  
+  

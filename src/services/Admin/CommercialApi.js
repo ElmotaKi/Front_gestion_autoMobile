@@ -1,3 +1,4 @@
+// AgentApi.js
 import { axiosClient } from "./../../api/axios";
 
 const CommercialApi = {
@@ -10,10 +11,9 @@ const CommercialApi = {
       id,
     });
   },
-  delete: async (id, queryClient) => {
-    console.log(id);
+  delete: async (id) => {
+   
     await axiosClient.delete(`commercials/${id}`); // Added backticks for string interpolation
-    queryClient.invalidateQueries("commercials");
   },
   getById: async (id) => { 
     return await axiosClient.get(`commercials/${id}`);

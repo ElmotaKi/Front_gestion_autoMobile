@@ -22,7 +22,7 @@ function CustomAvatar(props) {
   };
 
   return (
-    <div className='flex justify-between items-center border'>
+    <div className=' flex justify-between items-center ' >
       {/* Display the content prop */}
       <h3>{props.content}</h3>
       {/* Dropdown menu */}

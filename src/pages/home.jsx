@@ -127,7 +127,7 @@ const Home = () => {
         </div>
       </div>
       <div className=" text-xl">
-      <div className='bg-gray-200   p-3  z-30 text-gray-800 rounded-md'   style={open ? { position: 'absolute', right: 110, top: 5 ,width:"87rem",} : {position: 'absolute', right: 260, top: 5,width:"86.4rem"}} ><CustomAvatar content={content}/></div>
+      <div className='   p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', right: 110, top: 5 ,width:"87rem",} : {position: 'absolute', right: 260, top: 5,width:"86.4rem"}} ><CustomAvatar content={content}/></div>
       
       <div className="" style={open ? { position: 'absolute', left: 190, top: 70 } : {position: 'absolute', left: 50, top: 70,}}><Outlet/></div>
       {/* <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}>  {content}</div> */}

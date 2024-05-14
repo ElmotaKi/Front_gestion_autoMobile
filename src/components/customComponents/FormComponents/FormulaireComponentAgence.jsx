@@ -136,7 +136,7 @@ function FormulaireComponentAgence({
   return (
     <Form {...form}>
       <div>
-        <div className={`form-container ${value ? "slide-in" : "slide-out"}`}>
+        <div className={` ${value ? "slide-in" : "slide-out"}`}>
           <form
             onSubmit={form.handleSubmit(submitHandler)}
             className="space-y-8"
