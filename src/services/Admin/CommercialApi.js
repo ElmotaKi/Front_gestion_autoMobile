@@ -1,4 +1,5 @@
 import { axiosClient } from "./../../api/axios";
+
 const CommercialApi = {
   create: async (payload) => {
     return await axiosClient.post("commercials", payload);
@@ -9,13 +10,16 @@ const CommercialApi = {
       id,
     });
   },
-  delete: async (id) => {
-    return await axiosClient.delete(`commercials/${id}`);
+  delete: async (id, queryClient) => {
+    console.log(id);
+    await axiosClient.delete(`commercials/${id}`); // Added backticks for string interpolation
+    queryClient.invalidateQueries("commercials");
   },
-  get: async (id) => {
+  getById: async (id) => { 
     return await axiosClient.get(`commercials/${id}`);
   },
-  all: async (columns = []) => {
+
+  get: async (columns = []) => { 
     return await axiosClient.get("commercials", {
       params: {
         columns: columns,
@@ -23,4 +27,5 @@ const CommercialApi = {
     });
   },
 };
+
 export default CommercialApi;

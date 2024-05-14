@@ -147,10 +147,10 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
    
     return (
      
-    <Form {...form}>
+    <Form {...form} >
      
-<div>
-<div className={`form-container ${value ? 'slide-in' : 'slide-out'}`}>
+<div >
+<div  className={` ${value ? 'slide-in' : 'slide-out'} `}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className='titre' style={{marginBottom:'-50px'}}>{titre}</h1></div>
     {/* NomAgent */}

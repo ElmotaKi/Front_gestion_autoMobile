@@ -36,6 +36,11 @@
     padding: 10px;
     z-index: 2000;
   }
+  .posform{
+    position:relative;
+    right: 35%;
+    top: 100px;
+  }
   
   
   

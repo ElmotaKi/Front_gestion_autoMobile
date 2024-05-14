@@ -44,6 +44,8 @@ import {
 
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import { createPortal } from "react-dom";
+import axios from "axios";
 
 interface Post {
   id: number;
@@ -59,6 +61,7 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [filtering, setFiltering] = useState('');
+  const [selectedColumns, setSelectedColumns] = useState(['NomAgent', 'SexeAgent', 'TelAgent']);
   
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,8 +77,10 @@ export function DataTable({
   const toggleForm = () => {
     const newValue = !formVisible;
     setFormVisible(newValue);
+    setTableWidth(newValue?"50%":"100%");
     
     };
+    const [tableWidth, setTableWidth] = useState("100%");
 
 
  //Pagination logique
@@ -132,13 +137,79 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
- 
-  
+  let headerContentArray = [];
 
-   
+  // Extract and store table header content
+  table.getHeaderGroups().forEach(headerGroup => {
+      headerGroup.headers.forEach(header => {
+          if (!header.isPlaceholder) {
+              const headerContent = header.column.columnDef.header(header.getContext());
+              if (typeof headerContent === "string") {
+                  headerContentArray.push(headerContent);
+              } else if (headerContent && headerContent.props && headerContent.props.children) {
+                  const children = headerContent.props.children;
+                  if (typeof children === "string") {
+                      headerContentArray.push(children);
+                  } else if (Array.isArray(children)) {
+                      headerContentArray.push(children[0]);
+                  }
+              }
+          }
+      });
+  });
+  headerContentArray.pop();
+  // Now, headerContentArray contains the extracted content
+  console.log(headerContentArray);
+  
+  const handleExportxlsx = async () => {
+      try {
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Agent', {columns: headerContentArray }, { responseType: 'blob' });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'export.xlsx');
+          document.body.appendChild(link);
+          link.click();
+      } catch (error) {
+          console.error('Erreur lors de l\'exportation :', error);
+      }
+  };
+
+  const handleExportpdf = async () => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Agent', { columns: headerContentArray }, { responseType: 'blob' });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'export.pdf');
+        document.body.appendChild(link);
+        link.click();
+    } catch (error) {
+        console.error('Erreur lors de l\'exportation :', error);
+    }
+};
+const handleColumnChange = (e) => {
+  const { value, checked } = e.target;
+  if (checked) {
+      setSelectedColumns([...selectedColumns, value]);
+  } else {
+      setSelectedColumns(selectedColumns.filter(col => col !== value));
+  }
+};
+const handlePrint = () => {
+  axios.post('http://127.0.0.1:8000/api/print/Agent', { columns: headerContentArray })
+    .then((response) => {
+      // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
+      window.open(response.data.url, '_blank');
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'impression :', error);
+    });
+};
   return (
-  <div >
-  <div id="modifierDiv"></div>
+<>
+<div style={{display:"flex",width:"100%"}}>
+  <div style={{"flex":1,width:tableWidth}}>
   <div>
   <div className="flex items-center mt-4 mb-4">
     <div className="mr-auto">
@@ -148,7 +219,6 @@ const pageNumbers = [];
              Ajouter
                <Plus className="ml-2 h-4 w-4" />
          </Button>
-         {formVisible && <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>}
     
     </div>
     <div >
@@ -160,7 +230,7 @@ const pageNumbers = [];
         />
       </div>
     <div >
-    <Button className="btn mx-2" >
+    <Button className="btn mx-2"  onClick={handleExportxlsx}>
     <FaFileExcel  color="green"/>
     
       </Button>
@@ -169,14 +239,14 @@ const pageNumbers = [];
     </div>
   
     <div >
-      <Button className="btn mx-2"  >
+      <Button className="btn mx-2"  onClick={handlePrint}>
       <ImPrinter color="black" />
       </Button>
     </div>
    
   
     <div >
-      <Button className="btn mx-2" >
+      <Button className="btn mx-2"  onClick={handleExportpdf}>
       <FaFilePdf color="red" />
 
       </Button>
@@ -238,7 +308,7 @@ const pageNumbers = [];
     key={row.id}
     data-state={row.getIsSelected() && "selected"}
   >
-    {row.getVisibleCells().map((cell,index) => (
+    {row.getVisibleCells().map((cell,index)=>(
       <TableCell key={cell.id}  ignoreBorder={index <= 2}>
         {flexRender(
           cell.column.columnDef.cell,
@@ -253,6 +323,7 @@ const pageNumbers = [];
         <TableCaption>
           
         </TableCaption>
+        
         </Table>
        
         <Pagination className="flex justify-end">
@@ -278,6 +349,7 @@ const pageNumbers = [];
     </PaginationItem>
   </PaginationContent>
 </Pagination>
+
 <div className="flex-1 text-sm text-muted-foreground float-start mt-4">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
@@ -285,6 +357,29 @@ const pageNumbers = [];
      
               </div>
     </div>
+    <div className="posform">
+      
+    {data && (
+    <div id="modifierDiv"></div>
+  )}
+    {data && (
+  <div id="ajouterDiv"></div>
+)}
+          {formVisible && (
+            <div className="mb-4">
+              {createPortal(
+                <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"} />,
+                document.getElementById('ajouterDiv')
+              )}
+            </div>
+          )}
+        </div>
+      
+   
+
+  </div>
+  </>
+  
     
   );
 }

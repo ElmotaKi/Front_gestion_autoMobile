@@ -8,8 +8,7 @@ import AgentApi from "@/services/Admin/AgentApi";
 const DemoPageAgent = () => {
     const { isLoading, isError, data: agentsData, refetch } = useQuery("agents", fetchData);
     // hook notifikasyo
-  
-    console.log(agentsData)
+  console.log(agentsData)
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching data</div>;
 
