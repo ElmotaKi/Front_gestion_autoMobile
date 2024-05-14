@@ -61,7 +61,6 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [filtering, setFiltering] = useState('');
-  const [selectedColumns, setSelectedColumns] = useState(['NomAgent', 'SexeAgent', 'TelAgent']);
   
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
@@ -167,7 +166,7 @@ const pageNumbers = [];
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'export.xlsx');
+          link.setAttribute('download', 'agent.xlsx');
           document.body.appendChild(link);
           link.click();
       } catch (error) {
@@ -181,21 +180,14 @@ const pageNumbers = [];
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'export.pdf');
+        link.setAttribute('download', 'agent.pdf');
         document.body.appendChild(link);
         link.click();
     } catch (error) {
         console.error('Erreur lors de l\'exportation :', error);
     }
 };
-const handleColumnChange = (e) => {
-  const { value, checked } = e.target;
-  if (checked) {
-      setSelectedColumns([...selectedColumns, value]);
-  } else {
-      setSelectedColumns(selectedColumns.filter(col => col !== value));
-  }
-};
+
 const handlePrint = () => {
   axios.post('http://127.0.0.1:8000/api/print/Agent', { columns: headerContentArray })
     .then((response) => {
@@ -362,7 +354,7 @@ const handlePrint = () => {
     {data && (
     <div id="modifierDiv"></div>
   )}
-    {data && (
+    {data  && (
   <div id="ajouterDiv"></div>
 )}
           {formVisible && (

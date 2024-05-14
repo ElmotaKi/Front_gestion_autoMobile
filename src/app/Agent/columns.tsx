@@ -94,7 +94,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        NomAgent
+        Nom
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -120,7 +120,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        SexeAgent
+        Sexe
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -133,7 +133,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        EmailAgent
+        Email
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -146,7 +146,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        TelAgent
+        Telephone
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -159,7 +159,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        AdresseAgent
+        Adresse
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -172,7 +172,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        VilleAgent
+        Ville
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -185,7 +185,7 @@ export const columns = [
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        CodePostalAgent
+        Code Postal
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
