@@ -216,9 +216,7 @@ export const columns = [
       </Button>
     ),
   },
-  {
-    accessorKey: "id_societe", 
-  },
+  
 
   {
     id: "actions", // Unique identifier for the column

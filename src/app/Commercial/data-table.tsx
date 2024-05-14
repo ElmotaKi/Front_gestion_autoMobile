@@ -221,17 +221,23 @@ const handlePrint = () => {
         />
       </div>
       <div >
-    <Button className="btn mx-2" >
+    <Button className="btn mx-2"  onClick={handleExportxlsx}>
     <FaFileExcel  color="green"/>
-      </Button>      
+    
+      </Button>
+      
+      
     </div>
+  
     <div >
-      <Button className="btn mx-2"  >
+      <Button className="btn mx-2"  onClick={handlePrint}>
       <ImPrinter color="black" />
       </Button>
     </div>
+   
+  
     <div >
-      <Button className="btn mx-2" >
+      <Button className="btn mx-2"  onClick={handleExportpdf}>
       <FaFilePdf color="red" />
 
       </Button>
