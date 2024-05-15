@@ -15,12 +15,14 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import AgentApi from '@/services/Admin/AgentApi';
-import { useMutation,QueryCache, useQueryClient } from 'react-query';
+import { useMutation,QueryCache, useQueryClient, useQuery } from 'react-query';
+import { FormSelect } from 'react-bootstrap';
+import AgenceApi from '@/services/Admin/AgenceApi';
 
 function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
-   
+  const { data: agencies,} = useQuery('agencies', AgenceApi.getAll);
     const change = () => {
         setValue(!value);
     }
@@ -151,8 +153,8 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
      
 <div >
 <div  className={` ${value ? 'slide-in' : 'slide-out'} `}>
-<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
-<div><h1 className='titre' style={{marginBottom:'-50px'}}>{titre}</h1></div>
+<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'30.1rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
+<div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
     {/* NomAgent */}
     <table style={{ zIndex: 1000 }}>
         <tbody>
@@ -162,7 +164,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                 name="NomAgent"
                render={({ field }) => (
                <FormItem>
-               <FormLabel>Nom</FormLabel>
+               <FormLabel style={{marginLeft: "-165px"}}>Nom</FormLabel>
                <FormControl>
               <Input placeholder="Entrez le nom" {...field} />
               </FormControl>
@@ -177,7 +179,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                     name="PrenomAgent"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Prénom</FormLabel>
+                        <FormLabel style={{marginLeft: "-165px"}}>Prénom</FormLabel>
                         <FormControl>
                             <Input placeholder="Entrez le prénom" {...field} />
                         </FormControl>
@@ -194,7 +196,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                     name="SexeAgent"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Sexe</FormLabel>
+                        <FormLabel style={{marginLeft: "-165px"}}>Sexe</FormLabel>
                         <FormControl>
                           <div>
                             <select {...field}>
@@ -215,7 +217,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                         name="EmailAgent"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Email</FormLabel>
+                            <FormLabel style={{marginLeft: "-165px"}}>Email</FormLabel>
                             <FormControl>
                                 <Input type="email" placeholder="Entrez l'email" {...field} />
                             </FormControl>
@@ -232,7 +234,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                         name="TelAgent"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Téléphone</FormLabel>
+                            <FormLabel style={{marginLeft: "-140px"}}>Téléphone</FormLabel>
                             <FormControl>
                                 <Input type="tel" placeholder="Entrez le téléphone" {...field} />
                             </FormControl>
@@ -247,7 +249,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                                 name="AdresseAgent"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Adresse</FormLabel>
+                                    <FormLabel style={{marginLeft: "-144px"}}>Adresse</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Entrez l'adresse" {...field} />
                                     </FormControl>
@@ -264,7 +266,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                             name="VilleAgent"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Ville</FormLabel>
+                                <FormLabel style={{marginLeft: "-165px"}}>Ville</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Entrez la ville" {...field} />
                                 </FormControl>
@@ -279,7 +281,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                                     name="CodePostalAgent"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <FormLabel>Code postal</FormLabel>
+                                        <FormLabel style={{marginLeft: "-114px"}}>Code postal</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Entrez le code postal" {...field} />
                                         </FormControl>
@@ -297,9 +299,16 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                             name="id_agence"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>ID d'agence</FormLabel>
+                                <FormLabel style={{marginLeft: "-144px"}}>Agence</FormLabel><br />
                                 <FormControl>
-                                    <Input type="number" placeholder="Entrez l'ID de l'agence" {...field} />
+                                <FormSelect {...field} className="form-select">
+                <option value="">Sélectionnez une agence</option>
+                {agencies.data.agences.map((agency) => (
+                  <option key={agency.id} value={agency.id}>
+                    {agency.NomAgence}
+                  </option>
+                ))}
+              </FormSelect>
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -312,7 +321,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
     </table>
     {/* Submit Button */}
     <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >Soumettre</Button>
+    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
     <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
    </div>
   </form>  

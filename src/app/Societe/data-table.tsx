@@ -45,7 +45,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import FormulaireComponentcommercial from "@/components/customComponents/FormComponents/FormulaireComponentCommercial";
 import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
-import axios from "axios";
+import { createPortal } from "react-dom";
 
 interface Post {
   id: number;
@@ -71,14 +71,13 @@ export function DataTable({
     setMenuOpen(false);
   };
   //
-
   const [formVisible, setFormVisible] = useState(false);
   const toggleForm = () => {
     const newValue = !formVisible;
     setFormVisible(newValue);
-    
-    };
-
+    setTableWidth(newValue ? "50%":"100%")
+  };
+  const [tableWidth, setTableWidth] = useState("100%");
 
  //Pagination logique
 const rowsPerPage =4;
@@ -134,117 +133,47 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
-  let headerContentArray = [];
-
-  // Extract and store table header content
-  table.getHeaderGroups().forEach(headerGroup => {
-      headerGroup.headers.forEach(header => {
-          if (!header.isPlaceholder) {
-              const headerContent = header.column.columnDef.header(header.getContext());
-              if (typeof headerContent === "string") {
-                  headerContentArray.push(headerContent);
-              } else if (headerContent && headerContent.props && headerContent.props.children) {
-                  const children = headerContent.props.children;
-                  if (typeof children === "string") {
-                      headerContentArray.push(children);
-                  } else if (Array.isArray(children)) {
-                      headerContentArray.push(children[0]);
-                  }
-              }
-          }
-      });
-  });
-  headerContentArray.pop();
-  // Now, headerContentArray contains the extracted content
-  console.log(headerContentArray);
-  
-  const handleExportxlsx = async () => {
-      try {
-          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Societe', {columns: headerContentArray }, { responseType: 'blob' });
-          const url = window.URL.createObjectURL(new Blob([response.data]));
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', 'societe.xlsx');
-          document.body.appendChild(link);
-          link.click();
-      } catch (error) {
-          console.error('Erreur lors de l\'exportation :', error);
-      }
-  };
-
-  const handleExportpdf = async () => {
-    try {
-        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Societe', { columns: headerContentArray }, { responseType: 'blob' });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'societe.pdf');
-        document.body.appendChild(link);
-        link.click();
-    } catch (error) {
-        console.error('Erreur lors de l\'exportation :', error);
-    }
-};
-
-const handlePrint = () => {
-  axios.post('http://127.0.0.1:8000/api/print/Societe', { columns: headerContentArray })
-    .then((response) => {
-      window.open(response.data.url, '_blank');
-    })
-    .catch((error) => {
-      console.error('Erreur lors de l\'impression :', error);
-    });
-};
+ 
   
 
    
   return (
-  <div >
-  <div id="modifierDiv"></div>
-  <div>
-  <div className="flex items-center mt-4 mb-4">
-    <div className="mr-auto">
-   
-      
-         <Button variant="destructive" onClick={toggleForm} className="ml-auto" >
+    <div style={{display:"flex",width:"100%"}}>
+    <div style={{"flex":1,width:tableWidth}}>
+    <div>
+    <div className="flex items-center mt-4 mb-4">
+    <div className="mr-auto" >
+    <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
              Ajouter
                <Plus className="ml-2 h-4 w-4" />
          </Button>
-         {formVisible && <FormulaireComponentSociete formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>}
-    
     </div>
-    <div >
+    <div style={{transform:"translateY(-22px)"}}>
             <Input
           placeholder="Rechercher..."
           value={filtering}
           onChange={(e) => setFiltering(e.target.value)}
-          className="w-40"
+          className="w-96"
         />
       </div>
-      <div >
-    <Button className="btn mx-2"  onClick={handleExportxlsx}>
+      <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2" >
     <FaFileExcel  color="green"/>
-    
-      </Button>
-      
-      
+      </Button>      
     </div>
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handlePrint}>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2"  >
       <ImPrinter color="black" />
       </Button>
     </div>
-   
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handleExportpdf}>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2" >
       <FaFilePdf color="red" />
 
       </Button>
     </div>
       
-    <div >
+    <div style={{transform:"translateY(-22px)"}}>
       <Button className="btn mx-5 w-2">
       <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
       <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
@@ -276,10 +205,7 @@ const handlePrint = () => {
 </div>
       
     </div>
-          
-      
-      
-     
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -309,7 +235,9 @@ const handlePrint = () => {
         )}
       </TableCell>
     ))}
+    
   </TableRow>
+  
 ))}
 
         </TableBody>
@@ -318,8 +246,12 @@ const handlePrint = () => {
         </TableCaption>
         
         </Table>
-       
-        <Pagination className="flex justify-end">
+       <div className="flex ">
+       <div className=" text-sm text-muted-foreground float-start mb-2">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+      </div>  
+           <Pagination className="flex justify-end">
   <PaginationContent>
     <PaginationItem  style={{cursor:'pointer'}}>
       <PaginationPrevious onClick={handlePrevPage} />
@@ -343,13 +275,30 @@ const handlePrint = () => {
   </PaginationContent>
 </Pagination>
 
-<div className="flex-1 text-sm text-muted-foreground float-start mt-4">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-      </div>
+       </div>
      
-              </div>
+
+      </div>
     </div>
+    <div className="posform">
+      
+      {data && (
+      <div id="modifierDiv"></div>
+    )}
+      {data && (
+    <div id="ajouterDiv"></div>
+  )}
+            {formVisible && (
+              <div className="mb-4">
+                {createPortal(
+                  <FormulaireComponentSociete formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
+                  document.getElementById('ajouterDiv')
+                )}
+              </div>
+            )}
+  </div>
+  </div>
+             
     
-  );
+    );
 }

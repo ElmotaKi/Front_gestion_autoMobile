@@ -198,180 +198,168 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
-  return (
-<>
-<div style={{display:"flex",width:"100%"}}>
+return (
+  <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
   <div>
   <div className="flex items-center mt-4 mb-4">
-    <div className="mr-auto">
-   
-      
-         <Button variant="destructive" onClick={toggleForm} className="ml-auto" >
-             Ajouter
-               <Plus className="ml-2 h-4 w-4" />
-         </Button>
-    
+  <div className="mr-auto" >
+  <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
+           Ajouter
+             <Plus className="ml-2 h-4 w-4" />
+       </Button>
+  </div>
+  <div style={{transform:"translateY(-22px)"}}>
+          <Input
+        placeholder="Rechercher..."
+        value={filtering}
+        onChange={(e) => setFiltering(e.target.value)}
+        className="w-96"
+      />
     </div>
-    <div >
-            <Input
-          placeholder="Rechercher..."
-          value={filtering}
-          onChange={(e) => setFiltering(e.target.value)}
-          className="w-40"
-        />
-      </div>
-    <div >
-    <Button className="btn mx-2"  onClick={handleExportxlsx}>
-    <FaFileExcel  color="green"/>
-    
-      </Button>
-      
-      
-    </div>
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handlePrint}>
-      <ImPrinter color="black" />
-      </Button>
-    </div>
-   
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handleExportpdf}>
-      <FaFilePdf color="red" />
+    <div style={{transform:"translateY(-22px)"}}>
+  <Button className="btn mx-2" onClick={handleExportxlsx}>
+  <FaFileExcel  color="green"/>
+    </Button>      
+  </div>
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2"  onClick={handlePrint}>
+    <ImPrinter color="black" />
+    </Button>
+  </div>
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2" onClick={handleExportpdf}>
+    <FaFilePdf color="red" />
 
-      </Button>
-    </div>
-    <div >
-      <Button className="btn mx-5 w-2">
-      <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
-      <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
-        <Button className="btn ">
-        <Settings color="black" />
-         
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" onClick={handleMenuOpen}>
-        {table
-          .getAllColumns()
-          .filter((column) => column.getCanHide())
-          .map((column) => (
-            <DropdownMenuCheckboxItem
-              key={column.id}
-              className="capitalize"
-              checked={column.getIsVisible()}
-              onCheckedChange={(value) => column.toggleVisibility(!!value)}
-            >
-              {column.id}
-            </DropdownMenuCheckboxItem>
-          ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    </Button>
+  </div>
     
-
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-5 w-2">
+    <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
+    <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
+      <Button className="btn ">
+      <Settings color="black" />
+       
       </Button>
-    </div>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end" onClick={handleMenuOpen}>
+      {table
+        .getAllColumns()
+        .filter((column) => column.getCanHide())
+        .map((column) => (
+          <DropdownMenuCheckboxItem
+            key={column.id}
+            className="capitalize"
+            checked={column.getIsVisible()}
+            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+          >
+            {column.id}
+          </DropdownMenuCheckboxItem>
+        ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+  
+
+    </Button>
+  </div>
 </div>
-      
-    </div>
-          
-      
-      
-     
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-          {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
-  <TableRow
-    key={row.id}
-    data-state={row.getIsSelected() && "selected"}
-  >
-    {row.getVisibleCells().map((cell,index)=>(
-      <TableCell key={cell.id}  ignoreBorder={index <= 2}>
-        {flexRender(
-          cell.column.columnDef.cell,
-          cell.getContext()
-        )}
-      </TableCell>
-    ))}
-  </TableRow>
+    
+  </div>
+
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+        {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
+<TableRow
+  key={row.id}
+  data-state={row.getIsSelected() && "selected"}
+>
+  {row.getVisibleCells().map((cell,index) => (
+    <TableCell key={cell.id} >
+      {flexRender(
+        cell.column.columnDef.cell,
+        cell.getContext()
+      )}
+    </TableCell>
+  ))}
+  
+</TableRow>
+
 ))}
 
-        </TableBody>
-        <TableCaption>
-          
-        </TableCaption>
+      </TableBody>
+      <TableCaption>
         
-        </Table>
-       
-        <Pagination className="flex justify-end">
-  <PaginationContent>
-    <PaginationItem  style={{cursor:'pointer'}}>
-      <PaginationPrevious onClick={handlePrevPage} />
-    </PaginationItem>
- 
-    {pageNumbers.map((pageNumber, idx) => ( 
-      <PaginationItem
-      style={{cursor:'pointer'}}
-        key={idx}
-        className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
-      >
-        <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
+      </TableCaption>
+      
+      </Table>
+     <div className="flex ">
+     <div className=" text-sm text-muted-foreground float-start mb-2">
+      {table.getFilteredSelectedRowModel().rows.length} of{" "}
+      {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+    </div>  
+         <Pagination className="flex justify-end">
+<PaginationContent>
+  <PaginationItem  style={{cursor:'pointer'}}>
+    <PaginationPrevious onClick={handlePrevPage} />
+  </PaginationItem>
 
-          {pageNumber}
-        </PaginationLink>
-      </PaginationItem>
-    ))}
-    <PaginationItem style={{cursor:'pointer'}}>
-      <PaginationNext onClick={handleNextPage} />
+  {pageNumbers.map((pageNumber, idx) => ( 
+    <PaginationItem
+    style={{cursor:'pointer'}}
+      key={idx}
+      className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
+    >
+      <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
+
+        {pageNumber}
+      </PaginationLink>
     </PaginationItem>
-  </PaginationContent>
+  ))}
+  <PaginationItem style={{cursor:'pointer'}}>
+    <PaginationNext onClick={handleNextPage} />
+  </PaginationItem>
+</PaginationContent>
 </Pagination>
 
-<div className="flex-1 text-sm text-muted-foreground float-start mt-4">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-      </div>
-     
-              </div>
+     </div>
+   
+
     </div>
-    <div className="posform">
-      
+  </div>
+  <div className="posform">
+    
     {data && (
-    <div id="modifierDiv"></div>
+    <div id="modifierDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
   )}
-    {data  && (
-  <div id="ajouterDiv"></div>
+    {data && (
+      <div id="ajouterDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
 )}
           {formVisible && (
             <div className="mb-4">
               {createPortal(
-                <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"} />,
+                <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
                 document.getElementById('ajouterDiv')
               )}
             </div>
           )}
-        </div>
-      
-   
-
-  </div>
-  </>
+</div>
+</div>
+           
   
-    
   );
 }

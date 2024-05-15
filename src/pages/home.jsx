@@ -42,31 +42,31 @@ const Home = () => {
   const handleMenuClick = (name) => {
     switch (name) {
       case 'Agence':
-        setContent('La gestion des agences');
+        setContent('Gestion des agences');
         break;
       case 'Agents':
-        setContent('La gestion des agents');
+        setContent('Gestion des agents');
         break;
       case 'dashboard':
         setContent('Dashboard ');
         break;
       case 'vehicules':
-        setContent(' La gestion des  vehicules ');
+        setContent(' Gestion des  vehicules ');
         break;
       case 'Parking':
-        setContent('La gestion des parkings ');
+        setContent('Gestion des parkings ');
         break;
       case 'Societes':
-        setContent('La gestion des societes');
+        setContent('Gestion des societes');
         break;
       case 'Commerciaux':
-        setContent('La gestion des commerciaux');
+        setContent('Gestion des commerciaux');
         break;
       case 'Client':
-        setContent('La gestion des clients');
+        setContent('Gestion des clients');
         break;
       case 'Contrat':
-        setContent('La gestion des contrats');
+        setContent('Gestion des contrats');
         break;
       case 'Infos':
         setContent('Infos ');
@@ -127,10 +127,12 @@ const Home = () => {
         </div>
       </div>
       <div className=" text-xl">
-      <div className='   p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', right: 110, top: 5 ,width:"87rem",} : {position: 'absolute', right: 260, top: 5,width:"86.4rem"}} ><CustomAvatar content={content}/></div>
+       <div className='p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', left: 218, top: 5 ,width:"84rem",} : {position: 'absolute', right: 260, top: 5,width:"85.4rem"}} ><CustomAvatar />
+      </div> 
+      <div className="" style={open ?{marginTop:"40px",marginLeft:"-17px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-160px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
       
       <div className="" style={open ? { position: 'absolute', left: 190, top: 70 } : {position: 'absolute', left: 50, top: 70,}}><Outlet/></div>
-      {/* <div className="" style={open ? { position: 'absolute', left: 190, top: 10 } : {position: 'absolute', left: 50, top: 10}}>  {content}</div> */}
+      
     
       </div>
     </section>
