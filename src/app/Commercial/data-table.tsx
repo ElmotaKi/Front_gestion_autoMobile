@@ -2,11 +2,10 @@ import React, { useState} from "react";
 
 import { FaFileExcel, FaFilePdf } from "react-icons/fa6";
 import  '../../App.css';
-import './btn.css'
+
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
 import { Form } from 'react-bootstrap';
-import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
 
 import {
   flexRender,
@@ -45,6 +44,7 @@ import {
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import FormulaireComponentcommercial from "@/components/customComponents/FormComponents/FormulaireComponentCommercial";
+import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
 import { createPortal } from "react-dom";
 import axios from "axios";
 
@@ -72,7 +72,6 @@ export function DataTable({
     setMenuOpen(false);
   };
   //
-
   const [formVisible, setFormVisible] = useState(false);
   const toggleForm = () => {
     const newValue = !formVisible;
@@ -80,7 +79,6 @@ export function DataTable({
     setTableWidth(newValue ? "50%":"100%")
   };
   const [tableWidth, setTableWidth] = useState("100%");
-
 
  //Pagination logique
 const rowsPerPage =4;
@@ -136,9 +134,6 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
- 
-  
-
   let headerContentArray = [];
 
   // Extract and store table header content
@@ -194,56 +189,55 @@ const pageNumbers = [];
 const handlePrint = () => {
   axios.post('http://127.0.0.1:8000/api/print/Commercial', { columns: headerContentArray })
     .then((response) => {
+      // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
       window.open(response.data.url, '_blank');
     })
     .catch((error) => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
+  
+ 
+  
+
+   
   return (
-    
     <div style={{display:"flex",width:"100%"}}>
     <div style={{"flex":1,width:tableWidth}}>
     <div>
     <div className="flex items-center mt-4 mb-4">
-    <div className="mr-auto">
-    <Button variant="destructive" onClick={toggleForm} className="ml-auto" >
+    <div className="mr-auto" >
+    <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
              Ajouter
                <Plus className="ml-2 h-4 w-4" />
          </Button>
     </div>
-    <div >
+    <div style={{transform:"translateY(-22px)"}}>
             <Input
           placeholder="Rechercher..."
           value={filtering}
           onChange={(e) => setFiltering(e.target.value)}
-          className="w-40"
+          className="w-96"
         />
       </div>
-      <div >
-    <Button className="btn mx-2"  onClick={handleExportxlsx}>
-    <FaFileExcel  color="green"/>
-    
-      </Button>
-      
-      
+      <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2" >
+    <FaFileExcel  color="green" onClick={handleExportxlsx}/>
+      </Button>      
     </div>
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handlePrint}>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2" onClick={handleExportpdf} >
       <ImPrinter color="black" />
       </Button>
     </div>
-   
-  
-    <div >
-      <Button className="btn mx-2"  onClick={handleExportpdf}>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2" onClick={handlePrint}>
       <FaFilePdf color="red" />
 
       </Button>
     </div>
       
-    <div >
+    <div style={{transform:"translateY(-22px)"}}>
       <Button className="btn mx-5 w-2">
       <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
       <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
@@ -305,7 +299,9 @@ const handlePrint = () => {
         )}
       </TableCell>
     ))}
+    
   </TableRow>
+  
 ))}
 
         </TableBody>
@@ -314,8 +310,12 @@ const handlePrint = () => {
         </TableCaption>
         
         </Table>
-       
-        <Pagination className="flex justify-end">
+       <div className="flex ">
+       <div className=" text-sm text-muted-foreground float-start mb-2">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+      </div>  
+           <Pagination className="flex justify-end">
   <PaginationContent>
     <PaginationItem  style={{cursor:'pointer'}}>
       <PaginationPrevious onClick={handlePrevPage} />
@@ -338,10 +338,10 @@ const handlePrint = () => {
     </PaginationItem>
   </PaginationContent>
 </Pagination>
-<div className="flex-1 text-sm text-muted-foreground float-start mt-4">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-      </div>  
+
+       </div>
+     
+
       </div>
     </div>
     <div className="posform">
@@ -350,7 +350,7 @@ const handlePrint = () => {
       <div id="modifierDiv"></div>
     )}
       {data && (
-    <div id="ajouterDiv"></div>
+    <div id="ajouterDiv" style={{transform:"translate(-30px)"}}></div>
   )}
             {formVisible && (
               <div className="mb-4">

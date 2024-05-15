@@ -22,7 +22,7 @@ import AgenceApi from '@/services/Admin/AgenceApi';
 function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
-  const { data: agencies,} = useQuery('agencies', AgenceApi.getAll);
+  const { data: agences} = useQuery('agences', AgenceApi.getAll);
     const change = () => {
         setValue(!value);
     }
@@ -293,7 +293,6 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                  </tr>
                  <tr>
                     <td>
-                        {/* id_agence */}
                             <FormField
                             control={form.control}
                             name="id_agence"
@@ -303,7 +302,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                                 <FormControl>
                                 <FormSelect {...field} className="form-select">
                 <option value="">Sélectionnez une agence</option>
-                {agencies.data.agences.map((agency) => (
+                {agences && agences.data && agences.data.agences.map((agency) => (
                   <option key={agency.id} value={agency.id}>
                     {agency.NomAgence}
                   </option>

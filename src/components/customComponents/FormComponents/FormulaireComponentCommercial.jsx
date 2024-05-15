@@ -3,7 +3,8 @@ import '../../../App.css';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useQuery } from 'react-query';
+import {FormSelect} from 'react-bootstrap';
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,10 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import CommercialApi from '@/services/Admin/CommercialApi';
 import { useMutation, useQueryClient } from 'react-query';
+import SocieteApi from '@/services/Admin/SocieteApi';
 
 function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
+  const { data: societes} = useQuery('societes', SocieteApi.get);
   const change = () => {
     setValue(!value);
   };
@@ -134,9 +137,8 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
     <Form {...form}>
       <div>
         <div className={` ${value ? 'slide-in' : 'slide-out'}`}>
-          <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{ flexDirection: 'column', width: '28rem', height: '28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee' }} id='myform'>
-            <div><h1 className='titre' style={{ marginBottom: '-50px' }}>{titre}</h1></div>
-            {/* NomAgent */}
+          <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{ flexDirection: 'column', width: '28rem', height: '35rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee' }} id='myform'>
+          <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>            {/* NomAgent */}
             <table style={{ zIndex: 1000 }}>
               <tbody>
                 <tr>
@@ -146,7 +148,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="CIN"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>CIN</FormLabel>
+                          <FormLabel  style={{marginLeft: "-165px"}}>CIN</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez le CIN" {...field} />
                           </FormControl>
@@ -161,7 +163,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Nom"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nom</FormLabel>
+                          <FormLabel  style={{marginLeft: "-165px"}}>Nom</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez le Nom" {...field} />
                           </FormControl>
@@ -178,7 +180,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Prenom"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Prenom</FormLabel>
+                          <FormLabel  style={{marginLeft: "-130px"}}>Prenom</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez le prenom" {...field} />
                           </FormControl>
@@ -193,7 +195,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Sexe"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Sexe</FormLabel>
+                          <FormLabel  style={{marginLeft: "-165px"}}>Sexe</FormLabel>
                           <FormControl>
                             <div>
                               <select {...field}>
@@ -216,7 +218,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="DateNaissance"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>DateNaissance</FormLabel>
+                          <FormLabel  style={{marginLeft: "-90px"}}>DateNaissance</FormLabel>
                           <FormControl>
                             <Input type="date" placeholder="Entrez la date naissance" {...field} />
                           </FormControl>
@@ -231,7 +233,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Tel"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Tel</FormLabel>
+                          <FormLabel  style={{marginLeft: "-165px"}}>Tel</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez tel" {...field} />
                           </FormControl>
@@ -248,7 +250,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Adresse"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Adresse</FormLabel>
+                          <FormLabel  style={{marginLeft: "-1px"}}>Adresse</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez l adresse" {...field} />
                           </FormControl>
@@ -263,7 +265,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Ville"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Ville</FormLabel>
+                          <FormLabel  style={{marginLeft: "-165px"}}>Ville</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez la ville" {...field} />
                           </FormControl>
@@ -277,12 +279,21 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                   <td>
                     <FormField
                       control={form.control}
-                      name="id_societe"
+                      name="societe"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ID de societe</FormLabel>
-                          <FormControl>
-                            <Input type="number" placeholder="Entrez l'ID de la societe" {...field} />
+                          <FormLabel  style={{marginLeft: "-30px"}}>Societe</FormLabel>
+                          <FormControl>     
+                          <FormSelect {...field} className="form-select">
+                        <option value="">Selectionnez une societe</option>
+                        {societes && societes.data && societes.data.map((societe) => (
+                        <option key={societe.id} value={societe.id}>
+                            {societe.RaisonSocial}
+                        </option>
+                    ))}
+                </FormSelect>
+    
+
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -294,7 +305,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
               </tbody>
             </table>
             {/* Submit Button */}
-            <div className='btn' style={{ marginTop: '-1px' }}>
+            <div className='btn' style={{ marginBottom: '10px' }}>
               <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} type="submit" >Soumettre</Button>
               <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} onClick={change} type="reset">Annuler</Button>
             </div>

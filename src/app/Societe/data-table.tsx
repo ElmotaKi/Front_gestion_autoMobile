@@ -2,7 +2,7 @@ import React, { useState} from "react";
 
 import { FaFileExcel, FaFilePdf } from "react-icons/fa6";
 import  '../../App.css';
-
+import './btn.css'
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
 import { Form } from 'react-bootstrap';
@@ -46,6 +46,7 @@ import { Input } from "../../components/ui/input";
 import FormulaireComponentcommercial from "@/components/customComponents/FormComponents/FormulaireComponentCommercial";
 import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
 import { createPortal } from "react-dom";
+import axios from "axios";
 
 interface Post {
   id: number;
@@ -133,7 +134,68 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
- 
+  let headerContentArray = [];
+
+  // Extract and store table header content
+  table.getHeaderGroups().forEach(headerGroup => {
+      headerGroup.headers.forEach(header => {
+          if (!header.isPlaceholder) {
+              const headerContent = header.column.columnDef.header(header.getContext());
+              if (typeof headerContent === "string") {
+                  headerContentArray.push(headerContent);
+              } else if (headerContent && headerContent.props && headerContent.props.children) {
+                  const children = headerContent.props.children;
+                  if (typeof children === "string") {
+                      headerContentArray.push(children);
+                  } else if (Array.isArray(children)) {
+                      headerContentArray.push(children[0]);
+                  }
+              }
+          }
+      });
+  });
+  headerContentArray.pop();
+  // Now, headerContentArray contains the extracted content
+  console.log(headerContentArray);
+  
+  const handleExportxlsx = async () => {
+      try {
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Societe', {columns: headerContentArray }, { responseType: 'blob' });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'societe.xlsx');
+          document.body.appendChild(link);
+          link.click();
+      } catch (error) {
+          console.error('Erreur lors de l\'exportation :', error);
+      }
+  };
+
+  const handleExportpdf = async () => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Societe', { columns: headerContentArray }, { responseType: 'blob' });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'societe.pdf');
+        document.body.appendChild(link);
+        link.click();
+    } catch (error) {
+        console.error('Erreur lors de l\'exportation :', error);
+    }
+};
+
+const handlePrint = () => {
+  axios.post('http://127.0.0.1:8000/api/print/Societe', { columns: headerContentArray })
+    .then((response) => {
+      // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
+      window.open(response.data.url, '_blank');
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'impression :', error);
+    });
+};
   
 
    
@@ -158,16 +220,16 @@ const pageNumbers = [];
       </div>
       <div style={{transform:"translateY(-22px)"}}>
     <Button className="btn mx-2" >
-    <FaFileExcel  color="green"/>
+    <FaFileExcel  color="green" onClick={handleExportxlsx}/>
       </Button>      
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2"  >
+      <Button className="btn mx-2" onClick={handleExportpdf} >
       <ImPrinter color="black" />
       </Button>
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" >
+      <Button className="btn mx-2" onClick={handlePrint}>
       <FaFilePdf color="red" />
 
       </Button>
@@ -286,10 +348,10 @@ const pageNumbers = [];
       <div id="modifierDiv"></div>
     )}
       {data && (
-    <div id="ajouterDiv"></div>
+    <div id="ajouterDiv"  style={{transform:"translateY(-30px)"}}></div>
   )}
             {formVisible && (
-              <div className="mb-4">
+              <div className="mb-4" >
                 {createPortal(
                   <FormulaireComponentSociete formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
                   document.getElementById('ajouterDiv')

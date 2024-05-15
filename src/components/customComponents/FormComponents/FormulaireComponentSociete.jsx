@@ -122,7 +122,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
       <div>
         <div className={` ${value ? 'slide-in' : 'slide-out'}`}>
           <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{ flexDirection: 'column', width: '28rem', height: '28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee' }} id='myform'>
-            <div><h1 className='titre' style={{ marginBottom: '-50px' }}>{titre}</h1></div>
+          <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
             <table style={{ zIndex: 1000 }}>
               <tbody>
                 <tr>
@@ -133,7 +133,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="RaisonSocial"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Raison Sociale</FormLabel>
+                          <FormLabel style={{marginLeft: "-100px"}}>Raison Sociale</FormLabel>
                           <FormControl>
                             <Input type="string" placeholder="Entrez la Raison Sociale" {...field} />
                           </FormControl>
@@ -149,7 +149,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="ICE"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>ICE</FormLabel>
+                          <FormLabel style={{marginLeft: "-180px"}}>ICE</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="Entrez l'ICE" {...form.register("ICE")} />
                           </FormControl>
@@ -167,7 +167,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="NumeroCNSS"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Numéro CNSS</FormLabel>
+                          <FormLabel style={{marginLeft: "-100px"}}>Numéro CNSS</FormLabel>
                           <FormControl>
                           <Input type="number" placeholder="Entrez l'numero cnss" {...form.register("ICE", { valueAsNumber: true })} />
 
@@ -184,7 +184,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="NumeroFiscale"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Numéro Fiscale</FormLabel>
+                          <FormLabel style={{marginLeft: "-100px"}}>Numéro Fiscale</FormLabel>
                           <FormControl>
                             <Input type="number" placeholder="Entrez le numéro fiscal" {...form.register("NumeroFiscale")} />
                           </FormControl>
@@ -202,7 +202,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="RegistreCommercial"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Registre Commercial</FormLabel>
+                          <FormLabel style={{marginLeft: "-50px"}}>Registre Commercial</FormLabel>
                           <FormControl>
                             <Input type="text" placeholder="Entrez le registre commercial" {...form.register("RegistreCommercial")} />
                           </FormControl>
@@ -218,7 +218,7 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
                       name="AdresseSociete"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Adresse Société</FormLabel>
+                          <FormLabel style={{marginLeft: "-70px"}}>Adresse Société</FormLabel>
                           <FormControl>
                             <Input type="text" placeholder="Entrez l'adresse de la société" {...form.register("AdresseSociete")} />
                           </FormControl>

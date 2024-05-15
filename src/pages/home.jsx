@@ -127,7 +127,7 @@ const Home = () => {
         </div>
       </div>
       <div className=" text-xl">
-       <div className='p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', left: 218, top: 5 ,width:"84rem",} : {position: 'absolute', right: 260, top: 5,width:"85.4rem"}} ><CustomAvatar />
+       <div className='p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', left: 218, top: 5 ,width:"84rem",} : {position: 'absolute', right: 210, top: 5,width:"85.4rem"}} ><CustomAvatar />
       </div> 
       <div className="" style={open ?{marginTop:"40px",marginLeft:"-17px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-160px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
       
