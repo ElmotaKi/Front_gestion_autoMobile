@@ -45,6 +45,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import FormulaireComponentcommercial from "@/components/customComponents/FormComponents/FormulaireComponentCommercial";
 import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
+import axios from "axios";
 
 interface Post {
   id: number;
@@ -133,7 +134,67 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
- 
+  let headerContentArray = [];
+
+  // Extract and store table header content
+  table.getHeaderGroups().forEach(headerGroup => {
+      headerGroup.headers.forEach(header => {
+          if (!header.isPlaceholder) {
+              const headerContent = header.column.columnDef.header(header.getContext());
+              if (typeof headerContent === "string") {
+                  headerContentArray.push(headerContent);
+              } else if (headerContent && headerContent.props && headerContent.props.children) {
+                  const children = headerContent.props.children;
+                  if (typeof children === "string") {
+                      headerContentArray.push(children);
+                  } else if (Array.isArray(children)) {
+                      headerContentArray.push(children[0]);
+                  }
+              }
+          }
+      });
+  });
+  headerContentArray.pop();
+  // Now, headerContentArray contains the extracted content
+  console.log(headerContentArray);
+  
+  const handleExportxlsx = async () => {
+      try {
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Societe', {columns: headerContentArray }, { responseType: 'blob' });
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'societe.xlsx');
+          document.body.appendChild(link);
+          link.click();
+      } catch (error) {
+          console.error('Erreur lors de l\'exportation :', error);
+      }
+  };
+
+  const handleExportpdf = async () => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Societe', { columns: headerContentArray }, { responseType: 'blob' });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'societe.pdf');
+        document.body.appendChild(link);
+        link.click();
+    } catch (error) {
+        console.error('Erreur lors de l\'exportation :', error);
+    }
+};
+
+const handlePrint = () => {
+  axios.post('http://127.0.0.1:8000/api/print/Societe', { columns: headerContentArray })
+    .then((response) => {
+      window.open(response.data.url, '_blank');
+    })
+    .catch((error) => {
+      console.error('Erreur lors de l\'impression :', error);
+    });
+};
   
 
    
@@ -160,8 +221,8 @@ const pageNumbers = [];
           className="w-40"
         />
       </div>
-    <div >
-    <Button className="btn mx-2" >
+      <div >
+    <Button className="btn mx-2"  onClick={handleExportxlsx}>
     <FaFileExcel  color="green"/>
     
       </Button>
@@ -170,18 +231,19 @@ const pageNumbers = [];
     </div>
   
     <div >
-      <Button className="btn mx-2"  >
+      <Button className="btn mx-2"  onClick={handlePrint}>
       <ImPrinter color="black" />
       </Button>
     </div>
    
   
     <div >
-      <Button className="btn mx-2" >
+      <Button className="btn mx-2"  onClick={handleExportpdf}>
       <FaFilePdf color="red" />
 
       </Button>
     </div>
+      
     <div >
       <Button className="btn mx-5 w-2">
       <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
