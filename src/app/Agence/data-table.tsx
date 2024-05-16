@@ -3,7 +3,7 @@ import React, { useState} from "react";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa6";
 import  '../../App.css';
 import './btn.css'
-import { ChevronDown, Plus, Settings } from "lucide-react";
+import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
 import { Form } from 'react-bootstrap';
 import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
@@ -20,6 +20,7 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -43,9 +44,9 @@ import {
 
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import FormulaireComponentAgence from "@/components/customComponents/FormComponents/FormulaireComponentAgence";
-import axios from "axios";
 import { createPortal } from "react-dom";
+import axios from "axios";
+import FormulaireComponentAgence from "@/components/customComponents/FormComponents/FormulaireComponentAgence";
 
 interface Post {
   id: number;
@@ -56,12 +57,23 @@ export function DataTable({
   data,
   onDeleteSuccess
 }) {
+ 
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [filtering, setFiltering] = useState('');
-  
+  const [userInput, setUserInput] = useState(''); 
+
+  const [postsPerPage, setPostsPerPage] = useState(4);
+  const handleUserInputChange = (e) => {
+    setUserInput(e.target.value);
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber > 0) {
+      setPostsPerPage(inputNumber);
+      setCurrentPage(1); // Reset to first page when changing rows per page
+    }
+  };
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuOpen = () => {
@@ -76,16 +88,16 @@ export function DataTable({
   const toggleForm = () => {
     const newValue = !formVisible;
     setFormVisible(newValue);
-    setTableWidth(newValue ? "50%":"100%")
-  };
-  const [tableWidth, setTableWidth] = useState("100%");
+    setTableWidth(newValue?"50%":"100%");
+    
+    };
+    const [tableWidth, setTableWidth] = useState("100%");
 
 
  //Pagination logique
 const rowsPerPage =4;
 
 const [currentPage, setCurrentPage] = useState(1);
-const [postsPerPage, setPostsPerPage] = useState(rowsPerPage);
 const lastPostIndex = currentPage * postsPerPage;
 const firstPostIndex = lastPostIndex - postsPerPage;
 
@@ -161,11 +173,11 @@ const pageNumbers = [];
   
   const handleExportxlsx = async () => {
       try {
-          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/AgenceLocation', {columns: headerContentArray }, { responseType: 'blob' });
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Agent', {columns: headerContentArray }, { responseType: 'blob' });
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'agence.xlsx');
+          link.setAttribute('download', 'agent.xlsx');
           document.body.appendChild(link);
           link.click();
       } catch (error) {
@@ -175,11 +187,11 @@ const pageNumbers = [];
 
   const handleExportpdf = async () => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/AgenceLocation', { columns: headerContentArray }, { responseType: 'blob' });
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Agent', { columns: headerContentArray }, { responseType: 'blob' });
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'agence.pdf');
+        link.setAttribute('download', 'agent.pdf');
         document.body.appendChild(link);
         link.click();
     } catch (error) {
@@ -188,7 +200,7 @@ const pageNumbers = [];
 };
 
 const handlePrint = () => {
-  axios.post('http://127.0.0.1:8000/api/print/AgenceLocation', { columns: headerContentArray })
+  axios.post('http://127.0.0.1:8000/api/print/Agent', { columns: headerContentArray })
     .then((response) => {
       // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
       window.open(response.data.url, '_blank');
@@ -197,8 +209,6 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
- 
-
 return (
   <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
@@ -219,17 +229,17 @@ return (
       />
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-  <Button className="btn mx-2" >
+  <Button className="btn mx-2" onClick={handleExportxlsx}>
   <FaFileExcel  color="green"/>
     </Button>      
   </div>
   <div style={{transform:"translateY(-22px)"}}>
-    <Button className="btn mx-2"  >
+    <Button className="btn mx-2"  onClick={handlePrint}>
     <ImPrinter color="black" />
     </Button>
   </div>
   <div style={{transform:"translateY(-22px)"}}>
-    <Button className="btn mx-2" >
+    <Button className="btn mx-2" onClick={handleExportpdf}>
     <FaFilePdf color="red" />
 
     </Button>
@@ -290,7 +300,7 @@ return (
   data-state={row.getIsSelected() && "selected"}
 >
   {row.getVisibleCells().map((cell,index) => (
-    <TableCell key={cell.id} >
+    <TableCell key={cell.id} ignoreBorder={index <= 2}>
       {flexRender(
         cell.column.columnDef.cell,
         cell.getContext()
@@ -303,7 +313,9 @@ return (
 ))}
 
       </TableBody>
-     
+      <TableCaption>
+        
+      </TableCaption>
       
       </Table>
      <div className="flex ">
@@ -333,6 +345,15 @@ return (
     <PaginationNext onClick={handleNextPage} />
   </PaginationItem>
 </PaginationContent>
+<div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <input
+          type="number"
+          id="rowsPerPage"
+          value={userInput}
+          onChange={handleUserInputChange}
+        />
+      </div>
 </Pagination>
 
      </div>
@@ -343,10 +364,10 @@ return (
   <div className="posform">
     
     {data && (
-    <div id="modifierDiv"></div>
+    <div id="modifierDiv" style={{ transform: "translateY(3px) translateX(-50px)" }}></div>
   )}
     {data && (
-  <div id="ajouterDiv"></div>
+      <div id="ajouterDiv" style={{ transform: "translateY(3px) translateX(-50px)" }}></div>
 )}
           {formVisible && (
             <div className="mb-4">

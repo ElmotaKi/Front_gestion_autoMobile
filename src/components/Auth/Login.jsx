@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 
 const formSchema = z.object({
   emailAddress: z.string(),
@@ -15,6 +16,7 @@ const formSchema = z.object({
 
 function Login() {
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // State to manage loading state
   const navigate = useNavigate();
 
   const form = useForm({
@@ -28,6 +30,7 @@ function Login() {
   const submitHandler = async (formData) => {
     const { emailAddress, emailPassword } = formData;
     try {
+      setLoading(true); // Set loading to true on form submit
       const response = await axios.post('http://localhost:8000/api/auth/login', {
         email: emailAddress,
         password: emailPassword,
@@ -45,25 +48,26 @@ function Login() {
       } else {
         setError("Une erreur s'est produite lors du traitement de votre demande.");
       }
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
-    <div style={{transform:"translateY(50%)"}}>
-
-      <div className="w-40p flex justify-center">
-        <div className="max-w-sm p-4 bg-white rounded-lg shadow-md">
-          {error && <p className="error-message">{error}</p>}
+    <div style={{ transform: "translateY(20%)" }}>
+      <div className="w-full flex justify-center">
+        <div className="max-w-lg w-full p-8 bg-white rounded-lg shadow-md">
+        <h1 className="text-3xl mb-4">Bonjour</h1>
+          {error && <p className="p-4 bg-red-500 text-white font-bold rounded ">{error}</p>}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(submitHandler)}>
               <FormField
                 control={form.control}
                 name="emailAddress"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Adresse Email</FormLabel>
-                    <Input placeholder="adresse email" type="email" {...field} />
-                    
+                  <FormItem className='mb-5 w-96'>
+                    <FormLabel className="text-lg">Adresse Email</FormLabel>
+                    <Input placeholder="adresse email" type="email" {...field} required/>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -73,15 +77,19 @@ function Login() {
                 control={form.control}
                 name="emailPassword"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Mot de passe</FormLabel>
-                    <Input placeholder="mot de passe" type="password" {...field} />
+                  <FormItem className='w-96'>
+                    <FormLabel className="text-lg">Mot de passe</FormLabel>
+                    <Input placeholder="mot de passe" type="password" {...field} required/>
                     <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
-              <div style={{marginTop:'8px'}}>
-              <Button  type="submit">Envoyer</Button></div>
+              <div style={{ marginTop: '16px' }}>
+                <Button type="submit" className=' w-96 bg-red-600 hover:bg-red-800 hover:text-white py-2 px-4 text-lg mt-4' disabled={loading}>
+                  {loading ? <FaSpinner className="animate-spin mr-2" /> : null}
+                  {loading ? 'Chargement...' : 'Se connecter'} 
+                </Button>
+              </div>
             </form>
           </Form>
         </div>

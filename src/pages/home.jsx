@@ -13,13 +13,7 @@ import {ReceiptText } from 'lucide-react';
 import {Building2 } from 'lucide-react';
 import { BsInfoSquare } from "react-icons/bs";
 import CustomAvatar from "./CustomAvatar";
-// import DemoPageAgent from "@/app/Agent/page";
-// import DemoPageCommercial from "@/app/Commercial/page";
-// import DemoPageSociete from "@/app/Societe/page";
-// import DemoPageAgence from "@/app/Agence/page";
-// import DemoPageClientParticulier from "@/app/ClientParticulier/page";
-// import CustomAvatar from "./CustomAvatar";
-// import DemoPageContrat from "@/app/Contrat/page";
+
 const Home = () => {
   const [open, setOpen] = useState(true);
   const [content,setContent] = useState('Dashboard');
@@ -129,9 +123,9 @@ const Home = () => {
       <div className=" text-xl">
        <div className='p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', left: 218, top: 5 ,width:"84rem",} : {position: 'absolute', right: 210, top: 5,width:"85.4rem"}} ><CustomAvatar />
       </div> 
-      <div className="" style={open ?{marginTop:"40px",marginLeft:"-17px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-160px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
+      <div className="" style={open ?{marginTop:"40px",marginLeft:"-17px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-115px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
       
-      <div className="" style={open ? { position: 'absolute', left: 190, top: 70 } : {position: 'absolute', left: 50, top: 70,}}><Outlet/></div>
+      <div className="" style={open ? { position: 'absolute', left: 190, top: 70 } : {position: 'absolute', left: 100, top: 70,}}><Outlet/></div>
       
     
       </div>

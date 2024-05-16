@@ -22,8 +22,7 @@ const DemoPageAgence = () => {
 
     async function fetchData() {
         const response = await AgenceApi.getAll();
-        console.log('data wa3',response.data.agences) ; // Return the fetched data
-        return response.data.agences
+        return response.data[1]
     }
 };
 

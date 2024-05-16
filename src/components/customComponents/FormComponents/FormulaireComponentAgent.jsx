@@ -23,6 +23,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
   const { data: agences} = useQuery('agences', AgenceApi.getAll);
+  console.log('waa3',agences)
     const change = () => {
         setValue(!value);
     }
@@ -152,6 +153,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
     <Form {...form} >
      
 <div >
+
 <div  className={` ${value ? 'slide-in' : 'slide-out'} `}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'30.1rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
@@ -302,9 +304,10 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
                                 <FormControl>
                                 <FormSelect {...field} className="form-select">
                 <option value="">Sélectionnez une agence</option>
-                {agences && agences.data && agences.data.agences.map((agency) => (
+                {agences && agences.data && agences.data[1].map((agency) => (
                   <option key={agency.id} value={agency.id}>
                     {agency.NomAgence}
+                    
                   </option>
                 ))}
               </FormSelect>
@@ -319,10 +322,10 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
         </tbody>
     </table>
     {/* Submit Button */}
-    <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-   </div>
+      <div className='btn' style={{marginTop:'-1px'}}>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+    </div>
   </form>  
 </div>
 </div>

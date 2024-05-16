@@ -174,12 +174,7 @@ export const columns = [
           {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
     <FontAwesomeIcon icon={faCopy} />
   </IconButton> */}
-  <div>
-  <IconButton onClick={() => navigator.clipboard.writeText(societe.id)} color="red" >
-    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={societe}  onDeleteSuccess={onDeleteSuccess} nomApi={"societe"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
-  </IconButton>
-  </div>
+  
   <div>
   {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
     <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
@@ -196,5 +191,11 @@ export const columns = [
    document.getElementById('modifierDiv'))
    }
   
+  </div>
+  <div>
+  <IconButton onClick={() => navigator.clipboard.writeText(societe.id)} color="red" >
+    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={societe}  onDeleteSuccess={onDeleteSuccess} nomApi={"societe"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  </IconButton>
   </div>
   </div>)}}] 

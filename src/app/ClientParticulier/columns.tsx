@@ -333,19 +333,10 @@ export const columns = [
         setFormVisible(!formVisible);
       }
         return (<div className="flex justify-between">
-          {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
-    <FontAwesomeIcon icon={faCopy} />
-  </IconButton> */}
+        
+  
   <div>
-  <IconButton onClick={() => navigator.clipboard.writeText(clientparticulier.id)} color="red" >
-    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={clientparticulier}  onDeleteSuccess={onDeleteSuccess} nomApi={"clientparticulier"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
-  </IconButton>
-  </div>
-  <div>
-  {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-    <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-  </IconButton> */}
+  
   <IconButton onClick={()=>{navigator.clipboard.writeText(clientparticulier.id);
   toggleform();}
   } color="green">
@@ -358,6 +349,12 @@ export const columns = [
    document.getElementById('modifierDiv'))
    }
   
+  </div>
+  <div>
+  <IconButton onClick={() => navigator.clipboard.writeText(clientparticulier.id)} color="red" >
+    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
+    <CustomDialog dataLibaghi={clientparticulier}  onDeleteSuccess={onDeleteSuccess} nomApi={"clientparticulier"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  </IconButton>
   </div>
   </div>)
     },

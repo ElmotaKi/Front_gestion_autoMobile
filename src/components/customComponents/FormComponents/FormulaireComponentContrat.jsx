@@ -115,9 +115,9 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
     <Form {...form}>
      
 <div>
-<div className={`form-container ${value ? 'slide-in' : 'slide-out'}`}>
-<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '20rem',height:'20rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
-<div><h1 className='titre' style={{marginBottom:'-50px'}}>{titre}</h1></div>
+<div className={`${value ? 'slide-in' : 'slide-out'}`}>
+<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '20rem',height:'17rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
+<div><h1 className=' font-bold bg-slate-100 px-3 w-80' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
     {/* NomAgent */}
     <table style={{ zIndex: 1000 }}>
         <tbody>
@@ -127,7 +127,7 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
                 name="nomContrat"
                render={({ field }) => (
                <FormItem>
-               <FormLabel>nomContrat</FormLabel>
+               <FormLabel style={{marginLeft: "-60px"}}>nomContrat</FormLabel>
                <FormControl>
               <Input placeholder="Entrez le nom Contrat" {...field} />
               </FormControl>
@@ -142,7 +142,7 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
                     name="typeContrat"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>typeContrat</FormLabel>
+                        <FormLabel style={{marginLeft: "-50px"}}>typeContrat</FormLabel>
                         <FormControl>
                             <Input placeholder="Entrez le type Contrat" {...field} />
                         </FormControl>
@@ -162,7 +162,7 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
                                 name="descriptionContrat"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>descriptionContrat</FormLabel>
+                                    <FormLabel style={{marginLeft: "-20px"}}>descriptionContrat</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Entrez description Contrat" {...field} />
                                     </FormControl>

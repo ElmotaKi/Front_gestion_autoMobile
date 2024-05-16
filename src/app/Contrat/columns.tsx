@@ -123,19 +123,10 @@ export const columns = [
         setFormVisible(!formVisible);
       }
         return (<div className="flex justify-between">
-          {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
-    <FontAwesomeIcon icon={faCopy} />
-  </IconButton> */}
+         
+ 
   <div>
-  <IconButton onClick={() => navigator.clipboard.writeText(contrat.id)} color="red" >
-    {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={contrat} onDeleteSuccess={onDeleteSuccess} nomApi={'contrat'}textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
-  </IconButton>
-  </div>
-  <div>
-  {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-    <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-  </IconButton> */}
+  
   <IconButton onClick={()=>{navigator.clipboard.writeText(contrat.id);
   toggleform();}
   } color="green">
@@ -148,6 +139,11 @@ export const columns = [
    document.getElementById('modifierDiv'))
    }
   
+  </div>
+  <div>
+  <IconButton onClick={() => navigator.clipboard.writeText(contrat.id)} color="red" >
+    <CustomDialog dataLibaghi={contrat} onDeleteSuccess={onDeleteSuccess} nomApi={'contrat'}textLtrigger={<FontAwesomeIcon icon={faTrash} />} />
+  </IconButton>
   </div>
   </div>)
     },

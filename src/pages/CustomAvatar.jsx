@@ -30,7 +30,7 @@ function CustomAvatar(props) {
         <DropdownMenuTrigger>
           <Avatar avatarWidth="20" avatarHeight="20">
             {/* Avatar image */}
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src="https://png.pngtree.com/png-vector/20220809/ourmid/pngtree-round-button-with-flat-design-in-dark-gray-and-white-for-users-vector-png-image_19437050.jpg" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

@@ -103,8 +103,9 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
      
 <div style={{transform:"translatex(18rem)"}}>
 <div  className={`form-container ${value ? 'slide-in' : 'slide-out'}`}>
-<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
-<div><h1 className='titre' style={{marginBottom:'-50px'}}>{titre}</h1></div>
+<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'20rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
+
+<div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
     {/* Capacite */}
     <table style={{ zIndex: 1000 }}>
         <tbody>
@@ -162,9 +163,9 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
     </table>
     {/* Submit Button */}
     <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >Soumettre</Button>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-   </div>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+    </div>
   </form>  
 </div>
 </div>

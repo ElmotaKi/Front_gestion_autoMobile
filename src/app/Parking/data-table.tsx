@@ -59,7 +59,16 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [filtering, setFiltering] = useState('');
-  
+  const [userInput, setUserInput] = useState(''); 
+  const [postsPerPage, setPostsPerPage] = useState(4);
+  const handleUserInputChange = (e) => {
+    setUserInput(e.target.value);
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber > 0) {
+      setPostsPerPage(inputNumber);
+      setCurrentPage(1); // Reset to first page when changing rows per page
+    }
+  };
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuOpen = () => {
@@ -82,7 +91,6 @@ export function DataTable({
 const rowsPerPage =4;
 
 const [currentPage, setCurrentPage] = useState(1);
-const [postsPerPage, setPostsPerPage] = useState(rowsPerPage);
 const lastPostIndex = currentPage * postsPerPage;
 const firstPostIndex = lastPostIndex - postsPerPage;
 
@@ -197,28 +205,28 @@ const handlePrint = () => {
 };
   return (
     <div >
-    <div id="modifierDiv" style={{transform:"translatex(1rem)"}}></div>
+    <div id="modifierDiv" style={{transform:"translateY(3rem)"}}></div>
     <div>
     <div className="flex items-center mt-4 mb-4">
       <div className="mr-auto">
      
         
-           <Button variant="destructive" onClick={toggleForm} className="ml-auto" >
+           <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
                Ajouter
                  <Plus className="ml-2 h-4 w-4" />
            </Button>
            {formVisible && <FormulaireComponentParking formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>}
       
       </div>
-      <div >
+      <div style={{transform:"translateY(-22px)"}}>
               <Input
             placeholder="Rechercher..."
             value={filtering}
             onChange={(e) => setFiltering(e.target.value)}
-            className="w-40"
+            className="w-96"
           />
         </div>
-      <div >
+      <div style={{transform:"translateY(-22px)"}}>
       <Button className="btn mx-2" onClick={handleExportxlsx}>
       <FaFileExcel  color="green"/>
       
@@ -227,20 +235,20 @@ const handlePrint = () => {
         
       </div>
     
-      <div >
+      <div style={{transform:"translateY(-22px)"}}>
         <Button className="btn mx-2"  onClick={handlePrint}>
         <ImPrinter color="black" />
         </Button>
       </div>
      
     
-      <div >
+      <div style={{transform:"translateY(-22px)"}}>
         <Button className="btn mx-2" onClick={handleExportpdf}>
         <FaFilePdf color="red" />
   
         </Button>
       </div>
-      <div >
+      <div style={{transform:"translateY(-22px)"}}>
         <Button className="btn mx-5 w-2">
         <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
         <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
@@ -271,8 +279,8 @@ const handlePrint = () => {
       </div>
   </div>
       </div>
-        <div className="rounded-md border">
-          <Table>
+        <div className="rounded-md border" >
+          <Table >
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -310,6 +318,10 @@ const handlePrint = () => {
           </Table>
          
           <Pagination className="flex justify-end">
+          <div className=" text-sm text-muted-foreground float-start mb-2">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+      </div> 
     <PaginationContent>
       <PaginationItem  style={{cursor:'pointer'}}>
         <PaginationPrevious onClick={handlePrevPage} />
@@ -331,11 +343,17 @@ const handlePrint = () => {
         <PaginationNext onClick={handleNextPage} />
       </PaginationItem>
     </PaginationContent>
+    <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <input
+          type="number"
+          id="rowsPerPage"
+          value={userInput}
+          onChange={handleUserInputChange}
+        />
+      </div>
   </Pagination>
-  <div className="flex-1 text-sm text-muted-foreground float-start mt-4">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-        </div>
+
        
                 </div>
       </div>

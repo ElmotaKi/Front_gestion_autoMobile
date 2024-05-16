@@ -194,7 +194,7 @@ toggleform();}
 <div>
 <IconButton onClick={() => navigator.clipboard.writeText(agence.id)} color="red" >
   {/* <CustomDialog dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faTrash} />}/> */}
-    <CustomDialog dataLibaghi={agence} onDeleteSuccess={onDeleteSuccess} nomApi={'agent'} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
+    <CustomDialog dataLibaghi={agence} onDeleteSuccess={onDeleteSuccess} nomApi={'agence'} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
   </IconButton>
 </div>
 

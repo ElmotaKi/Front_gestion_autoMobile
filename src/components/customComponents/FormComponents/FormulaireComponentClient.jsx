@@ -194,10 +194,9 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
     <Form {...form}>
      
 <div>
-<div className={`form-container ${value ? 'slide-in' : 'slide-out'}`}>
+<div className={` ${value ? 'slide-in' : 'slide-out'}`}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', maxwidth: '30rem',maxheight:'60rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
-<div><h1 className='titre' style={{marginBottom:'-50px'}}>{titre}</h1></div>
-    {/* Nom */}
+<div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
     <table style={{ zIndex: 1000 }}>
         <tbody>
             <tr>
@@ -206,7 +205,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                 name="Nom"
                render={({ field }) => (
                <FormItem>
-               <FormLabel>Nom</FormLabel>
+               <FormLabel style={{marginLeft: "-165px"}}>Nom</FormLabel>
                <FormControl>
               <Input placeholder="Entrez le nom" {...field} />
               </FormControl>
@@ -221,7 +220,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                     name="Prenom"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Prénom</FormLabel>
+                        <FormLabel style={{marginLeft: "-136px"}}>Prénom</FormLabel>
                         <FormControl>
                             <Input placeholder="Entrez le prénom" {...field} />
                         </FormControl>
@@ -238,7 +237,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                     name="Sexe"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Sexe</FormLabel>
+                        <FormLabel style={{marginLeft: "-165px"}}>Sexe</FormLabel>
                         <FormControl>
                           <div>
                             <select {...field}>
@@ -259,7 +258,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                         name="DateNaissance"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>DateNaissance</FormLabel>
+                            <FormLabel style={{marginLeft: "-80px"}}>DateNaissance</FormLabel>
                             <FormControl>
                                 <Input type="date" placeholder="Entrez DateNaissance" {...field} />
                             </FormControl>
@@ -276,7 +275,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                         name="Tel"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Téléphone</FormLabel>
+                            <FormLabel style={{marginLeft: "-130px"}}>Téléphone</FormLabel>
                             <FormControl>
                                 <Input type="tel" placeholder="Entrez le téléphone" {...field} />
                             </FormControl>
@@ -291,7 +290,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                                 name="Email"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Adresse</FormLabel>
+                                    <FormLabel style={{marginLeft: "-142px"}}>Email</FormLabel>
                                     <FormControl>
                                         <Input type='email' placeholder="Entrez l'Email" {...field} />
                                     </FormControl>
@@ -308,7 +307,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="Adresse"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Adresse</FormLabel>
+                                <FormLabel style={{marginLeft: "-140px"}}>Adresse</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Entrez l'Adresse" {...field} />
                                 </FormControl>
@@ -323,7 +322,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                                     name="Ville"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <FormLabel>Ville</FormLabel>
+                                        <FormLabel style={{marginLeft: "-146px"}}>Ville</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Entrez la Ville" {...field} />
                                         </FormControl>
@@ -341,7 +340,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="CodePostal"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>CodePostal</FormLabel>
+                                <FormLabel style={{marginLeft: "-120px"}}>CodePostal</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez CodePostal" {...field} />
                                 </FormControl>
@@ -356,7 +355,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="CIN"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>CIN</FormLabel>
+                                <FormLabel style={{marginLeft: "-150px"}}>CIN</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez CIN" {...field} />
                                 </FormControl>
@@ -372,7 +371,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="DateValidCIN"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>DateValidCIN</FormLabel>
+                                <FormLabel style={{marginLeft: "-110px"}}>DateValidCIN</FormLabel>
                                 <FormControl>
                                     <Input type="date" placeholder="Entrez DateValidCIN" {...field} />
                                 </FormControl>
@@ -386,7 +385,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="NumeroPermis"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>NumeroPermis</FormLabel>
+                                <FormLabel style={{marginLeft: "-85px"}}>NumeroPermis</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez NumeroPermis" {...field} />
                                 </FormControl>
@@ -403,7 +402,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="TypePermis"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>TypePermis</FormLabel>
+                                <FormLabel style={{marginLeft: "-110px"}}>TypePermis</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez TypePermis" {...field} />
                                 </FormControl>
@@ -418,7 +417,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="NumeroPasseport"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>NumeroPasseport</FormLabel>
+                                <FormLabel style={{marginLeft: "-60px"}}>NumeroPasseport</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez NumeroPasseport" {...field} />
                                 </FormControl>
@@ -435,7 +434,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="TypePassport"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>TypePassport</FormLabel>
+                                <FormLabel style={{marginLeft: "-100px"}}>TypePassport</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez TypePassport" {...field} />
                                 </FormControl>
@@ -450,7 +449,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="DateFinPassport"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>DateFinPassport</FormLabel>
+                                <FormLabel style={{marginLeft: "-70px"}}>DateFinPassport</FormLabel>
                                 <FormControl>
                                     <Input type="date" placeholder="Entrez DateFinPassport" {...field} />
                                 </FormControl>
@@ -467,7 +466,7 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
                             name="AdresseEtrangere"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>AdresseEtrangere</FormLabel>
+                                <FormLabel style={{marginLeft: "-70px"}}>AdresseEtrangere</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Entrez AdresseEtrangere" {...field} />
                                 </FormControl>
@@ -483,9 +482,9 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
     </table>
     {/* Submit Button */}
     <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >Soumettre</Button>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-   </div>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+    </div>
   </form>  
 </div>
 </div>

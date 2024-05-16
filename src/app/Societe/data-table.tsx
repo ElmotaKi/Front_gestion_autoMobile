@@ -62,7 +62,16 @@ export function DataTable({
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
   const [filtering, setFiltering] = useState('');
-  
+  const [postsPerPage, setPostsPerPage] = useState(4);
+  const [userInput, setUserInput] = useState(''); 
+  const handleUserInputChange = (e) => {
+    setUserInput(e.target.value);
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber > 0) {
+      setPostsPerPage(inputNumber);
+      setCurrentPage(1); // Reset to first page when changing rows per page
+    }
+  };
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenuOpen = () => {
@@ -84,7 +93,6 @@ export function DataTable({
 const rowsPerPage =4;
 
 const [currentPage, setCurrentPage] = useState(1);
-const [postsPerPage, setPostsPerPage] = useState(rowsPerPage);
 const lastPostIndex = currentPage * postsPerPage;
 const firstPostIndex = lastPostIndex - postsPerPage;
 
@@ -290,7 +298,7 @@ const handlePrint = () => {
     data-state={row.getIsSelected() && "selected"}
   >
     {row.getVisibleCells().map((cell,index) => (
-      <TableCell key={cell.id} >
+      <TableCell key={cell.id} ignoreBorder={index <= 2}>
         {flexRender(
           cell.column.columnDef.cell,
           cell.getContext()
@@ -335,6 +343,15 @@ const handlePrint = () => {
       <PaginationNext onClick={handleNextPage} />
     </PaginationItem>
   </PaginationContent>
+  <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <input
+          type="number"
+          id="rowsPerPage"
+          value={userInput}
+          onChange={handleUserInputChange}
+        />
+      </div>
 </Pagination>
 
        </div>
@@ -345,7 +362,7 @@ const handlePrint = () => {
     <div className="posform">
       
       {data && (
-      <div id="modifierDiv"></div>
+      <div id="modifierDiv" style={{transform:"translateY(-30px)"}}></div>
     )}
       {data && (
     <div id="ajouterDiv"  style={{transform:"translateY(-30px)"}}></div>
