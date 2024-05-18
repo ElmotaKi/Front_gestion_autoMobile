@@ -100,7 +100,7 @@ const Home = () => {
               <div >{React.createElement(menu?.icon, { size: "20" })}</div>
               <h2
                 // style={{
-                //   transitionDelay: `${i + 3}00ms`,
+                //   transitionDelay: ${i + 3}00ms,
                 // }}
                 // duration-500
                 className={`whitespace-pre  ${
@@ -134,4 +134,3 @@ const Home = () => {
 };
 
 export default Home;
- 

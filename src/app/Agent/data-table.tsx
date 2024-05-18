@@ -2,11 +2,10 @@ import React, { useState} from "react";
 
 import { FaFileExcel, FaFilePdf } from "react-icons/fa6";
 import  '../../App.css';
-import './btn.css'
+
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
 import { Form } from 'react-bootstrap';
-import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
 
 import {
   flexRender,
@@ -44,6 +43,8 @@ import {
 
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
+import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
+import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
 import { createPortal } from "react-dom";
 import axios from "axios";
 
@@ -80,16 +81,13 @@ export function DataTable({
     setMenuOpen(false);
   };
   //
-
   const [formVisible, setFormVisible] = useState(false);
   const toggleForm = () => {
     const newValue = !formVisible;
     setFormVisible(newValue);
-    setTableWidth(newValue?"50%":"100%");
-    
-    };
-    const [tableWidth, setTableWidth] = useState("100%");
-
+    setTableWidth(newValue ? "50%":"100%")
+  };
+  const [tableWidth, setTableWidth] = useState("100%");
 
  //Pagination logique
 const rowsPerPage =4;
@@ -174,7 +172,7 @@ const pageNumbers = [];
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'agent.xlsx');
+          link.setAttribute('download', 'Agent.xlsx');
           document.body.appendChild(link);
           link.click();
       } catch (error) {
@@ -188,7 +186,7 @@ const pageNumbers = [];
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'agent.pdf');
+        link.setAttribute('download', 'Agent.pdf');
         document.body.appendChild(link);
         link.click();
     } catch (error) {
@@ -206,142 +204,148 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
-return (
-  <div style={{display:"flex",width:"100%"}}>
-  <div style={{"flex":1,width:tableWidth}}>
-  <div>
-  <div className="flex items-center mt-4 mb-4">
-  <div className="mr-auto" >
-  <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
-           Ajouter
-             <Plus className="ml-2 h-4 w-4" />
-       </Button>
-  </div>
-  <div style={{transform:"translateY(-22px)"}}>
-          <Input
-        placeholder="Rechercher..."
-        value={filtering}
-        onChange={(e) => setFiltering(e.target.value)}
-        className="w-96"
-      />
+  
+ 
+  
+
+   
+  return (
+    <div style={{display:"flex",width:"100%"}}>
+    <div style={{"flex":1,width:tableWidth}}>
+    <div>
+    <div className="flex items-center mt-4 mb-4">
+    <div className="mr-auto" >
+    <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
+             Ajouter
+               <Plus className="ml-2 h-4 w-4" />
+         </Button>
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-  <Button className="btn mx-2" onClick={handleExportxlsx}>
-  <FaFileExcel  color="green"/>
-    </Button>      
-  </div>
-  <div style={{transform:"translateY(-22px)"}}>
-    <Button className="btn mx-2"  onClick={handlePrint}>
-    <ImPrinter color="black" />
-    </Button>
-  </div>
-  <div style={{transform:"translateY(-22px)"}}>
-    <Button className="btn mx-2" onClick={handleExportpdf}>
-    <FaFilePdf color="red" />
-
-    </Button>
-  </div>
-    
-  <div style={{transform:"translateY(-22px)"}}>
-    <Button className="btn mx-5 w-2">
-    <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
-    <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
-      <Button className="btn ">
-      <Settings color="black" />
-       
+            <Input
+          placeholder="Rechercher..."
+          value={filtering}
+          onChange={(e) => setFiltering(e.target.value)}
+          className="w-96"
+        />
+      </div>
+      <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2" >
+    <FaFileExcel  color="green" onClick={handleExportxlsx}/>
+      </Button>      
+    </div>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2" onClick={handleExportpdf} >
+      <ImPrinter color="black" />
       </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end" onClick={handleMenuOpen}>
-      {table
-        .getAllColumns()
-        .filter((column) => column.getCanHide())
-        .map((column) => (
-          <DropdownMenuCheckboxItem
-            key={column.id}
-            className="capitalize"
-            checked={column.getIsVisible()}
-            onCheckedChange={(value) => column.toggleVisibility(!!value)}
-          >
-            {column.id}
-          </DropdownMenuCheckboxItem>
-        ))}
-    </DropdownMenuContent>
-  </DropdownMenu>
-  
+    </div>
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-2" onClick={handlePrint}>
+      <FaFilePdf color="red" />
 
-    </Button>
-  </div>
-</div>
-    
-  </div>
-
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
+      </Button>
+    </div>
+      
+    <div style={{transform:"translateY(-22px)"}}>
+      <Button className="btn mx-5 w-2">
+      <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
+      <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
+        <Button className="btn ">
+        <Settings color="black" />
+         
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" onClick={handleMenuOpen}>
+        {table
+          .getAllColumns()
+          .filter((column) => column.getCanHide())
+          .map((column) => (
+            <DropdownMenuCheckboxItem
+              key={column.id}
+              className="capitalize"
+              checked={column.getIsVisible()}
+              onCheckedChange={(value) => column.toggleVisibility(!!value)}
+            >
+              {column.id}
+            </DropdownMenuCheckboxItem>
           ))}
-        </TableHeader>
-        <TableBody>
-        {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
-<TableRow
-  key={row.id}
-  data-state={row.getIsSelected() && "selected"}
->
-  {row.getVisibleCells().map((cell,index) => (
-    <TableCell key={cell.id} ignoreBorder={index <= 2}>
-      {flexRender(
-        cell.column.columnDef.cell,
-        cell.getContext()
-      )}
-    </TableCell>
-  ))}
-  
-</TableRow>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    
 
+      </Button>
+    </div>
+</div>
+      
+    </div>
+
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+          {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
+  <TableRow
+    key={row.id}
+    data-state={row.getIsSelected() && "selected"}
+  >
+    {row.getVisibleCells().map((cell,index) => (
+      <TableCell key={cell.id} ignoreBorder={index <= 2}>
+        {flexRender(
+          cell.column.columnDef.cell,
+          cell.getContext()
+        )}
+      </TableCell>
+    ))}
+    
+  </TableRow>
+  
 ))}
 
-      </TableBody>
-      <TableCaption>
+        </TableBody>
+        <TableCaption>
+          
+        </TableCaption>
         
-      </TableCaption>
-      
-      </Table>
-     <div className="flex ">
-     <div className=" text-sm text-muted-foreground float-start mb-2">
-      {table.getFilteredSelectedRowModel().rows.length} of{" "}
-      {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-    </div>  
-         <Pagination className="flex justify-end">
-<PaginationContent>
-  <PaginationItem  style={{cursor:'pointer'}}>
-    <PaginationPrevious onClick={handlePrevPage} />
-  </PaginationItem>
-
-  {pageNumbers.map((pageNumber, idx) => ( 
-    <PaginationItem
-    style={{cursor:'pointer'}}
-      key={idx}
-      className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
-    >
-      <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
-
-        {pageNumber}
-      </PaginationLink>
+        </Table>
+       <div className="flex ">
+       <div className=" text-sm text-muted-foreground float-start mb-2">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+      </div>  
+           <Pagination className="flex justify-end">
+  <PaginationContent>
+    <PaginationItem  style={{cursor:'pointer'}}>
+      <PaginationPrevious onClick={handlePrevPage} />
     </PaginationItem>
-  ))}
-  <PaginationItem style={{cursor:'pointer'}}>
-    <PaginationNext onClick={handleNextPage} />
-  </PaginationItem>
-</PaginationContent>
+ 
+    {pageNumbers.map((pageNumber, idx) => ( 
+      <PaginationItem
+      style={{cursor:'pointer'}}
+        key={idx}
+        className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
+      >
+        <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
+
+          {pageNumber}
+        </PaginationLink>
+      </PaginationItem>
+    ))}
+    <PaginationItem style={{cursor:'pointer'}}>
+      <PaginationNext onClick={handleNextPage} />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
 <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
         <label htmlFor="rowsPerPage">Rows per page:</label>
         <input
@@ -351,32 +355,30 @@ return (
           onChange={handleUserInputChange}
         />
       </div>
-</Pagination>
+       </div>
+     
 
-     </div>
-   
-
+      </div>
     </div>
-  </div>
-  <div className="posform">
-    
-    {data && (
-    <div id="modifierDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
+    <div className="posform">
+      
+      {data && (
+      <div id="modifierDiv"></div>
+    )}
+      {data && (
+    <div id="ajouterDiv" style={{transform:"translate(-30px)"}}></div>
   )}
-    {data && (
-      <div id="ajouterDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
-)}
-          {formVisible && (
-            <div className="mb-4">
-              {createPortal(
-                <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
-                document.getElementById('ajouterDiv')
-              )}
-            </div>
-          )}
-</div>
-</div>
-           
-  
-  );
+            {formVisible && (
+              <div className="mb-4">
+                {createPortal(
+                  <FormulaireComponentAgent formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
+                  document.getElementById('ajouterDiv')
+                )}
+              </div>
+            )}
+  </div>
+  </div>
+             
+    
+    );
 }

@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from "react-query";
 import ClientParticulierApi from "@/services/Admin/ClientParticulierApi";
 import ContratApi from "@/services/Admin/ContratApi";
 import AgenceApi from "@/services/Admin/AgenceApi";
+import VehiculeApi from "@/services/Admin/VehiculeApi";
 
 const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
     const queryClient = useQueryClient();
@@ -41,6 +42,13 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
             queryClient.invalidateQueries("Contrats"); // Invalidate the cache after successful deletion
   },
 });
+const deleteVehiculeMutation = useMutation(async (id) => {
+    await VehiculeApi.delete(id);
+}, {
+    onSuccess: () => {
+        queryClient.invalidateQueries("vehicules"); // Invalidate the cache after successful deletion
+    },
+});
     const handleClick = async (id) => {
         try {
             console.log(id)
@@ -55,7 +63,7 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
                 onDeleteSuccess();
             }
             else if(nomApi === "clientparticulier"){
-                console.log("hello")
+                
                 await deleteClientMutation.mutate(id);
                 console.log("client deleted successfully");
                 onDeleteSuccess();
@@ -65,6 +73,12 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
                 console.log("contrat deleted successfully");
                 onDeleteSuccess();
           }
+          else if(nomApi === 'vehicule'){
+            await deleteVehiculeMutation.mutate(id);
+            console.log("contrat deleted successfully");
+            onDeleteSuccess();
+          
+                    }
         } catch (error) {
             if (error.response && error.response.status === 500) {
                 console.error("Internal server error:", error);
