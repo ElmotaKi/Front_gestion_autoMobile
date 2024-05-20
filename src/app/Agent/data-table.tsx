@@ -143,7 +143,7 @@ const pageNumbers = [];
     onGlobalFilterChange: setFiltering,
   });
   let headerContentArray = [];
-
+  
   // Extract and store table header content
   table.getHeaderGroups().forEach(headerGroup => {
       headerGroup.headers.forEach(header => {
@@ -165,7 +165,28 @@ const pageNumbers = [];
   headerContentArray.pop();
   // Now, headerContentArray contains the extracted content
   console.log(headerContentArray);
-  
+  for (let i = 0; i < headerContentArray.length; i++) {
+    if (headerContentArray[i] === "Nom") {
+      headerContentArray[i] = "NomAgent";
+    } else if (headerContentArray[i] === "Prenom") {
+      headerContentArray[i] = "PrenomAgent";
+    } else if (headerContentArray[i] === "Sexe") {
+      headerContentArray[i] = "SexeAgent";
+    } else if (headerContentArray[i] === "Email") {
+      headerContentArray[i] = "EmailAgent";
+    } else if (headerContentArray[i] === "Telephone") {
+      headerContentArray[i] = "TelAgent";
+    } else if (headerContentArray[i] === "Adresse") {
+      headerContentArray[i] = "AdresseAgent";
+    } else if (headerContentArray[i] === "Ville") {
+      headerContentArray[i] = "VilleAgent";
+    } else if (headerContentArray[i] === "Code Postal") {
+      headerContentArray[i] = "CodePostalAgent";
+    }
+    else if (headerContentArray[i] === "Agence") {
+      headerContentArray[i] = "Agence";
+    }
+  }
   const handleExportxlsx = async () => {
       try {
           const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Agent', {columns: headerContentArray }, { responseType: 'blob' });
@@ -234,12 +255,12 @@ const handlePrint = () => {
       </Button>      
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" onClick={handleExportpdf} >
+      <Button className="btn mx-2" onClick={handlePrint} >
       <ImPrinter color="black" />
       </Button>
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" onClick={handlePrint}>
+      <Button className="btn mx-2" onClick={handleExportpdf}>
       <FaFilePdf color="red" />
 
       </Button>

@@ -170,14 +170,28 @@ const pageNumbers = [];
   headerContentArray.pop();
   // Now, headerContentArray contains the extracted content
   console.log(headerContentArray);
-  
+  for (let i = 0; i < headerContentArray.length; i++) {
+    if (headerContentArray[i] === "Nom") {
+      headerContentArray[i] = "NomAgence";
+    } else if (headerContentArray[i] === "Adresse") {
+      headerContentArray[i] = "AdresseAgence";
+    } else if (headerContentArray[i] === "Ville") {
+      headerContentArray[i] = "VilleAgence";
+    } else if (headerContentArray[i] === "Code Postal") {
+      headerContentArray[i] = "CodePostalAgence";
+    } else if (headerContentArray[i] === "Telephone") {
+      headerContentArray[i] = "TelAgence";
+    } else if (headerContentArray[i] === "Email") {
+      headerContentArray[i] = "EmailAgence";
+    }
+  }
   const handleExportxlsx = async () => {
       try {
-          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Agent', {columns: headerContentArray }, { responseType: 'blob' });
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Agence', {columns: headerContentArray }, { responseType: 'blob' });
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'agent.xlsx');
+          link.setAttribute('download', 'agence.xlsx');
           document.body.appendChild(link);
           link.click();
       } catch (error) {
@@ -187,11 +201,11 @@ const pageNumbers = [];
 
   const handleExportpdf = async () => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Agent', { columns: headerContentArray }, { responseType: 'blob' });
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Agence', { columns: headerContentArray }, { responseType: 'blob' });
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'agent.pdf');
+        link.setAttribute('download', 'agence.pdf');
         document.body.appendChild(link);
         link.click();
     } catch (error) {
@@ -200,7 +214,7 @@ const pageNumbers = [];
 };
 
 const handlePrint = () => {
-  axios.post('http://127.0.0.1:8000/api/print/Agent', { columns: headerContentArray })
+  axios.post('http://127.0.0.1:8000/api/print/Agence', { columns: headerContentArray })
     .then((response) => {
       // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
       window.open(response.data.url, '_blank');

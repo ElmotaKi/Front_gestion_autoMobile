@@ -234,12 +234,12 @@ const handlePrint = () => {
       </Button>      
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" onClick={handleExportpdf} >
+      <Button className="btn mx-2" onClick={handlePrint} >
       <ImPrinter color="black" />
       </Button>
     </div>
     <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" onClick={handlePrint}>
+      <Button className="btn mx-2" onClick={handleExportpdf}>
       <FaFilePdf color="red" />
 
       </Button>

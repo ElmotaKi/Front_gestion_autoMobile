@@ -84,79 +84,79 @@ export const columns = [
     enableHiding: false,
   },
   {
-    id:"NomAgence",
+    id:"Nom",
     accessorKey: "NomAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-       NomAgence
+       Nom
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"AdresseAgence",
+    id:"Adresse",
     accessorKey: "AdresseAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-       AdresseAgence
+       Adresse
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"VilleAgence",
+    id:"Ville",
     accessorKey: "VilleAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        VilleAgence
+        Ville
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"CodePostalAgence",
+    id:"Code Postal",
     accessorKey: "CodePostalAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        CodePostalAgence
+        Code Postal
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"TelAgence",
+    id:"Telephone",
     accessorKey: "TelAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-       TelAgence
+       Telephone
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
-    id:"EmailAgence",
+    id:"Email",
     accessorKey: "EmailAgence",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-       EmailAgence
+       Email
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
