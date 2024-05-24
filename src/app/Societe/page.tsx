@@ -3,7 +3,7 @@ import { useQuery, QueryClient, QueryClientProvider } from "react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import SocieteApi from "@/services/Admin/SocieteApi";
-
+import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 const queryClient = new QueryClient(); // Creating a new instance of QueryClient
 
 const DemoPageSociete = () => {
@@ -12,7 +12,22 @@ const DemoPageSociete = () => {
     
     console.log(societesData);
     
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return (
+        <div
+        className="flex items-center"
+            style={{
+                position: 'absolute', 
+                top: '15rem', 
+                left: '40rem', 
+                 }}
+        >
+           
+           <FaSpinner className="animate-spin mr-2" /> 
+           loading...
+            
+
+        </div>
+    );
     if (isError) return <div>Error fetching data</div>;
 
     const onDeleteSuccess = () => {

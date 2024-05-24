@@ -32,6 +32,7 @@ export const columns = [
           <DropdownMenuItem key="Capacite">Capacite</DropdownMenuItem>
           <DropdownMenuItem key="pannes">Pannes</DropdownMenuItem>
           <DropdownMenuItem key="PlaceRestantes">PlaceRestantes</DropdownMenuItem>
+          <DropdownMenuItem key="Lieu">Lieu</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
@@ -94,6 +95,20 @@ export const columns = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         PlaceRestantes
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    Cell: ({ value }) => <span>{value}</span>,
+  },
+  {
+    id: "Lieu",
+    accessorKey: "Lieu",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Lieu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),

@@ -16,31 +16,41 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import VehiculeApi from '@/services/Admin/VehiculeApi'
-import { useMutation,QueryCache, useQueryClient } from 'react-query';
+import AgenceApi from '@/services/Admin/AgenceApi';
+import ParkingApi from '@/services/Admin/ParkingApi';
+import { Alert, FormSelect } from 'react-bootstrap';
+import { useMutation,QueryCache, useQueryClient,useQuery } from 'react-query';
+
 function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient()
+  const { data: agences} = useQuery('agences',AgenceApi.getAll);
+  const { data: parkings} = useQuery('parkings',ParkingApi.all);
+  const uniqueParkings = parkings && parkings.data
+  ? Array.from(new Set(parkings.data.map(parking => parking.Lieu)))
+      .map(lieu => parkings.data.find(parking => parking.Lieu === lieu))
+  : [];
           // Validation du champ username
           const formSchema = z.object({
-            Marque: z.string().max(50),
-            Model: z.string().max(50),
-            Categorie: z.string().max(50),
-            Kilometrage: z.coerce.number().max(50),
-            Pneumatique: z.string().max(50),
-            NumeroDechassis: z.string().max(50),
-            Immatriculation: z.string().max(50),
-            DateD_achat: z.string().max(50),
-            numeroDePlace: z.coerce.number().max(50),
+            Marque: z.string(),
+            Model: z.string(),
+            Categorie: z.string(),
+            Kilometrage: z.coerce.number(),
+            Pneumatique: z.string(),
+            NumeroDechassis: z.string(),
+            Immatriculation: z.string(),
+            DateD_achat: z.string(),
+            numeroDePlace: z.coerce.number(),
             Disponibilité: z.enum(['oui', 'non']),
-            jourTitulaire: z.string().max(50),
-            Montant: z.coerce.number().max(50),
-            MontantRestantApayer: z.coerce.number().max(50),
-            ImageVoiture: z.string().max(50),
+            jourTitulaire: z.string(),
+            Montant: z.coerce.number(),
+            MontantRestantApayer: z.coerce.number(),
+            ImageVoiture: z.string(),
             typeBoiteVitesse: z.enum(['manuelle', 'automatique']),
-            annee: z.string().max(50),
-            placeAssure: z.coerce.number().max(50),
-            typeCarburant: z.string().max(50),
-            id_agence: z.coerce.number().max(50),
-            id_parking: z.coerce.number().max(50),
+            annee: z.string(),
+            placeAssure: z.coerce.number(),
+            typeCarburant: z.string(),
+            id_agence: z.coerce.number(),
+            id_parking: z.coerce.number(),
           });
           
        
@@ -127,6 +137,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
               await updateVehiculeMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             } else if (methode === 'create') {
+               
               await createVehiculeMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             }
@@ -164,7 +175,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                 name="Marque"
                render={({ field }) => (
                <FormItem>
-               <FormLabel>Marque</FormLabel>
+               <FormLabel style={{marginLeft: "-140px"}}>Marque</FormLabel>
                <FormControl>
               <Input placeholder="Entrez le Marque" {...field} />
               </FormControl>
@@ -179,7 +190,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                     name="Model"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Model</FormLabel>
+                        <FormLabel style={{marginLeft: "-149px"}}>Model</FormLabel>
                         <FormControl>
                             <Input type='text' placeholder="Entrez le Model" {...field} />
                         </FormControl>
@@ -197,7 +208,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                         name="Categorie"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Categorie</FormLabel>
+                            <FormLabel style={{marginLeft: "-130px"}}>Categorie</FormLabel>
                             <FormControl>
                                 <Input type="text" placeholder="Entrez Categorie" {...field} />
                             </FormControl>
@@ -213,7 +224,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                         name="Kilometrage"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Kilometrage</FormLabel>
+                            <FormLabel style={{marginLeft: "-120px"}}>Kilometrage</FormLabel>
                             <FormControl>
                                 <Input type="number" placeholder="Entrez Kilometrage" {...field} />
                             </FormControl>
@@ -230,7 +241,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                         name="Pneumatique"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Pneumatique</FormLabel>
+                            <FormLabel style={{marginLeft: "-105px"}}>Pneumatique</FormLabel>
                             <FormControl>
                                 <Input type="text" placeholder="Entrez le Pneumatique" {...field} />
                             </FormControl>
@@ -244,7 +255,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                                 name="NumeroDechassis"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>NumeroDechassis</FormLabel>
+                                    <FormLabel style={{marginLeft: "-70px"}}>NumeroDechassis</FormLabel>
                                     <FormControl>
                                         <Input type='text' placeholder="Entrez  NumeroDechassis" {...field} />
                                     </FormControl>
@@ -261,7 +272,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="Immatriculation"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> Immatriculation</FormLabel>
+                                <FormLabel style={{marginLeft: "-80px"}}> Immatriculation</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Entrez  Immatriculation" {...field} />
                                 </FormControl>
@@ -276,7 +287,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                                     name="DateD_achat"
                                     render={({ field }) => (
                                         <FormItem>
-                                        <FormLabel>DateD_achat</FormLabel>
+                                        <FormLabel style={{marginLeft: "-110px"}}>DateD_achat</FormLabel>
                                         <FormControl>
                                             <Input type='date' typeplaceholder="Entrez DateD_achat" {...field} />
                                         </FormControl>
@@ -294,7 +305,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="numeroDePlace"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>numeroDePlace</FormLabel>
+                                <FormLabel style={{marginLeft: "-75px"}}>numeroDePlace</FormLabel>
                                 <FormControl>
                                     <Input type="number" placeholder="Entrez numeroDePlace" {...field} />
                                 </FormControl>
@@ -309,7 +320,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
         name="Disponibilité"
         render={({ field }) => (
             <FormItem>
-                <FormLabel>Disponibilité</FormLabel>
+                <FormLabel style={{marginLeft: "-110px"}}>Disponibilité</FormLabel>
                 <FormControl>
                 <div>
                                   <select {...field}>
@@ -333,7 +344,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="jourTitulaire"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> jourTitulaire</FormLabel>
+                                <FormLabel style={{marginLeft: "-110px"}}> jourTitulaire</FormLabel>
                                 <FormControl>
                                     <Input type='date' placeholder="Entrez  jourTitulaire" {...field} />
                                 </FormControl>
@@ -349,7 +360,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="Montant"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> Montant</FormLabel>
+                                <FormLabel style={{marginLeft: "-140px"}}> Montant</FormLabel>
                                 <FormControl>
                                     <Input type='number' placeholder="Entrez  Montant" {...field} />
                                 </FormControl>
@@ -365,7 +376,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="MontantRestantApayer"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> MontantRestantApayer</FormLabel>
+                                <FormLabel style={{marginLeft: "-30px"}}> MontantRestantApayer</FormLabel>
                                 <FormControl>
                                     <Input  type='number' placeholder="Entrez  MontantRestantApayer" {...field} />
                                 </FormControl>
@@ -379,7 +390,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="typeBoiteVitesse"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> typeBoiteVitesse</FormLabel>
+                                <FormLabel style={{marginLeft: "-80px"}}> typeBoiteVitesse</FormLabel>
                                 <FormControl>
                                 <div>
                                   <select {...field}>
@@ -401,7 +412,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="annee"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> annee</FormLabel>
+                                <FormLabel style={{marginLeft: "-145px"}}> annee</FormLabel>
                                 <FormControl>
                                     <Input  type='number' placeholder="Entrez  annee" {...field} />
                                 </FormControl>
@@ -415,7 +426,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="placeAssure"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> placeAssure</FormLabel>
+                                <FormLabel style={{marginLeft: "-110px"}}> placeAssure</FormLabel>
                                 <FormControl>
                                     <Input type='number' placeholder="Entrez  placeAssure" {...field} />
                                 </FormControl>
@@ -432,7 +443,7 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                             name="typeCarburant"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> typeCarburant</FormLabel>
+                                <FormLabel style={{marginLeft: "-90px"}}> typeCarburant</FormLabel>
                                 <FormControl>
                                     <Input placeholder="Entrez  typeCarburant" {...field} />
                                 </FormControl>
@@ -440,46 +451,64 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
                                 </FormItem>
                             )}
                             />
-                    </td>
-                    <td>
-                    <FormField
-                            control={form.control}
-                            name="id_agence"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel> id_agence</FormLabel>
-                                <FormControl>
-                                    <Input type='number' placeholder="Entrez  id_agence" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                    </td>
+                    </td>    
+    
+    <td>
+    <FormField
+        control={form.control}
+        name="id_agence"
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel style={{ marginLeft: "-144px" }}>Agence</FormLabel><br />
+                <FormControl>
+                    <FormSelect {...field} className="form-select">
+                        <option value="">Sélectionnez une agence</option>
+                        {agences && agences.data && agences.data[1].map((agency) => (
+                            <option key={agency.id} value={agency.id}>
+                                {agency.NomAgence}
+                            </option>
+                        ))}
+                    </FormSelect>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+    />
+</td>
+
+                           
+                    
                  </tr>
                  <tr>
-                    <td>
-                    <FormField
-                            control={form.control}
-                            name="id_parking"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel> id_parking</FormLabel>
-                                <FormControl>
-                                    <Input type='number' placeholder="Entrez  id_parking" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            />
-                    </td>
+                 <td>
+    <FormField
+        control={form.control}
+        name="id_parking"
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel style={{ marginLeft: "-123px" }}>Lieu Parking</FormLabel><br />
+                <FormControl>
+                    <FormSelect {...field} className="form-select">
+                        <option value="">Sélectionnez lieu parking</option>
+                        {uniqueParkings.map((parking) => (
+                            <option key={parking.id} value={parking.id}>
+                                {parking.Lieu}
+                            </option>
+                        ))}
+                    </FormSelect>
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        )}
+    />
+</td>
                     <td>
                     <FormField
                             control={form.control}
                             name="ImageVoiture"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel> ImageVoiture</FormLabel>
+                                <FormLabel style={{marginLeft: "-100px"}}> ImageVoiture</FormLabel>
                                 <FormControl>
                                     <Input type='file' placeholder="Entrez  ImageVoiture" {...field} />
                                 </FormControl>
@@ -492,10 +521,14 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
         </tbody>
     </table>
     {/* Submit Button */}
-    <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{titre}</Button>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-   </div>
+    <div  className='flex items-center' style={{marginTop:'10px'}}>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px',marginRight:'40px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+              </div>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+              </div>
+      </div>
   </form>  
 </div>
 </div>

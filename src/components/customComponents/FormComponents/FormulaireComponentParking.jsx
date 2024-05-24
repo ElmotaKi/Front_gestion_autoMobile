@@ -34,6 +34,9 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
           pannes:z.string().min(2, {
             message: "pannes must be at least 2 characters.",
           }),
+          Lieu:z.string().min(2, {
+            message: "Lieu must be at least 2 characters.",
+          }),
         });
         
         const form = useForm({
@@ -44,7 +47,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
               Capacite: "",
               PlaceRestantes: "",
               pannes: "",
-              
+              Lieu: "",
             },
           },
         });
@@ -54,6 +57,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
               Capacite: dataLibaghi.Capacite || "",
               PlaceRestantes: dataLibaghi.PlaceRestantes || "",
               pannes: dataLibaghi.pannes || "",
+              Lieu:dataLibaghi.Lieu || "",
             });
           }
         },[dataLibaghi]);
@@ -85,6 +89,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
               await updateParkingMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             } else if (methode === 'create') {
+              console.log('data dyali',formData)
               await createParkingMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             }
@@ -101,8 +106,8 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
      
     <Form {...form}>
      
-<div style={{transform:"translatex(18rem)"}}>
-<div  className={`form-container ${value ? 'slide-in' : 'slide-out'}`}>
+<div>
+<div  className={`${value ? 'slide-in' : 'slide-out'}`}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'20rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 
 <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
@@ -115,7 +120,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
                 name="Capacite"
                render={({ field }) => (
                <FormItem>
-               <FormLabel>Capacité</FormLabel>
+               <FormLabel style={{marginLeft: "-100px"}}>Capacité</FormLabel>
                <FormControl>
               <Input placeholder="Entrez la capacité" {...field} />
               </FormControl>
@@ -130,7 +135,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
                     name="PlaceRestantes"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Places Restantes</FormLabel>
+                        <FormLabel style={{marginLeft: "-70px"}}>Places Restantes</FormLabel>
                         <FormControl>
                             <Input placeholder="Entrez les Places Restantes" {...field} />
                         </FormControl>
@@ -147,7 +152,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
                         name="pannes"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>pannes</FormLabel>
+                            <FormLabel style={{marginLeft: "-130px"}}>pannes</FormLabel>
                             <FormControl>
                                 <Input placeholder="Entrez les pannes" {...field} />
                             </FormControl>
@@ -155,17 +160,34 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
                             </FormItem>
                         )}
                         /></td>
-                        
+                        <td>{/* pannes */}
+                        <FormField
+                        control={form.control}
+                        name="Lieu"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel style={{marginLeft: "-160px"}}>Lieu</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Entrez le Lieu" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        /></td>
                  </tr>
                 
                  
         </tbody>
     </table>
     {/* Submit Button */}
-    <div className='btn' style={{marginTop:'-1px'}}>
-      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
-      <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-    </div>
+    <div  className='flex items-center' style={{marginTop:'10px'}}>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px',marginRight:'40px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+              </div>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+              </div>
+      </div>
   </form>  
 </div>
 </div>

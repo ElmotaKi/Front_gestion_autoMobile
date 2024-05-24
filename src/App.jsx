@@ -12,6 +12,10 @@ import DemoPageSociete from "./app/Societe/page";
 import DemoPageCommercial from "./app/Commercial/page";
 import DemoPageVehicule from "./app/Vehicule/page";
 import Aaaaaa from "./app/ClientPar/client";
+import DemoPageVidange from "./app/Vidange/page";
+import DemoPageAssurance from "./app/Assurance/page";
+import DemoPageVignette from "./app/Vignette/page";
+import DemoPageVisite from "./app/VisiteTechnique/page";
 const queryClient = new QueryClient(); 
 const App = () => {
   return (
@@ -22,14 +26,17 @@ const App = () => {
   <Route element={<Home/>}>
   <Route path="/dashboard" element={<Dashboard/>} />
   <Route path="/agents" element={<DemoPageAgent/>} />
-  * <Route path="/ClientParticulier" element={<Aaaaaa />} />
+   <Route path="/ClientParticulier" element={<Aaaaaa />} />
    <Route path="/societes" element={<DemoPageSociete/>} />
   <Route path="/commerciaux" element={<DemoPageCommercial/>} /> 
   <Route path="/contrat" element={<DemoPageContrat/>} />
   <Route path="/agence" element={<DemoPageAgence/>} />
    <Route path="/parking" element={<DemoPageParkings/>} />
   <Route path="/vehicules" element={<DemoPageVehicule/>} /> 
-        
+  <Route path="/Vidange" element={<DemoPageVidange/>} /> 
+  <Route path="/Assurance" element={<DemoPageAssurance/>} /> 
+  <Route path="/vignettes" element={<DemoPageVignette/>} /> 
+  <Route path="/visitetechnique" element={<DemoPageVisite/>}/>
   </Route>
 </Routes>
 

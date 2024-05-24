@@ -345,16 +345,18 @@ const handlePrint = () => {
       <PaginationNext onClick={handleNextPage} />
     </PaginationItem>
   </PaginationContent>
-</Pagination>
-<div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label htmlFor="rowsPerPage">Rows per page:</label>
+  <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Nombre lignes par Pages:</label>
         <input
+        style={{width:'3rem'}}
           type="number"
           id="rowsPerPage"
           value={userInput}
           onChange={handleUserInputChange}
         />
       </div>
+</Pagination>
+
        </div>
      
 

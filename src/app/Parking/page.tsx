@@ -3,11 +3,26 @@ import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import ParkingApi from "@/services/Admin/ParkingApi";
-
+import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 const DemoPageParkings = () => {
     const { isLoading, isError, data: parkingData, refetch } = useQuery("parkings", fetchData);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return (
+        <div
+        className="flex items-center"
+            style={{
+                position: 'absolute', 
+                top: '15rem', 
+                left: '40rem', 
+                 }}
+        >
+           
+           <FaSpinner className="animate-spin mr-2" /> 
+           loading...
+            
+
+        </div>
+    );
     if (isError) return <div>Error fetching data</div>;
 
     const onDeleteSuccess = () => {
@@ -26,7 +41,8 @@ const DemoPageParkings = () => {
             id: parking.id,
             Capacite: parking.Capacite,
             pannes: parking.pannes,
-            PlaceRestantes: parking.PlaceRestantes
+            PlaceRestantes: parking.PlaceRestantes,
+            Lieu: parking.Lieu
         }));
 
         return filteredData;

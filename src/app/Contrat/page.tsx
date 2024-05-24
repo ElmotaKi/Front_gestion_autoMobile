@@ -3,13 +3,28 @@ import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import ContratApi from "@/services/Admin/ContratApi";
-
+import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 
 const DemoPageContrat = () => {
     const { isLoading, isError, data: contratData, refetch } = useQuery("Contrats", fetchData);
     // hook notifikasyo
   
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return (
+        <div
+        className="flex items-center"
+            style={{
+                position: 'absolute', 
+                top: '15rem', 
+                left: '40rem', 
+                 }}
+        >
+           
+           <FaSpinner className="animate-spin mr-2" /> 
+           loading...
+            
+
+        </div>
+    );
     if (isError) return <div>Error fetching data</div>;
 
     const onDeleteSuccess = () => {

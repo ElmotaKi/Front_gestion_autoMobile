@@ -13,45 +13,46 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import DemoPageClient from "../ClientParticulier/page";
 import DemoPageSociete from "../Societe/page";
+
 
 
 function Aaaaaa(){
   const [estVisibleClient, setEstVisibleClient] = useState(true);
   const [estVisibleSociete, setEstVisibleSociete] = useState(false);
 
-  function clientVisible(){
-    setEstVisibleClient(true);
-    setEstVisibleSociete(false);
-  }
-
-  function societeVisible(){
-    setEstVisibleClient(false);
-    setEstVisibleSociete(true);
-  }
+    const handleSelectChange = (value) => {
+      if (value === 'ClientParticulier') {
+        setEstVisibleClient(true);
+        setEstVisibleSociete(false);
+      } else if (value === 'ClientSociete') {
+        setEstVisibleClient(false);
+        setEstVisibleSociete(true);
+      }
+    };
 
   return (
     <div>
-      <div className=" aaaa ">
-        <DropdownMenu >
       
-        <DropdownMenuTrigger style={{position:"relative",left:"27.9em"}}  className="h-10  button rounded bg-gray-700 text-white  px-3 font-bold">
-        Choisissez un Client
-    </DropdownMenuTrigger>
-      
-        
-  <DropdownMenuContent>
-    <DropdownMenuLabel>Type Client</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem onClick={clientVisible}>ClientParticulier</DropdownMenuItem>
-    <DropdownMenuItem onClick={societeVisible}>ClientSociete</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-      </div>
-    
-
-
+     <div style={{position:'relative',left:'84%',marginTop:'6px'}}>
+      <Select onValueChange={handleSelectChange}>
+        <SelectTrigger className="w-[180px] ">
+          <SelectValue placeholder="Type Client" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="ClientParticulier">ClientParticulier</SelectItem>
+          <SelectItem value="ClientSociete">ClientSociete</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
       {estVisibleClient && <DemoPageClient />}
       {estVisibleSociete && <DemoPageSociete />}
       </div>

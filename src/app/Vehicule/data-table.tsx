@@ -5,7 +5,7 @@ import  '../../App.css';
 import './btn.css'
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
-import { Form } from 'react-bootstrap';
+
 
 import {
   flexRender,
@@ -63,10 +63,15 @@ export function DataTable({
   const [filtering, setFiltering] = useState('');
   const [nombreligne,setnombreligne] = useState(4);
   const [postsPerPage, setPostsPerPage] = useState(4);
-       const handleChange = (e) => {
-       setnombreligne(Number(e.target.value));
-       setPostsPerPage(Number(e.target.value));
-       }
+  const [userInput, setUserInput] = useState(''); 
+  const handleUserInputChange = (e) => {
+    setUserInput(e.target.value);
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber > 0) {
+      setPostsPerPage(inputNumber);
+      setCurrentPage(1); // Reset to first page when changing rows per page
+    }
+  };
   
   //Pour les columns filter restent affichées
   const [menuOpen, setMenuOpen] = useState(false);
@@ -341,10 +346,16 @@ return (
     <PaginationNext onClick={handleNextPage} />
   </PaginationItem>
 </PaginationContent>
-        <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label className="mr-5">nombre Lignes par page</label>
-        <input type="number" style={{width:'2rem'}} value={nombreligne} onChange={handleChange}   />
-        </div>
+<div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Nombre lignes par Pages</label>
+        <input
+        style={{width:'3rem'}}
+          type="number"
+          id="rowsPerPage"
+          value={userInput}
+          onChange={handleUserInputChange}
+        />
+      </div>
 </Pagination>
      
      </div>

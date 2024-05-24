@@ -231,10 +231,14 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
               </tbody>
             </table>
             {/* Submit Button */}
-            <div className='btn' style={{ marginTop: '-1px' }}>
-              <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} type="submit" >Soumettre</Button>
-              <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} onClick={change} type="reset">Annuler</Button>
-            </div>
+            <div  className='flex items-center' style={{marginTop:'10px'}}>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px',marginRight:'40px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+              </div>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+              </div>
+      </div>
           </form>
         </div>
       </div>

@@ -13,9 +13,9 @@ const SocieteApi = {
     });
   },
   delete: async (id, queryClient) => {
-    
     await axiosClient.delete(`societes/${id}`); // Added backticks for string interpolation
-    queryClient.invalidateQueries("societes");
+    // console.log(queryClient)
+    // queryClient.invalidateQueries("societes");
   },
   getById: async (id) => { 
     return await axiosClient.get(`societes/${id}`);

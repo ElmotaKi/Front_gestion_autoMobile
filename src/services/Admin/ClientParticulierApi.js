@@ -11,6 +11,7 @@ const ClientParticulierApi = {
     },
     delete: async (id, queryClient) => {
         return await axiosClient.delete(`ClientParticuliers/${id}`);
+        
         queryClient.invalidateQueries("ClientParticuliers");
     },
     all: async (columns = []) => {

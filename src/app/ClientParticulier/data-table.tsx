@@ -348,8 +348,9 @@ return (
   </PaginationItem>
 </PaginationContent>
 <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <label htmlFor="rowsPerPage">Nombre lignes par Pages:</label>
         <input
+        style={{width:'3rem'}}
           type="number"
           id="rowsPerPage"
           value={userInput}

@@ -5,8 +5,6 @@ import  '../../App.css';
 import './btn.css'
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
-import { Form } from 'react-bootstrap';
-import FormulaireComponentAgent from "@/components/customComponents/FormComponents/FormulaireComponentAgent";
 
 import {
   flexRender,
@@ -360,8 +358,9 @@ return (
   </PaginationItem>
 </PaginationContent>
 <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label htmlFor="rowsPerPage">Rows per page:</label>
+        <label htmlFor="rowsPerPage">Nombre lignes par Pages:</label>
         <input
+        style={{width:'3rem'}}
           type="number"
           id="rowsPerPage"
           value={userInput}

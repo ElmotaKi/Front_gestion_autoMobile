@@ -23,6 +23,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
   const { data: societes} = useQuery('societes', SocieteApi.get);
+
   const change = () => {
     setValue(!value);
   };
@@ -117,9 +118,11 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
   const submitHandler = async (formData) => {
     try {
       if (methode === 'update') {
+       
         await updatecommercialMutation.mutateAsync(formData);
         console.log('Formulaire soumis avec succès');
       } else if (methode === 'create') {
+        console.log('my data',formData)
         await createcommercialMutation.mutateAsync(formData);
         console.log('Formulaire soumis avec succès');
       }
@@ -250,7 +253,7 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                       name="Adresse"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel  style={{marginLeft: "-1px"}}>Adresse</FormLabel>
+                          <FormLabel  style={{marginLeft: "-140px"}}>Adresse</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez l adresse" {...field} />
                           </FormControl>
@@ -279,10 +282,10 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
                   <td>
                     <FormField
                       control={form.control}
-                      name="societe"
+                      name="id_societe"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel  style={{marginLeft: "-30px"}}>Societe</FormLabel>
+                          <FormLabel  style={{marginLeft: "-40px"}}>Societe</FormLabel>
                           <FormControl>     
                           <FormSelect {...field} className="form-select">
                         <option value="">Selectionnez une societe</option>
@@ -305,10 +308,14 @@ function FormulaireComponentcommercial({ formVisible, titre, dataLibaghi, method
               </tbody>
             </table>
             {/* Submit Button */}
-            <div className='btn' style={{ marginBottom: '10px' }}>
-              <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} type="submit" >Soumettre</Button>
-              <Button style={{ color: 'white', width: ' 4rem', fontSize: '12px' }} onClick={change} type="reset">Annuler</Button>
-            </div>
+            <div  className='flex items-center' style={{marginTop:'10px'}}>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px',marginRight:'40px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+              </div>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+              </div>
+      </div>
           </form>
         </div>
       </div>

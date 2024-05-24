@@ -32,7 +32,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-
+import { createPortal } from "react-dom";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -80,10 +80,12 @@ export function DataTable({
   //
 
   const [formVisible, setFormVisible] = useState(false);
+  const [tableWidth, setTableWidth] = useState("100%");
+
   const toggleForm = () => {
     const newValue = !formVisible;
     setFormVisible(newValue);
-    
+    setTableWidth(newValue? "30%":"100%");
     };
 
 
@@ -203,160 +205,179 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
-  return (
-    <div >
-    <div id="modifierDiv" style={{transform:"translateY(3rem)"}}></div>
-    <div>
-    <div className="flex items-center mt-4 mb-4">
-      <div className="mr-auto">
-     
-        
-           <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
-               Ajouter
-                 <Plus className="ml-2 h-4 w-4" />
-           </Button>
-           {formVisible && <FormulaireComponentParking formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>}
-      
-      </div>
-      <div style={{transform:"translateY(-22px)"}}>
-              <Input
-            placeholder="Rechercher..."
-            value={filtering}
-            onChange={(e) => setFiltering(e.target.value)}
-            className="w-96"
-          />
-        </div>
-      <div style={{transform:"translateY(-22px)"}}>
-      <Button className="btn mx-2" onClick={handleExportxlsx}>
-      <FaFileExcel  color="green"/>
-      
-        </Button>
-        
-        
-      </div>
-    
-      <div style={{transform:"translateY(-22px)"}}>
-        <Button className="btn mx-2"  onClick={handlePrint}>
-        <ImPrinter color="black" />
-        </Button>
-      </div>
-     
-    
-      <div style={{transform:"translateY(-22px)"}}>
-        <Button className="btn mx-2" onClick={handleExportpdf}>
-        <FaFilePdf color="red" />
-  
-        </Button>
-      </div>
-      <div style={{transform:"translateY(-22px)"}}>
-        <Button className="btn mx-5 w-2">
-        <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
-        <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
-          <Button className="btn ">
-          <Settings color="black" />
-           
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" onClick={handleMenuOpen}>
-          {table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => (
-              <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
-              >
-                {column.id}
-              </DropdownMenuCheckboxItem>
-            ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-      
-  
-        </Button>
-      </div>
+return (
+  <div style={{display:"flex",width:"100%"}}>
+  <div style={{"flex":1,width:tableWidth}}>
+  <div>
+  <div className="flex items-center mt-4 mb-4">
+  <div className="mr-auto" >
+  <Button variant="destructive" onClick={toggleForm} className="ml-auto" style={{transform:"translateY(-22px)"}}>
+           Ajouter
+             <Plus className="ml-2 h-4 w-4" />
+       </Button>
   </div>
-      </div>
-        <div className="rounded-md border" >
-          <Table >
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  ))}
-                </TableRow>
+  <div style={{transform:"translateY(-22px)"}}>
+          <Input
+        placeholder="Rechercher..."
+        value={filtering}
+        onChange={(e) => setFiltering(e.target.value)}
+        className="w-96"
+      />
+    </div>
+    <div style={{transform:"translateY(-22px)"}}>
+  <Button className="btn mx-2" onClick={handleExportxlsx}>
+  <FaFileExcel  color="green"/>
+    </Button>      
+  </div>
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2"  onClick={handlePrint}>
+    <ImPrinter color="black" />
+    </Button>
+  </div>
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-2" onClick={handleExportpdf}>
+    <FaFilePdf color="red" />
+
+    </Button>
+  </div>
+    
+  <div style={{transform:"translateY(-22px)"}}>
+    <Button className="btn mx-5 w-2">
+    <DropdownMenu onOpenChange={setMenuOpen} open={menuOpen}>
+    <DropdownMenuTrigger onClick={handleMenuOpen} asChild>
+      <Button className="btn ">
+      <Settings color="black" />
+       
+      </Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end" onClick={handleMenuOpen}>
+      {table
+        .getAllColumns()
+        .filter((column) => column.getCanHide())
+        .map((column) => (
+          <DropdownMenuCheckboxItem
+            key={column.id}
+            className="capitalize"
+            checked={column.getIsVisible()}
+            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+          >
+            {column.id}
+          </DropdownMenuCheckboxItem>
+        ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+  
+
+    </Button>
+  </div>
+</div>
+    
+  </div>
+
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </TableHead>
               ))}
-            </TableHeader>
-            <TableBody>
-            {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
-    <TableRow
-      key={row.id}
-      data-state={row.getIsSelected() && "selected"}
-    >
-      {row.getVisibleCells().map((cell,index) => (
-        <TableCell key={cell.id}  ignoreBorder={index <= 2}>
-          {flexRender(
-            cell.column.columnDef.cell,
-            cell.getContext()
-          )}
-        </TableCell>
-      ))}
-    </TableRow>
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+        {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
+<TableRow
+  key={row.id}
+  data-state={row.getIsSelected() && "selected"}
+>
+  {row.getVisibleCells().map((cell,index) => (
+    <TableCell key={cell.id} >
+      {flexRender(
+        cell.column.columnDef.cell,
+        cell.getContext()
+      )}
+    </TableCell>
   ))}
   
-          </TableBody>
-          <TableCaption>
-            
-          </TableCaption>
-          </Table>
+</TableRow>
+
+))}
+
+      </TableBody>
+      <TableCaption>
+        
+      </TableCaption>
+      
+      </Table>
+     <div className="flex ">
+     <div className=" text-sm text-muted-foreground float-start mb-2">
+      {table.getFilteredSelectedRowModel().rows.length} of{" "}
+      {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
+    </div>  
+         <Pagination  className="flex justify-end">
          
-          <Pagination className="flex justify-end">
-          <div className=" text-sm text-muted-foreground float-start mb-2">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
-      </div> 
-    <PaginationContent>
-      <PaginationItem  style={{cursor:'pointer'}}>
-        <PaginationPrevious onClick={handlePrevPage} />
-      </PaginationItem>
-   
-      {pageNumbers.map((pageNumber, idx) => ( 
-        <PaginationItem
-        style={{cursor:'pointer'}}
-          key={idx}
-          className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
-        >
-          <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
-  
-            {pageNumber}
-          </PaginationLink>
-        </PaginationItem>
-      ))}
-      <PaginationItem style={{cursor:'pointer'}}>
-        <PaginationNext onClick={handleNextPage} />
-      </PaginationItem>
-    </PaginationContent>
-    <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label htmlFor="rowsPerPage">Rows per page:</label>
+<PaginationContent>
+  <PaginationItem  style={{cursor:'pointer'}}>
+    <PaginationPrevious onClick={handlePrevPage} />
+  </PaginationItem>
+
+  {pageNumbers.map((pageNumber, idx) => ( 
+    <PaginationItem
+    style={{cursor:'pointer'}}
+      key={idx}
+      className={currentPage === pageNumber ? "bg-neutral-100 rounded-md" : ""} 
+    >
+      <PaginationLink onClick={() => setCurrentPage(pageNumber)}>
+
+        {pageNumber}
+      </PaginationLink>
+    </PaginationItem>
+  ))}
+  <PaginationItem style={{cursor:'pointer'}}>
+    <PaginationNext onClick={handleNextPage} />
+  </PaginationItem>
+</PaginationContent>
+<div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+        <label htmlFor="rowsPerPage">Nombre lignes par Pages</label>
         <input
+        style={{width:'3rem'}}
           type="number"
           id="rowsPerPage"
           value={userInput}
           onChange={handleUserInputChange}
         />
       </div>
-  </Pagination>
-
-       
-                </div>
-      </div>
-      
-    );
+</Pagination>
+     
+     </div>
+   
+    
+    </div>
+  </div>
+  <div className="posform">
+    
+    {data && (
+    <div id="modifierDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
+  )}
+    {data && (
+      <div id="ajouterDiv" style={{ transform: "translateY(-30px) translateX(-50px)" }}></div>
+)}
+          {formVisible && (
+            <div className="mb-4">
+              {createPortal(
+                <FormulaireComponentParking formVisible={true} titre={'Ajouter'} dataLibaghi={null} methode={"create"}/>,
+                document.getElementById('ajouterDiv')
+              )}
+            </div>
+          )}
+</div>
+</div>
+           
+  
+  );
   }

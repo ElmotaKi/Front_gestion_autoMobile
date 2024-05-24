@@ -3,13 +3,28 @@ import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import AgentApi from "@/services/Admin/AgentApi";
-
+import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 
 const DemoPageAgent = () => {
     const { isLoading, isError, data: agentsData, refetch } = useQuery("agents", fetchData);
     // hook notifikasyo
   console.log(agentsData)
-    if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return (
+    <div
+    className="flex items-center"
+        style={{
+            position: 'absolute', 
+            top: '15rem', 
+            left: '40rem', 
+             }}
+    >
+       
+       <FaSpinner className="animate-spin mr-2" /> 
+       loading...
+        
+
+    </div>
+);
     if (isError) return <div>Error fetching data</div>;
 
     const onDeleteSuccess = () => {

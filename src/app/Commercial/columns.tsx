@@ -43,7 +43,6 @@ export type Commercial = {
   Adresse:string;
   Ville:string;
   RaisonSocial:string
-  
 };
 const onDeleteSuccess = () => {
   // Placeholder function to trigger data refresh
@@ -70,6 +69,7 @@ export const columns = [
             <DropdownMenuItem key="Tel">Tel</DropdownMenuItem>
             <DropdownMenuItem key="Adresse">Adresse</DropdownMenuItem>
             <DropdownMenuItem key="Ville">Ville</DropdownMenuItem>
+            <DropdownMenuItem key="RaisonSocial">RaisonSocial</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ),

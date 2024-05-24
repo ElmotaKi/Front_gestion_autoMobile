@@ -152,7 +152,7 @@ function FormulaireComponentAgence({
                       name="NomAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nom</FormLabel>
+                          <FormLabel style={{marginLeft: "-160px"}}>Nom</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez le nom" {...field} />
                           </FormControl>
@@ -168,7 +168,7 @@ function FormulaireComponentAgence({
                       name="AdresseAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Adresse</FormLabel>
+                          <FormLabel style={{marginLeft: "-142px"}}>Adresse</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez l'adresse" {...field} />
                           </FormControl>
@@ -186,7 +186,7 @@ function FormulaireComponentAgence({
                       name="VilleAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Ville</FormLabel>
+                          <FormLabel style={{marginLeft: "-160px"}}>Ville</FormLabel>
                           <FormControl>
                             <Input placeholder="Entrez la ville" {...field} />
                           </FormControl>
@@ -202,7 +202,7 @@ function FormulaireComponentAgence({
                       name="CodePostalAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Code postal</FormLabel>
+                          <FormLabel style={{marginLeft: "-110px"}}>Code postal</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Entrez le code postal"
@@ -223,7 +223,7 @@ function FormulaireComponentAgence({
                       name="TelAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Téléphone</FormLabel>
+                          <FormLabel style={{marginLeft: "-120px"}}>Téléphone</FormLabel>
                           <FormControl>
                             <Input
                               type="tel"
@@ -243,7 +243,7 @@ function FormulaireComponentAgence({
                       name="EmailAgence"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel style={{marginLeft: "-150px"}}>Email</FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -260,10 +260,14 @@ function FormulaireComponentAgence({
               </tbody>
             </table>
             {/* Submit Button */}
-            <div className='btn' style={{marginTop:'-1px'}}>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
-    <Button style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
-   </div>
+            <div  className='flex items-center' style={{marginTop:'10px'}}>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px',marginRight:'40px'}}  type="submit" >{methode=='create'?"Ajouter":"Modifier"}</Button>
+              </div>
+              <div className='btn'>
+              <Button  style={{ color: 'white',width:' 4rem',fontSize:'12px' }} onClick={change} type="reset">Annuler</Button>
+              </div>
+      </div>
           </form>
         </div>
       </div>
