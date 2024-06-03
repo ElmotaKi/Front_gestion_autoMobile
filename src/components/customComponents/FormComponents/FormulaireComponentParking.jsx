@@ -15,11 +15,13 @@ import {
 import { Input } from "@/components/ui/input"
 import ParkingApi from '@/services/Admin/ParkingApi';
 import { useMutation,QueryCache, useQueryClient } from 'react-query';
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
 function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
-   
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
     const change = () => {
         setValue(!value);
     }
@@ -69,7 +71,10 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('parkings');
+            setAlertMessage("parking mise à jour avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
       
@@ -79,7 +84,10 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('parkings');
+            setAlertMessage("Parking créée avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
         const submitHandler = async (formData) => {
@@ -102,11 +110,25 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
             }
           }
         };
+        const hideAlertAfterDelay = () => {
+          setTimeout(() => {
+            setAlertVisible(false);
+          }, 2000); 
+        };
     return (
      
     <Form {...form}>
      
 <div>
+{alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
 <div  className={`${value ? 'slide-in' : 'slide-out'}`}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'20rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 
@@ -122,7 +144,7 @@ function FormulaireComponentParking({ formVisible, titre, dataLibaghi, methode }
                <FormItem>
                <FormLabel style={{marginLeft: "-100px"}}>Capacité</FormLabel>
                <FormControl>
-              <Input placeholder="Entrez la capacité" {...field} />
+              <Input type='number' placeholder="Entrez la capacité" {...field} />
               </FormControl>
                <FormMessage />
               </FormItem>

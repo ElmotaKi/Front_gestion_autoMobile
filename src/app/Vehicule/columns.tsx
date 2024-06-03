@@ -4,6 +4,7 @@ import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
  import FormulaireComponentVehicule from "@/components/customComponents/FormComponents/FormulaireComponentVehicule";
 import { Button } from "../../components/ui/button";
 import React,{useState,useEffect} from "react";
+import { FaPlus } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +22,8 @@ import { Checkbox } from "../../components/ui/checkbox"
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import CustomDialog from "@/components/customComponents/CustomDialog";
 import IconButton from "@/components/ui/IconButton";
+import DemoPageLocationtest from "../Location/pagetest";
+import DemoPageLocation from "../Location/page";
 
 export type Vehicule = {
   Marque: string;
@@ -373,6 +376,10 @@ export const columns = [
     cell: ({ row }) => {
       const vehicule = row.original; // Access the current agency location data
       const [formVisible, setFormVisible] = useState(false);
+      const [Visible, setVisible] = useState(false);
+      const toggle = () =>{
+        setVisible(!Visible)
+      }
       const toggleform = ()=>{
         setFormVisible(!formVisible);
       }
@@ -394,6 +401,27 @@ export const columns = [
    }
   
   </div>
+  <div style={{ marginRight: '10px' }} />
+<div>
+          <IconButton 
+            onClick={ ()=>{
+              toggle();
+            } }
+            color="gray" 
+          >
+            <FaPlus />
+            <div style={{position:'relative',top:'1rem',right:'50rem'}}>
+            {Visible &&
+              createPortal(
+                <DemoPageLocationtest data={vehicule}/>,
+                document.getElementById(`vehiculeDiv-${vehicule.id}`))
+              }
+            </div>
+          </IconButton>
+         
+        </div>
+ <div style={{ marginRight: '10px' }} />
+<div></div>
   <div>
   <IconButton onClick={() => navigator.clipboard.writeText(vehicule.id)} color="red" >
     <CustomDialog dataLibaghi={vehicule}  onDeleteSuccess={onDeleteSuccess} nomApi={"vehicule"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />

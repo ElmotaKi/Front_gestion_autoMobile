@@ -47,6 +47,9 @@ import { Input } from "../../components/ui/input";
 import { createPortal } from "react-dom";
 import axios from "axios";
 import FormulaireComponentContrat from "@/components/customComponents/FormComponents/FormulaireComponentContrat";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import CustomDialog from "@/components/customComponents/CustomDialog";
 interface Post {
   id: number;
   body: string;
@@ -146,6 +149,7 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
+  const selectedRows = table.getSelectedRowModel().rows;
   let headerContentArray = [];
 
   // Extract and store table header content
@@ -172,11 +176,11 @@ const pageNumbers = [];
   
   const handleExportxlsx = async () => {
       try {
-          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/ClientParticulier', {columns: headerContentArray }, { responseType: 'blob' });
+          const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Contrat', {columns: headerContentArray }, { responseType: 'blob' });
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'ClientParticulier.xlsx');
+          link.setAttribute('download', 'Contrat.xlsx');
           document.body.appendChild(link);
           link.click();
       } catch (error) {
@@ -186,11 +190,11 @@ const pageNumbers = [];
 
   const handleExportpdf = async () => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/ClientParticulier', { columns: headerContentArray }, { responseType: 'blob' });
+        const response = await axios.post('http://127.0.0.1:8000/api/exportpdf/Contrat', { columns: headerContentArray }, { responseType: 'blob' });
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'ClientParticulier.pdf');
+        link.setAttribute('download', 'Contrat.pdf');
         document.body.appendChild(link);
         link.click();
     } catch (error) {
@@ -199,7 +203,7 @@ const pageNumbers = [];
 };
 
 const handlePrint = () => {
-  axios.post('http://127.0.0.1:8000/api/print/ClientParticulier', { columns: headerContentArray })
+  axios.post('http://127.0.0.1:8000/api/print/Contrat', { columns: headerContentArray })
     .then((response) => {
       // Ouvrez une nouvelle fenêtre avec le contenu de l'impression
       window.open(response.data.url, '_blank');
@@ -208,6 +212,10 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
+const [select,setselect] = useState(false);
+const toggleSelect =() =>{
+  setselect(!select);
+}
 return (
   <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
@@ -218,6 +226,7 @@ return (
            Ajouter
              <Plus className="ml-2 h-4 w-4" />
        </Button>
+       
   </div>
   <div style={{transform:"translateY(-22px)"}}>
           <Input
@@ -318,6 +327,22 @@ return (
       
       </Table>
      <div className="flex ">
+     <CustomDialog
+            dataLibaghi={selectedRows.map(row => row.original)}
+            onDeleteSuccess={onDeleteSuccess}
+            nomApi={'contrat'}
+            textLtrigger={
+                <Button
+                    variant="destructive"
+                    onClick={toggleSelect}
+                    className="ml-auto"
+                    style={{position:'relative',right:'-1rem'}}
+                >
+                    Supprimer
+                    <FontAwesomeIcon icon={faTrash} className="ml-2 h-4 w-4" />
+                </Button>
+            }
+        />
      <div className=" text-sm text-muted-foreground float-start mb-2">
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.

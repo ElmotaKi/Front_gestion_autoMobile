@@ -16,8 +16,12 @@ import {
 import { Input } from "@/components/ui/input"
 import ClientParticulierApi from '@/services/Admin/ClientParticulierApi'
 import { useMutation,QueryCache, useQueryClient } from 'react-query';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
 function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
         const formSchema = z.object({
           // Validation du champ username
           
@@ -148,7 +152,10 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('ClientParticuliers');
-            setValue(!value);
+            setAlertMessage("Client Particulier mise à jour avec succès !");
+        setAlertVisible(true);
+        setValue(!value);
+        hideAlertAfterDelay();
           }
         });
       
@@ -158,7 +165,10 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('ClientParticuliers');
+            setAlertMessage("Client particulier créée avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
 
@@ -188,12 +198,25 @@ function FormulaireComponentClient({ formVisible,titre,dataLibaghi,methode }) {
     const change = () => {
         setValue(!value);
     }
-   
+    const hideAlertAfterDelay = () => {
+      setTimeout(() => {
+        setAlertVisible(false);
+      }, 2000); 
+    };
     return (
      
     <Form {...form}>
      
 <div>
+{alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
 <div className={` ${value ? 'slide-in' : 'slide-out'}`}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', maxwidth: '30rem',maxheight:'60rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>

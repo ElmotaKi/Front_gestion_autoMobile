@@ -33,6 +33,7 @@ import { Navigate } from "react-router-dom";
 import FormulaireComponentcommercial from "@/components/customComponents/FormComponents/FormulaireComponentCommercial";
 import { createPortal } from "react-dom";
 import FormulaireComponentVignette from "@/components/customComponents/FormComponents/FormulaireComponentVignette";
+import DemoPageVehiculetest from "../Vehicule/pagetest";
 
 export type Vignette = {
   id: number;
@@ -176,6 +177,10 @@ export const columns = [
     cell: ({ row }) => {
       const vignette = row.original; // Access the current agency location data
             const [formVisible, setFormVisible] = useState(false);
+            const [Visible, setVisible] = useState(false);
+            const toggle = () =>{
+              setVisible(!Visible)
+            }
     const toggleform = ()=>{
       setFormVisible(!formVisible);
     }
@@ -197,10 +202,19 @@ export const columns = [
     <div style={{ marginRight: '10px' }} />
 <div>
           <IconButton 
-            onClick={() => {/* Action à effectuer sur le clic du bouton Plus */}} 
+            onClick={ ()=>{
+              toggle();
+            } }
             color="gray" 
           >
             <FaPlus />
+            <div style={{position:'relative',top:'1rem',right:'50rem'}}>
+            {Visible &&
+              createPortal(
+                <DemoPageVehiculetest data={vignette}/>,
+                document.getElementById(`vehiculeDiv-${vignette.id}`))
+              }
+            </div>
           </IconButton>
         </div>
  <div style={{ marginRight: '10px' }} />

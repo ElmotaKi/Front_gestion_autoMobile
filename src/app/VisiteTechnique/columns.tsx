@@ -19,6 +19,7 @@ import { Checkbox } from "../../components/ui/checkbox"
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import FormulaireComponentVisite from "@/components/customComponents/FormComponents/FormulaireComponentVisite";
+import DemoPageVehiculetest from "../Vehicule/pagetest";
 
 export type Vidange = {
   id: number;
@@ -32,6 +33,7 @@ const onDeleteSuccess = () => {
   // Placeholder function to trigger data refresh
   console.log("Delete operation successful, refreshing data...");
 };
+
 export const columns = [
   // Existing columns for displaying agent details
   
@@ -55,6 +57,7 @@ export const columns = [
       enableSorting: false,
       enableHiding: false,
     },
+    
     {
     id: "select",
     header: ({ table }) => (
@@ -142,15 +145,24 @@ export const columns = [
       </Button>
     ),
   },
-  {
+ 
+    {
+    
     id: "actions", // Unique identifier for the column
-    header: () => <span>Actions</span>, // Header text
+    header: () => <span>Actions</span>,
+   
     cell: ({ row }) => {
+
       const visite = row.original; // Access the current agency location data
             const [formVisible, setFormVisible] = useState(false);
+            const [Visible, setVisible] = useState(false);
+            const toggle = () =>{
+              setVisible(!Visible)
+            }
     const toggleform = ()=>{
       setFormVisible(!formVisible);
     }
+  
       return (<div className="flex justify-between">
 <div>
 <IconButton onClick={()=>{navigator.clipboard.writeText(visite.id);
@@ -169,19 +181,32 @@ toggleform();}
 <div style={{ marginRight: '10px' }} />
 <div>
           <IconButton 
-            onClick={() => {/* Action à effectuer sur le clic du bouton Plus */}} 
+            onClick={ ()=>{
+              toggle();
+            } }
             color="gray" 
           >
             <FaPlus />
+            <div style={{position:'relative',top:'1rem',right:'50rem'}}>
+            {Visible &&
+              createPortal(
+                <DemoPageVehiculetest data={visite}/>,
+                document.getElementById(`vehiculeDiv-${visite.id}`))
+              }</div>
+            {/* {Visible && <DemoPageVehiculetest data={visite}/>} */}
           </IconButton>
         </div>
  <div style={{ marginRight: '10px' }} />
-<div></div>
+<div></div> 
 <div>
 <IconButton onClick={() => navigator.clipboard.writeText(visite.id)} color="red" >
     <CustomDialog dataLibaghi={visite} onDeleteSuccess={onDeleteSuccess} nomApi={'visite'} textLtrigger={<FontAwesomeIcon icon={faTrash}  />} />
   </IconButton>
 </div>
 
-</div>)}}]
-  
+</div>
+ )
+ }
+
+  },
+]

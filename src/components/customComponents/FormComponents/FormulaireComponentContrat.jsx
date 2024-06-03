@@ -16,8 +16,12 @@ import {
 import { Input } from "@/components/ui/input"
 import ContratApi from '@/services/Admin/ContratApi'
 import { useMutation,QueryCache, useQueryClient } from 'react-query';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
 function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
         const formSchema = z.object({
           // Validation du champ username
           
@@ -62,23 +66,29 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
           }
         },[dataLibaghi]);
       
-        const updateAgentMutation = useMutation(async (formData) => {
+        const updateContratMutation = useMutation(async (formData) => {
           const response = await ContratApi.update(dataLibaghi.id, formData);
           return response.data;
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('Contrats');
-            setValue(!value);
+            setAlertMessage("Contrat mise à jour avec succès !");
+        setAlertVisible(true);
+        setValue(!value);
+        hideAlertAfterDelay();
           }
         });
       
-        const createAgentMutation = useMutation(async (formData) => {
+        const createContratMutation = useMutation(async (formData) => {
           const response = await ContratApi.create(formData);
           return response.data;
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('Contrats');
+            setAlertMessage("Contrat créée avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
 
@@ -88,10 +98,10 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
           try {
             console.log('methode',methode)
             if (methode === 'update') {
-              await updateAgentMutation.mutateAsync(formData);
+              await updateContratMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             } else if (methode === 'create') {
-              await createAgentMutation.mutateAsync(formData);
+              await createContratMutation.mutateAsync(formData);
               console.log('Form submitted successfully');
             }
           } catch (error) {
@@ -109,14 +119,27 @@ function FormulaireComponentContrat({ formVisible,titre,dataLibaghi,methode }) {
     const change = () => {
         setValue(!value);
     }
-   
+    const hideAlertAfterDelay = () => {
+      setTimeout(() => {
+        setAlertVisible(false);
+      }, 2000); 
+    };
     return (
      
     <Form {...form}>
      
 <div>
+{alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
 <div className={`${value ? 'slide-in' : 'slide-out'}`}>
-<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '20rem',height:'17rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
+<form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '25rem',height:'17rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className=' font-bold bg-slate-100 px-3 w-80' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>
     {/* NomAgent */}
     <table style={{ zIndex: 1000 }}>

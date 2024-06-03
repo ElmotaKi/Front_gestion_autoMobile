@@ -19,6 +19,7 @@ import { Checkbox } from "../../components/ui/checkbox"
 import React, { useState } from "react";
 import FormulaireComponentAssurance from "@/components/customComponents/FormComponents/FormulaireComponentAssurance";
 import { createPortal } from "react-dom";
+import DemoPageVehiculetest from "../Vehicule/pagetest";
 
 export type Vidange = {
   id: number;
@@ -31,6 +32,7 @@ const onDeleteSuccess = () => {
   // Placeholder function to trigger data refresh
   console.log("Delete operation successful, refreshing data...");
 };
+
 export const columns = [
   // Existing columns for displaying agent details
   
@@ -54,7 +56,9 @@ export const columns = [
       enableHiding: false,
     },
     {
+     
     id: "select",
+    
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -66,12 +70,15 @@ export const columns = [
       />
     ),
     cell: ({ row }) => (
+     
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
+      
     ),
+   
     enableSorting: false,
     enableHiding: false,
   },
@@ -133,6 +140,10 @@ export const columns = [
     cell: ({ row }) => {
       const assurance = row.original; // Access the current agency location data
             const [formVisible, setFormVisible] = useState(false);
+             const [Visible, setVisible] = useState(false);
+            const toggle = () =>{
+              setVisible(!Visible)
+            }
     const toggleform = ()=>{
       setFormVisible(!formVisible);
     }
@@ -151,13 +162,23 @@ toggleform();}
  }
 
 </div>
+
 <div style={{ marginRight: '10px' }} />
 <div>
           <IconButton 
-            onClick={() => {/* Action à effectuer sur le clic du bouton Plus */}} 
+            onClick={ ()=>{
+              toggle();
+            } }
             color="gray" 
           >
             <FaPlus />
+            <div style={{position:'relative',top:'1rem',right:'50rem'}}>
+            {Visible &&
+              createPortal(
+                <DemoPageVehiculetest data={assurance}/>,
+                document.getElementById(`vehiculeDiv-${assurance.id}`))
+              }
+            </div>
           </IconButton>
         </div>
  <div style={{ marginRight: '10px' }} />

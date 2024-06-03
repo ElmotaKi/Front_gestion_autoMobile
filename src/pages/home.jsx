@@ -156,6 +156,10 @@ import CustomAvatar from "./CustomAvatar";
 import { SlWrench } from "react-icons/sl";
 import { AiOutlineBgColors } from "react-icons/ai";
 import { GrDocumentConfig } from "react-icons/gr";
+import { MdCarRental } from "react-icons/md";
+import { GiFlatTire } from "react-icons/gi";
+import { MdManageHistory } from "react-icons/md";
+import { FaCarCrash } from "react-icons/fa";
 const Home = () => {
   const [open, setOpen] = useState(true);
   const [content, setContent] = useState('Dashboard');
@@ -184,12 +188,16 @@ const Home = () => {
     { name: "Vignette", link: "/vignettes", icon: MdVignette },
     { name: "Vidange", link: "/Vidange", icon: AiOutlineBgColors },
     { name: "Assurance", link: "/Assurance", icon: GrDocumentConfig},
+    { name: "Pneumatique", link: "/Pneumatique", icon: GiFlatTire},
+    { name: "Accident", link: "/Accident", icon: FaCarCrash },
     ]},
+    { name: "Location", link: "/location", icon: MdCarRental  },
     { name: "Parking", link: "/parking", icon: SquareParking },
     { name: "Societes", link: "/societes", icon: Building2 },
     { name: "Commerciaux", link: "/commerciaux", icon: GrGroup },
     { name: "Client", link: "/ClientParticulier", icon: UserRound },
     { name: "Contrat", link: "/contrat", icon: ReceiptText },
+    { name: "Historique", link: "/Historique", icon: MdManageHistory  },
     { name: "Infos", link: "/infos", icon: BsInfoSquare },
   ];
 
@@ -202,13 +210,21 @@ const Home = () => {
       setContent(`Gestion des ${menu.name.toLowerCase()}`);
     }
   };
+  
 
+
+
+   
+
+ 
   return (
     <section className="flex gap-6">
         <div
         className={`bg-[#ffffff] min-h-screen border ${open ? "w-70" : "w-16"} duration-500 text-gray-700 px-2.5`}
-        style={open ? { position: 'absolute', left: 0, top: 0 } : {position: 'absolute', left: 0, top: 0 }}
+        style={open ? { position: 'absolute', left: 0, top: 0, height:"60rem",} : {position: 'absolute', left: 0, top: 0 ,height:"60rem"}}
+      
       >
+          
         <div className="py-3 flex justify-end">
           <HiMenuAlt3
             size={26}
@@ -264,7 +280,7 @@ const Home = () => {
              <div className=" text-xl">
         <div className='p-3  z-30 bg-gray-500 text-white font-bold rounded-md'   style={open ? { position: 'absolute', left: 225, top: 5 ,width:"84rem",} : {position: 'absolute', right: 210, top: 5,width:"84rem"}} ><CustomAvatar />
        </div> 
-      <div className="" style={open ?{marginTop:"40px",marginLeft:"-19px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-106px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
+      <div className="" style={open ?{marginTop:"40px",marginLeft:"-11px",fontSize:"17px",fontFamily:'poppins'}:{marginTop:"40px",marginLeft:"-106px",fontSize:"17px",fontFamily:'poppins'}} >  {content}</div>
       
        <div className="" style={open ? { position: 'absolute', left: 193, top: 70 } : {position: 'absolute', left: 100, top: 70,}}><Outlet/></div>
       

@@ -42,14 +42,14 @@ function Aaaaaa(){
   return (
     <div>
       
-     <div style={{position:'relative',left:'84%',marginTop:'6px'}}>
+     <div style={{position:'relative',top:'1rem',left:'84%',marginTop:'6px'}}>
       <Select onValueChange={handleSelectChange}>
         <SelectTrigger className="w-[180px] ">
           <SelectValue placeholder="Type Client" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ClientParticulier">ClientParticulier</SelectItem>
-          <SelectItem value="ClientSociete">ClientSociete</SelectItem>
+          <SelectItem value="ClientParticulier">Client Particulier</SelectItem>
+          <SelectItem value="ClientSociete">Client Societe</SelectItem>
         </SelectContent>
       </Select>
     </div>

@@ -18,13 +18,16 @@ import { Input } from "@/components/ui/input"
 import VehiculeApi from '@/services/Admin/VehiculeApi'
 import AgenceApi from '@/services/Admin/AgenceApi';
 import ParkingApi from '@/services/Admin/ParkingApi';
-import { Alert, FormSelect } from 'react-bootstrap';
+import { FormSelect } from 'react-bootstrap';
 import { useMutation,QueryCache, useQueryClient,useQuery } from 'react-query';
-
+import { FcOk } from "react-icons/fc";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient()
   const { data: agences} = useQuery('agences',AgenceApi.getAll);
   const { data: parkings} = useQuery('parkings',ParkingApi.all);
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
   const uniqueParkings = parkings && parkings.data
   ? Array.from(new Set(parkings.data.map(parking => parking.Lieu)))
       .map(lieu => parkings.data.find(parking => parking.Lieu === lieu))
@@ -114,7 +117,10 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('vehicules');
+            setAlertMessage("Vehicule mise à jour avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
       
@@ -125,7 +131,10 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('vehicules');
+            setAlertMessage("Vehicule créée avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
 
@@ -157,12 +166,25 @@ function FormulaireComponentVehicule({ formVisible,titre,dataLibaghi,methode }) 
     const change = () => {
         setValue(!value);
     }
-   
+    const hideAlertAfterDelay = () => {
+        setTimeout(() => {
+          setAlertVisible(false);
+        }, 2000); 
+      };
     return (
      
     <Form {...form}>
      
 <div>
+{alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
 <div className={`${value ? 'slide-in' : 'slide-out'}`}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'60rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>

@@ -32,7 +32,7 @@ const DemoPageVidange = () => {
     
     return (
         <div className="container mx-auto py-10">
-            <DataTable columns={columns} data={vidangeData} onDeleteSuccess={onDeleteSuccess} />
+            <DataTable columns={columns} data={vidangeData} onDeleteSuccess={onDeleteSuccess}  />
         </div>
     );
 

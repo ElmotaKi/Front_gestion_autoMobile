@@ -5,7 +5,8 @@ import  '../../App.css';
 import './btn.css'
 import { ChevronDown, Plus, Settings, Settings2, Settings2Icon } from "lucide-react";
 import { ImPrinter } from "react-icons/im";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import {
   flexRender,
   getCoreRowModel,
@@ -45,6 +46,7 @@ import { Input } from "../../components/ui/input";
 import { createPortal } from "react-dom";
 import axios from "axios";
 import FormulaireComponentAgence from "@/components/customComponents/FormComponents/FormulaireComponentAgence";
+import CustomDialog from "@/components/customComponents/CustomDialog";
 
 interface Post {
   id: number;
@@ -145,6 +147,7 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
+  const selectedRows = table.getSelectedRowModel().rows;
   let headerContentArray = [];
 
   // Extract and store table header content
@@ -221,6 +224,10 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
+const [select,setselect] = useState(false);
+const toggleSelect =() =>{
+  setselect(!select);
+}
 return (
   <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
@@ -231,6 +238,7 @@ return (
            Ajouter
              <Plus className="ml-2 h-4 w-4" />
        </Button>
+      
   </div>
   <div style={{transform:"translateY(-22px)"}}>
           <Input
@@ -331,6 +339,22 @@ return (
       
       </Table>
      <div className="flex ">
+     <CustomDialog
+            dataLibaghi={selectedRows.map(row => row.original)}
+            onDeleteSuccess={onDeleteSuccess}
+            nomApi={'agence'}
+            textLtrigger={
+                <Button
+                    variant="destructive"
+                    onClick={toggleSelect}
+                    className="ml-auto"
+                    style={{position:'relative',right:'-1rem'}}
+                >
+                    Supprimer
+                    <FontAwesomeIcon icon={faTrash} className="ml-2 h-4 w-4" />
+                </Button>
+            }
+        />
      <div className=" text-sm text-muted-foreground float-start mb-2">
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.

@@ -16,10 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import SocieteApi from '@/services/Admin/SocieteApi';
 import { useMutation, useQueryClient } from 'react-query';
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
 function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
   const change = () => {
     setValue(!value);
 }
@@ -80,7 +83,10 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries('societes');
+      setAlertMessage("Societe mise à jour avec succès !");
+      setAlertVisible(true);
       setValue(!value);
+      hideAlertAfterDelay();
     }
 
   });
@@ -91,7 +97,10 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries('societes');
+      setAlertMessage("Societe créée avec succès !");
+      setAlertVisible(true);
       setValue(!value);
+      hideAlertAfterDelay();
     }
 
   });
@@ -116,10 +125,23 @@ function FormulaireComponentSociete({ formVisible, titre, dataLibaghi, methode }
   };
 
   
-
+  const hideAlertAfterDelay = () => {
+    setTimeout(() => {
+      setAlertVisible(false);
+    }, 2000); 
+  };
   return (
     <Form {...form}>
       <div>
+      {alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
         <div className={` ${value ? 'slide-in' : 'slide-out'}`}>
           <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{ flexDirection: 'column', width: '28rem', height: '28.7rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee' }} id='myform'>
           <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>

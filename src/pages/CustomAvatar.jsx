@@ -20,6 +20,9 @@ function CustomAvatar(props) {
     // Navigate to the login page after logout
     navigate("/"); // Navigate to the route of your login page
   };
+  const handleProfileNavigation = () => {
+    navigate("/profile"); // Navigate to the profile page
+  };
 
   return (
     <div className=' flex justify-between items-center ' >
@@ -38,7 +41,7 @@ function CustomAvatar(props) {
           {/* Dropdown menu items */}
           <DropdownMenuLabel>Nom</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Mon Profile</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleProfileNavigation}>Mon Profile</DropdownMenuItem>
           {/* Logout option */}
           <DropdownMenuItem onClick={handleLogout}>se déconnecter</DropdownMenuItem>
         </DropdownMenuContent>

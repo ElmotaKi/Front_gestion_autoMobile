@@ -1,6 +1,6 @@
 // CustomDialog.jsx
 import AgentApi from "@/services/Admin/AgentApi";
-import React from "react";
+import React,{useState} from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -25,8 +25,18 @@ import VidangeApi from "@/services/Admin/VidangeApi";
 import AssuranceApi from "@/services/Admin/AssuranceApi";
 import VignetteApi from "@/services/Admin/VignetteApi";
 import VisiteTechniqueApi from "@/services/Admin/VisiteTechniqueApi";
+import LocationApi from "@/services/Admin/LocationApi";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
+import PneumatiqueApi from "@/services/Admin/PneumatiqueApi";
+import HistoriqueApi from "@/services/Admin/HistoriqueApi";
+import AccidentApi from "@/services/Admin/AccidentApi";
 const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
+
+
+   
     const queryClient = useQueryClient();
+  
             const deleteAgenceMutation = useMutation(async (id) => {
                 await AgenceApi.delete(id);
             }, {
@@ -104,73 +114,165 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
                 queryClient.invalidateQueries("vignettes"); // Invalidate the cache after successful deletion
             },
         });
-    const handleClick = async (id) => {
+        const deleteLocationMutation = useMutation(async (id) => {
+            await LocationApi.delete(id);
+        }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries("locations"); // Invalidate the cache after successful deletion
+            },
+        });
+        const deletePneumatiqueMutation = useMutation(async (id) => {
+            await PneumatiqueApi.delete(id);
+        }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries("pneumatiques"); // Invalidate the cache after successful deletion
+            },
+        });
+        const deleteHistoriqueMutation = useMutation(async (id) => {
+            await HistoriqueApi.delete(id);
+        }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries("historiques"); // Invalidate the cache after successful deletion
+            },
+        });
+        const deleteAccidentMutation = useMutation(async (id) => {
+            await AccidentApi.delete(id);
+        }, {
+            onSuccess: () => {
+                queryClient.invalidateQueries("accidents"); // Invalidate the cache after successful deletion
+            },
+        });
+        const firstItemId = dataLibaghi.length > 0 ? dataLibaghi[0].id: null;
+        console.log('firstItemId',firstItemId)
+        
+       const handleClick = async (id) => {
+                console.log('hello')
         try {
             console.log(id)
             if (nomApi==="agent"){
                
-            await AgentApi.delete(id, queryClient);
-            console.log("Agent deleted successfully");
-            onDeleteSuccess();}
+                await AgentApi.delete(id, queryClient);
+                setAlertVisible(true);
+                setAlertMessage("Agent deleted successfully");
+                hideAlertAfterDelay();
+                onDeleteSuccess();
+               
+            }
             else if(nomApi==="agence"){
                 await deleteAgenceMutation.mutate(id);
-                console.log("agence deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("agence deleted successfully");
+                hideAlertAfterDelay();
+                onDeleteSuccess();
+            }
+            else if(nomApi==="location"){
+                await deleteLocationMutation.mutate(id);
+                setAlertVisible(true);
+                setAlertMessage("location deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
             }
             else if(nomApi==="parking"){
                 await deleteParkingMutation.mutate(id);
-                console.log("parking deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("parking deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
             }
             else if(nomApi === 'vignette'){
                 await deleteVignetteMutation.mutate(id);
                 console.log("vignette deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("vignette deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
               
                         }
             else if(nomApi === 'visite'){
                 await deleteVisiteMutation.mutate(id);
-                console.log("visite deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("visite deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
               
                         }
-            else if(nomApi==="assurance"){
-                await deleteAssuranceMutation.mutate(id);
-                console.log("assurance deleted successfully");
-                onDeleteSuccess();
+            else if (nomApi === "assurance") {
+                        await deleteAssuranceMutation.mutate(id);
+                        setAlertVisible(true);
+                        setAlertMessage("assurance deleted successfully");
+                        hideAlertAfterDelay();
+                        onDeleteSuccess();
+                
             }
+            
             else if(nomApi==="vidange"){
                 await deleteVidangeMutation.mutate(id);
-                console.log("vidange deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("vidange deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
             }
             else if(nomApi==="societe"){
-                console.log('hello')
-                console.log(id)
+               
                 await deleteSocieteMutation.mutate(id);
-                console.log("Societe deleted successfully");
+                
+                setAlertVisible(true);
+                setAlertMessage("Societe deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
             }
             else if(nomApi === "clientparticulier"){
                 
                 await deleteClientMutation.mutate(id);
-                console.log("client deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("client deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
             }
             else if(nomApi === 'contrat'){
                 await deleteContratMutation.mutate(id);
-                console.log("contrat deleted successfully");
+                setAlertVisible(true);
+                setAlertMessage("contrat deleted successfully");
+                hideAlertAfterDelay();
                 onDeleteSuccess();
           }
           else if(nomApi === 'vehicule'){
             await deleteVehiculeMutation.mutate(id);
-            console.log("contrat deleted successfully");
+            setAlertVisible(true);
+            setAlertMessage("vehicule deleted successfully");
+            hideAlertAfterDelay();
             onDeleteSuccess();
           
                     }
         else if(nomApi === 'commercial'){
             await deleteCommercialMutation.mutate(id);
-            console.log("commercial deleted successfully");
+            setAlertVisible(true);
+            setAlertMessage("commercial deleted successfully");
+            hideAlertAfterDelay();
+            onDeleteSuccess();
+          
+                    }
+        else if(nomApi === 'pneumatique'){
+            await deletePneumatiqueMutation.mutate(id);
+            setAlertVisible(true);
+            setAlertMessage("pneumatique deleted successfully");
+            hideAlertAfterDelay();
+            onDeleteSuccess();
+          
+                    }
+        else if(nomApi === 'historique'){
+            await deleteHistoriqueMutation.mutate(id);
+            setAlertVisible(true);
+            setAlertMessage("historique deleted successfully");
+            hideAlertAfterDelay();
+            onDeleteSuccess();
+          
+                    }
+        else if(nomApi === 'accident'){
+            await deleteAccidentMutation.mutate(id);
+            setAlertVisible(true);
+            setAlertMessage("accident deleted successfully");
+            hideAlertAfterDelay();
             onDeleteSuccess();
           
                     }
@@ -182,9 +284,39 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
                 console.error("Error deleting agent:", error);
             }
         }
+    
+   
     };
-
+    const handleBulkDelete = async () => {
+        if (dataLibaghi.length > 0) {
+            for (let i = 0; i < dataLibaghi.length; i++) {
+                await handleClick(dataLibaghi[i].id);
+            }
+        }
+        else{
+            console.log('hello')
+            await handleClick(dataLibaghi.id);
+        }
+    };
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(""); 
+    const hideAlertAfterDelay = () => {
+        setTimeout(() => {
+          setAlertVisible(false);
+        }, 3000); 
+      };
+      
     return (
+        <div>
+        {alertVisible && (
+            <Alert style={{ width: '30rem', height: '15rem',position:'fixed',top:'30%',left:'40%' }} className="flex flex-col justify-center items-center">
+            <AlertTitle className="mb-6">Succès!</AlertTitle>
+            <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+            {alertMessage}
+              <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+            </AlertDescription>
+          </Alert>
+           )}
         <AlertDialog>
             <AlertDialogTrigger>{textLtrigger}</AlertDialogTrigger>
             <AlertDialogContent>
@@ -197,13 +329,13 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction>
-                        <Button onClick={() => 
-                            
-                            handleClick(dataLibaghi.id)}>Supprimer</Button>
+                        <Button onClick={handleBulkDelete}>Supprimer</Button>
+                       
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
+        </div>
     );
 };
 

@@ -2,14 +2,15 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
+import {Tabletest } from "./Tabletest";
 import { columns } from "./columns";
 import VehiculeApi from "@/services/Admin/VehiculeApi";
 import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 
 const DemoPageVehicule = () => {
     const { isLoading, isError, data: clientsData, refetch } = useQuery("vehicules", fetchData);
-    // hook notifikasyo
-  
+    
+
     if (isLoading) return (
         <div
         className="flex items-center"
@@ -36,6 +37,7 @@ const DemoPageVehicule = () => {
     return (
         <div className="container mx-auto py-10">
             <DataTable columns={columns} data={clientsData} onDeleteSuccess={onDeleteSuccess} />
+            
         </div>
     );
 

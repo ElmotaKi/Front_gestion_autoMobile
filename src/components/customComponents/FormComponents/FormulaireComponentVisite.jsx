@@ -18,12 +18,14 @@ import { useMutation,QueryCache, useQueryClient, useQuery } from 'react-query';
 import { FormSelect } from 'react-bootstrap';
 import VehiculeApi from '@/services/Admin/VehiculeApi';
 import VisiteTechniqueApi from '@/services/Admin/VisiteTechniqueApi';
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { FcOk } from "react-icons/fc";
 function FormulaireComponentVisite({ formVisible,titre,dataLibaghi,methode }) {
   const queryClient = useQueryClient();
   const [value, setValue] = useState(formVisible);
   const { data: vehicules} = useQuery('vehicules', VehiculeApi.all);
-    
+  const [alertVisible, setAlertVisible] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState("");
     
         const formSchema = z.object({
           
@@ -89,7 +91,10 @@ function FormulaireComponentVisite({ formVisible,titre,dataLibaghi,methode }) {
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('visiteTechnique');
-            setValue(!value);
+            setAlertMessage("Visite Technique mise à jour avec succès !");
+        setAlertVisible(true);
+        setValue(!value);
+        hideAlertAfterDelay();
           }
         });
       
@@ -100,7 +105,10 @@ function FormulaireComponentVisite({ formVisible,titre,dataLibaghi,methode }) {
         }, {
           onSuccess: () => {
             queryClient.invalidateQueries('visiteTechnique');
+            setAlertMessage("Visite Technique créée avec succès !");
+            setAlertVisible(true);
             setValue(!value);
+            hideAlertAfterDelay();
           }
         });
         const submitHandler = async (formData) => {
@@ -125,7 +133,11 @@ function FormulaireComponentVisite({ formVisible,titre,dataLibaghi,methode }) {
           }
         };
       
-        
+        const hideAlertAfterDelay = () => {
+          setTimeout(() => {
+            setAlertVisible(false);
+          }, 2000); 
+        };
     
    
     return (
@@ -133,7 +145,15 @@ function FormulaireComponentVisite({ formVisible,titre,dataLibaghi,methode }) {
     <Form {...form} >
      
 <div >
-
+{alertVisible && (
+       <Alert style={{ width: '30rem', height: '15rem' }} className="flex flex-col justify-center items-center">
+       <AlertTitle className="mb-6">Succès!</AlertTitle>
+       <AlertDescription className="flex flex-col items-center" style={{fontSize:'15px'}}>
+         {alertMessage}
+         <FcOk className="animate-bounce mt-4" style={{ width: '15rem', height: '5rem' }} />
+       </AlertDescription>
+     </Alert>
+      )}
 <div  className={` ${value ? 'slide-in' : 'slide-out'} `}>
 <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8" style={{  flexDirection: 'column', width: '28rem',height:'24.1rem', background: 'white', border: '1px solid #eeee', boxShadow: '5px 6px 5px 6px #eeee'}} id='myform'>
 <div><h1 className=' font-bold bg-slate-100 px-3 w-96' style={{marginBottom:'-50px',borderBottom:'2px solid black'}}>{titre}</h1></div>

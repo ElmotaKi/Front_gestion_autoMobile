@@ -48,10 +48,9 @@ import FormulaireComponentSociete from "@/components/customComponents/FormCompon
 import { createPortal } from "react-dom";
 import axios from "axios";
 
-interface Post {
-  id: number;
-  body: string;
-}
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import CustomDialog from "@/components/customComponents/CustomDialog";
 export function DataTable({
   columns,
   data,
@@ -142,6 +141,7 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
+  const selectedRows = table.getSelectedRowModel().rows;
   let headerContentArray = [];
 
   // Extract and store table header content
@@ -165,7 +165,7 @@ const pageNumbers = [];
   headerContentArray.pop();
   // Now, headerContentArray contains the extracted content
   console.log(headerContentArray);
-  
+ 
   const handleExportxlsx = async () => {
       try {
           const response = await axios.post('http://127.0.0.1:8000/api/exportxlsx/Commercial', {columns: headerContentArray }, { responseType: 'blob' });
@@ -208,7 +208,10 @@ const handlePrint = () => {
  
   
 
-   
+const [select,setselect] = useState(false);
+const toggleSelect =() =>{
+  setselect(!select);
+}
   return (
     <div style={{display:"flex",width:"100%"}}>
     <div style={{"flex":1,width:tableWidth}}>
@@ -219,6 +222,7 @@ const handlePrint = () => {
              Ajouter
                <Plus className="ml-2 h-4 w-4" />
          </Button>
+       
     </div>
     <div style={{transform:"translateY(-22px)"}}>
             <Input
@@ -319,6 +323,22 @@ const handlePrint = () => {
         
         </Table>
        <div className="flex ">
+       <CustomDialog
+            dataLibaghi={selectedRows.map(row => row.original)}
+            onDeleteSuccess={onDeleteSuccess}
+            nomApi={'commercial'}
+            textLtrigger={
+                <Button
+                    variant="destructive"
+                    onClick={toggleSelect}
+                    className="ml-auto"
+                    style={{position:'relative',right:'-1rem'}}
+                >
+                    Supprimer
+                    <FontAwesomeIcon icon={faTrash} className="ml-2 h-4 w-4" />
+                </Button>
+            }
+        />
        <div className=" text-sm text-muted-foreground float-start mb-2">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.

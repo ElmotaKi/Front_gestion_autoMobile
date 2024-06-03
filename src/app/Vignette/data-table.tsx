@@ -47,7 +47,10 @@ import { createPortal } from "react-dom";
 import axios from "axios";
 import FormulaireComponentVignette from "@/components/customComponents/FormComponents/FormulaireComponentVignette";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import CustomDialog from "@/components/customComponents/CustomDialog";
 interface Post {
   id: number;
   body: string;
@@ -88,7 +91,15 @@ export function DataTable({
     };
     const [tableWidth, setTableWidth] = useState("100%");
 
-
+    const [userInput, setUserInput] = useState(''); 
+    const handleUserInputChange = (e) => {
+      setUserInput(e.target.value);
+      const inputNumber = parseInt(e.target.value);
+      if (!isNaN(inputNumber) && inputNumber > 0) {
+        setPostsPerPage(inputNumber);
+        setCurrentPage(1); // Reset to first page when changing rows per page
+      }
+    };
  //Pagination logique
 const rowsPerPage =4;
 
@@ -143,6 +154,7 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
+  const selectedRows = table.getSelectedRowModel().rows;
   let headerContentArray = [];
 
   // Extract and store table header content
@@ -205,6 +217,10 @@ const handlePrint = () => {
       console.error('Erreur lors de l\'impression :', error);
     });
 };
+const [select,setselect] = useState(false);
+const toggleSelect =() =>{
+  setselect(!select);
+}
 return (
   <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
@@ -215,6 +231,7 @@ return (
            Ajouter
              <Plus className="ml-2 h-4 w-4" />
        </Button>
+      
   </div>
   <div style={{transform:"translateY(-22px)"}}>
           <Input
@@ -275,46 +292,65 @@ return (
   </div>
 
     <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
+    <div style={{position:'relative',maxHeight:'700px',overflowY:'auto'}}>
+    <Table >
+      <TableHeader>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <TableHead key={header.id}>
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(header.column.columnDef.header, header.getContext())}
+              </TableHead>
+            ))}
+          </TableRow>
+        ))}
+      </TableHeader>
+      <TableBody >
+      {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
+        <React.Fragment key={row.id}>
+            <TableRow data-state={row.getIsSelected() && "selected"}>
+              {row.getVisibleCells().map((cell, index) => (
+                <TableCell key={cell.id} ignoreBorder={index <= 2}>
+                  {flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  )}
+                </TableCell>
               ))}
             </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-        {table.getRowModel().rows?.slice(firstPostIndex, lastPostIndex).map((row) => (
-<TableRow
-  key={row.id}
-  data-state={row.getIsSelected() && "selected"}
->
-  {row.getVisibleCells().map((cell,index) => (
-    <TableCell key={cell.id} >
-      {flexRender(
-        cell.column.columnDef.cell,
-        cell.getContext()
-      )}
-    </TableCell>
-  ))}
-  
-</TableRow>
-
-))}
-
+            <TableRow>
+              <TableCell colSpan={row.getVisibleCells().length} style={{ padding: 0, margin:0,overflowY:'hidden',}}>
+                <div id={`vehiculeDiv-${row.original.id}`} style={{ position: 'relative', top: '-4rem', marginBottom: '-25rem'}}/>
+              </TableCell>
+            </TableRow>
+          </React.Fragment>
+        ))}
       </TableBody>
-      <TableCaption>
-        
-      </TableCaption>
+    <TableCaption>
       
-      </Table>
+    </TableCaption>
+    
+    </Table>
+    </div>
      <div className="flex ">
+     <CustomDialog
+            dataLibaghi={selectedRows.map(row => row.original)}
+            onDeleteSuccess={onDeleteSuccess}
+            nomApi={'vignette'}
+            textLtrigger={
+                <Button
+                    variant="destructive"
+                    onClick={toggleSelect}
+                    className="ml-auto"
+                    style={{position:'relative',right:'-1rem'}}
+                >
+                    Supprimer
+                    <FontAwesomeIcon icon={faTrash} className="ml-2 h-4 w-4" />
+                </Button>
+            }
+        />
      <div className=" text-sm text-muted-foreground float-start mb-2">
       {table.getFilteredSelectedRowModel().rows.length} of{" "}
       {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
@@ -342,10 +378,16 @@ return (
     <PaginationNext onClick={handleNextPage} />
   </PaginationItem>
 </PaginationContent>
-        <div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
-        <label className="mr-5">nombre Lignes par page</label>
-        <input type="number" style={{width:'2rem'}} value={nombreligne} onChange={handleChange}   />
-        </div>
+<div className=" text-sm text-muted-foreground float-start mt-4 justifier-end">
+      <label htmlFor="rowsPerPage">Nombre lignes par Pages</label>
+      <input
+      style={{width:'3rem'}}
+        type="number"
+        id="rowsPerPage"
+        value={userInput}
+        onChange={handleUserInputChange}
+      />
+    </div>
 </Pagination>
      
      </div>

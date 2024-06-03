@@ -36,6 +36,7 @@ const onDeleteSuccess = () => {
   // Placeholder function to trigger data refresh
   console.log("Delete operation successful, refreshing data...");
 };
+
 export const columns = [
   // Existing columns for displaying agent details
   
@@ -76,6 +77,7 @@ export const columns = [
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
+        
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label="Select row"
       />
@@ -171,13 +173,7 @@ export const columns = [
       setFormVisible(!formVisible);
     }
       return (<div className="flex justify-between">
-        {/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)}>
-  <FontAwesomeIcon icon={faCopy} />
-</IconButton> */}
 <div>
-{/* <IconButton onClick={() => navigator.clipboard.writeText(agent.id)} color="green">
-  <CustomDrawer dataLibaghi={agent} textLtrigger={<FontAwesomeIcon icon={faEdit} />} methode={"update"} />
-</IconButton> */}
 <IconButton onClick={()=>{navigator.clipboard.writeText(agence.id);
 toggleform();}
 } color="green">

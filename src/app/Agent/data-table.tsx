@@ -47,11 +47,10 @@ import FormulaireComponentAgent from "@/components/customComponents/FormComponen
 import FormulaireComponentSociete from "@/components/customComponents/FormComponents/FormulaireComponentSociete";
 import { createPortal } from "react-dom";
 import axios from "axios";
+import CustomDialog from "@/components/customComponents/CustomDialog";
 
-interface Post {
-  id: number;
-  body: string;
-}
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 export function DataTable({
   columns,
   data,
@@ -142,6 +141,7 @@ const pageNumbers = [];
     },
     onGlobalFilterChange: setFiltering,
   });
+  const selectedRows = table.getSelectedRowModel().rows;
   let headerContentArray = [];
   
   // Extract and store table header content
@@ -229,7 +229,10 @@ const handlePrint = () => {
  
   
 
-   
+const [select,setselect] = useState(false);
+const toggleSelect =() =>{
+  setselect(!select);
+}
   return (
     <div style={{display:"flex",width:"100%"}}>
     <div style={{"flex":1,width:tableWidth}}>
@@ -240,6 +243,7 @@ const handlePrint = () => {
              Ajouter
                <Plus className="ml-2 h-4 w-4" />
          </Button>
+        
     </div>
     <div style={{transform:"translateY(-22px)"}}>
             <Input
@@ -340,6 +344,22 @@ const handlePrint = () => {
         
         </Table>
        <div className="flex ">
+       <CustomDialog
+            dataLibaghi={selectedRows.map(row => row.original)}
+            onDeleteSuccess={onDeleteSuccess}
+            nomApi={'agent'}
+            textLtrigger={
+                <Button
+                    variant="destructive"
+                    onClick={toggleSelect}
+                    className="ml-auto"
+                    style={{position:'relative',right:'-1rem'}}
+                >
+                    Supprimer
+                    <FontAwesomeIcon icon={faTrash} className="ml-2 h-4 w-4" />
+                </Button>
+            }
+        />
        <div className=" text-sm text-muted-foreground float-start mb-2">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} ligne(s) sélectionnées.
