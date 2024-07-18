@@ -15,7 +15,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { MdCarRental } from "react-icons/md";
 
 import { Checkbox } from "../../components/ui/checkbox"
 
@@ -409,7 +409,7 @@ export const columns = [
             } }
             color="gray" 
           >
-            <FaPlus />
+            <MdCarRental style={{color:'black'}} />
             <div style={{position:'relative',top:'1rem',right:'50rem'}}>
             {Visible &&
               createPortal(

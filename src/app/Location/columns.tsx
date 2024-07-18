@@ -14,8 +14,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { faCopy, faDeleteLeft, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
+import { differenceInDays, parseISO } from 'date-fns';
 import { Checkbox } from "../../components/ui/checkbox"
 
 
@@ -29,7 +28,8 @@ export type Location = {
   Contrat:string,
   NbrJours: number,
   Montant:number,
-  status:'Complete' | 'encours',
+  MontantParJour:number,
+  status:'terminee' | 'encours',
   DateRetourPrevue: Date,
   DateRetourVoiture : Date,
   KilometrageAvant:number,
@@ -45,6 +45,11 @@ export type Location = {
 const onDeleteSuccess = () => {
   // Placeholder function to trigger data refresh
   console.log("Delete operation successful, refreshing data...");
+};
+const calculateNumberOfDays = (startDate, endDate) => {
+  const start = parseISO(startDate);
+  const end = parseISO(endDate);
+  return differenceInDays(end, start);
 };
 export const columns = [
   // Existing columns for displaying agent detail
@@ -180,7 +185,7 @@ export const columns = [
     ),
   },
   {
-    id:"dateDebutLocation",
+    id: "dateDebutLocation",
     accessorKey: "dateDebutLocation",
     header: ({ column }) => (
       <Button
@@ -193,7 +198,7 @@ export const columns = [
     ),
   },
   {
-    id:"dateFinLocation",
+    id: "dateFinLocation",
     accessorKey: "dateFinLocation",
     header: ({ column }) => (
       <Button
@@ -201,6 +206,19 @@ export const columns = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         dateFinLocation
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
+    id: "NbrJours",
+    accessorKey: "NbrJours",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        NbrJours
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -233,14 +251,14 @@ export const columns = [
     ),
   },
   {
-    id:"NbrJours",
-    accessorKey: "NbrJours",
+    id:"MontantParJour",
+    accessorKey: "MontantParJour",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        NbrJours
+        MontantParJour
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -324,6 +342,7 @@ export const columns = [
    }
   
   </div>
+  
   <div>
   <IconButton onClick={() => navigator.clipboard.writeText(location.id)} color="red" >
     <CustomDialog dataLibaghi={location}  onDeleteSuccess={onDeleteSuccess} nomApi={"location"} textLtrigger={<FontAwesomeIcon icon={faTrash} />} />

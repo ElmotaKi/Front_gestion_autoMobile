@@ -43,7 +43,8 @@ function FormulaireComponentLocation({ formVisible,titre,dataLibaghi,methode }) 
             Contrat: z.string(),
             NbrJours: z.coerce.number(),
             Montant:  z.coerce.number(),
-            status: z.enum(["Complete", "encours"]),
+            MontantParJour:  z.coerce.number(),
+            status: z.enum(["terminee", "encours"]),
             DateRetourPrevue: z.string().date(),
             // DateRetourVoiture: z.string().date(),
             KilometrageAvant: z.coerce.number(),
@@ -66,6 +67,7 @@ function FormulaireComponentLocation({ formVisible,titre,dataLibaghi,methode }) 
                 Contrat: '',
                 NbrJours: 0,
                 Montant: 0,
+                MontantParJour: 0,
                 status: '',
                 DateRetourPrevue: '',
                 // DateRetourVoiture: '',
@@ -89,6 +91,7 @@ function FormulaireComponentLocation({ formVisible,titre,dataLibaghi,methode }) 
                 Contrat: dataLibaghi.Contrat || "",
                 NbrJours: dataLibaghi.NbrJours || "",
                 Montant: dataLibaghi.Montant || "",
+                MontantParJour: dataLibaghi.MontantParJour || "",
                 status: dataLibaghi.status || "",
                 DateRetourPrevue: dataLibaghi.DateRetourPrevue || "",
                 // DateRetourVoiture: dataLibaghi.DateRetourVoiture || "",
@@ -256,6 +259,21 @@ const testHandle = (e) =>{
                  </tr>
                  <tr>
                     <td>
+                    <FormField
+                        control={form.control}
+                        name="MontantParJour"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel style={{marginLeft: "-105px"}}>MontantParJour</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="Entrez le MontantParJour" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                        </td>
+                        <td>
                         <FormField
                         control={form.control}
                         name="Montant"
@@ -268,9 +286,12 @@ const testHandle = (e) =>{
                             <FormMessage />
                             </FormItem>
                         )}
-                        /></td>
-                        <td>
-                        <FormField
+                        />
+                        </td>
+                 </tr>
+                 <tr>
+                    <td>    
+                    <FormField
                             control={form.control}
                             name="DateRetourPrevue"
                             render={({ field }) => (
@@ -283,11 +304,9 @@ const testHandle = (e) =>{
                                 </FormItem>
                             )}
                             />
-                        </td>
-                 </tr>
-                 <tr>
-                    <td>    
-                    <FormField
+                            </td>
+                            <td>
+                            <FormField
                         control={form.control}
                         name="id_contrat"
                         render={({ field }) => (
@@ -308,8 +327,10 @@ const testHandle = (e) =>{
                         )}
                     />
                             </td>
-                            <td>
-                            <FormField
+                 </tr>
+                 <tr>
+                    <td>
+                    <FormField
         control={form.control}
         name="id_societe"
         render={({ field }) => (
@@ -329,12 +350,9 @@ const testHandle = (e) =>{
             </FormItem>
         )}
     />
-                            </td>
-                 </tr>
-                 <tr>
+                    </td>
                     <td>
-                        
-                            <FormField
+                    <FormField
                             control={form.control}
                             name="KilometrageAvant"
                             render={({ field }) => (
@@ -347,9 +365,12 @@ const testHandle = (e) =>{
                                 </FormItem>
                             )}
                             />
-                    </td>
+                   </td>
+
+                 </tr>
+                 <tr>
                     <td>
-    <FormField
+                    <FormField
         control={form.control}
         name="status"
         render={({ field }) => (
@@ -365,7 +386,7 @@ const testHandle = (e) =>{
                             }}
                         >
                                   <option value="choisissez" style={{size:'1px'}} selected disabled>choisissez...</option>
-                                  <option value="Complete" style={{size:'12px'}}>Complete</option>
+                                  <option value="terminee" style={{size:'12px'}}>terminee</option>
                                   <option value="encours" style={{size:'12px'}}>encours</option>
                                   </select>
                                 </div>
@@ -374,13 +395,9 @@ const testHandle = (e) =>{
             </FormItem>
         )}
     />
-</td>
+                    </td>
 
-                 </tr>
-                 <tr>
                     <td>
-                   
-
                     <FormField
                     control={form.control}
                     name="id_clientParticulier"
@@ -401,11 +418,11 @@ const testHandle = (e) =>{
                         </FormItem>
                          )}
     />
-
                     </td>
-
+                 </tr>
+                 <tr>
                     <td>
-                          <FormField
+                    <FormField
                             control={form.control}
                             name="ImageAvant"
                             render={({ field }) => (
@@ -417,12 +434,10 @@ const testHandle = (e) =>{
                                 <FormMessage />
                                 </FormItem>
                             )}
-                            />
-                    </td>
-                 </tr>
-                 <tr>
+                            /> 
+                         </td>
                     <td>
-                         <FormField
+                    <FormField
                        control={form.control}
                         name="id_vehicule"
                         render={({ field }) => (
@@ -441,8 +456,11 @@ const testHandle = (e) =>{
                 <FormMessage />
             </FormItem>
         )}
-    /></td>
-                    <td>
+    />
+                    </td>
+                 </tr>
+                 <tr>
+                    <td> 
                     <FormField
         control={form.control}
         name="id_agent"
@@ -463,11 +481,9 @@ const testHandle = (e) =>{
             </FormItem>
         )}
     />
-                    </td>
-                 </tr>
-                 <tr>
-                    <td> 
-     {selectedOption === "Complete" &&  <FormField
+                        </td>
+                    <td>
+                    {selectedOption === "terminee" &&  <FormField
                             control={form.control}
                             name="ImageApres"
                             render={({ field }) => (
@@ -479,9 +495,12 @@ const testHandle = (e) =>{
                                 <FormMessage />
                                 </FormItem>
                             )}
-                            />}</td>
-                    <td>
-    {selectedOption === "Complete" &&
+                            />}
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        {selectedOption === "terminee" &&
                                     <FormField
                                     control={form.control}
                                     name="DateRetourVoiture"
@@ -494,12 +513,10 @@ const testHandle = (e) =>{
                                         <FormMessage />
                                         </FormItem>
                                     )}
-                                    />}
+                                    />} 
                     </td>
-                    </tr>
-                    <tr>
-                        <td> 
-                     {selectedOption === "Complete" && <FormField 
+                        <td>
+                        {selectedOption === "terminee" && <FormField 
                                 control={form.control}
                                 name="KilometrageApres"
                                 render={({ field }) => (
@@ -511,8 +528,8 @@ const testHandle = (e) =>{
                                     <FormMessage />
                                     </FormItem>
                                 )}
-                                />}</td>
-                        <td></td>
+                                />}
+                        </td>
                     </tr>
                  
         </tbody>

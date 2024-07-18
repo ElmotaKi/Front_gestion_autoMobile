@@ -50,6 +50,7 @@ import FormulaireComponentContrat from "@/components/customComponents/FormCompon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import CustomDialog from "@/components/customComponents/CustomDialog";
+import Contrat from "../Contratimprimé/Contrat";
 interface Post {
   id: number;
   body: string;
@@ -404,6 +405,7 @@ return (
             </div>
           )}
 </div>
+
 </div>
            
   

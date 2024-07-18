@@ -12,6 +12,7 @@ import DemoPageSociete from "./app/Societe/page";
 import DemoPageCommercial from "./app/Commercial/page";
 import DemoPageVehicule from "./app/Vehicule/page";
 import Aaaaaa from "./app/ClientPar/client";
+import Pneu from "./app/pneu/pneumatique";
 import DemoPageVidange from "./app/Vidange/page";
 import DemoPageAssurance from "./app/Assurance/page";
 import DemoPageVignette from "./app/Vignette/page";
@@ -20,6 +21,7 @@ import DemoPageLocation from "./app/Location/page";
 import DemoPagePneumatique from "./app/Pneumatique/page";
 import DemoPageHistorique from "./app/Historique/page";
 import DemoPageAccident from "./app/Accident/page";
+
 import Card from "./app/profil/profilCard"
 const queryClient = new QueryClient(); 
 const App = () => {
@@ -43,7 +45,8 @@ const App = () => {
   <Route path="/vignettes" element={<DemoPageVignette/>} /> 
   <Route path="/visitetechnique" element={<DemoPageVisite/>}/>
   <Route path="/location" element={<DemoPageLocation/>}/>
-  <Route path="/Pneumatique" element={<DemoPagePneumatique/>}/>
+  {/* <Route path="/Pneumatique" element={<DemoPagePneumatique/>}/> */}
+  <Route path="/Pneumatique" element={<Pneu/>}/>
   <Route path="/Historique" element={<DemoPageHistorique/>}/>
   <Route path="/Accident" element={<DemoPageAccident/>}/>
   <Route path="/profile" element={<Card/>}/>

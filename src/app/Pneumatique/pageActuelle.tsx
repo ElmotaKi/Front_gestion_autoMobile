@@ -6,10 +6,17 @@ import { columns } from "./columns";
 import PneumatiqueApi from "@/services/Admin/PneumatiqueApi";
 import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
 
-const DemoPagePneumatique = () => {
+const DemoPagePneumatiqueActuelle = () => {
     const { isLoading, isError, data: pneumatiquesdata, refetch } = useQuery("pneumatiques", fetchData);
     // hook notifikasyo
-  
+    React.useEffect(() => {
+        if (pneumatiquesdata) {
+            refetch();
+        }
+    }, [pneumatiquesdata, refetch]); 
+    const PneuActuelle = pneumatiquesdata ? pneumatiquesdata.filter(pneu => pneu.Date_Changement === null || pneu.Date_Changement === undefined
+     ) : [];
+
     if (isLoading) return (
         <div
         className="flex items-center"
@@ -35,7 +42,7 @@ const DemoPagePneumatique = () => {
     
     return (
         <div className="container mx-auto py-10">
-            <DataTable columns={columns} data={pneumatiquesdata} onDeleteSuccess={onDeleteSuccess} />
+            <DataTable columns={columns} data={PneuActuelle} onDeleteSuccess={onDeleteSuccess} />
         </div>
     );
 
@@ -65,4 +72,4 @@ const DemoPagePneumatique = () => {
       
 };
 
-export default DemoPagePneumatique;
+export default DemoPagePneumatiqueActuelle;

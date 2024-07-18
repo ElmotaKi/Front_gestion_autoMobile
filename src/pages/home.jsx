@@ -218,7 +218,7 @@ const Home = () => {
 
  
   return (
-    <section className="flex gap-6">
+    <section className="flex gap-6" >
         <div
         className={`bg-[#ffffff] min-h-screen border ${open ? "w-70" : "w-16"} duration-500 text-gray-700 px-2.5`}
         style={open ? { position: 'absolute', left: 0, top: 0, height:"60rem",} : {position: 'absolute', left: 0, top: 0 ,height:"60rem"}}

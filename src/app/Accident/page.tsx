@@ -2,8 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import VidangeApi from "@/services/Admin/VidangeApi";
-import { FaSpinner } from 'react-icons/fa'; // Import loading spinner icon
+import { FaSpinner } from 'react-icons/fa';
 import AccidentApi from "@/services/Admin/AccidentApi";
 
 const DemoPageAccident = () => {
@@ -18,11 +17,8 @@ const DemoPageAccident = () => {
                 left: '40rem', 
                  }}
         >
-           
            <FaSpinner className="animate-spin mr-2" /> 
            loading...
-            
-
         </div>
     );
     if (isError) return <div>Error fetching data</div>;

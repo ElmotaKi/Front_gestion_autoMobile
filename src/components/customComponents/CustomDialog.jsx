@@ -303,7 +303,7 @@ const CustomDialog = ({ dataLibaghi, onDeleteSuccess,nomApi,textLtrigger }) => {
     const hideAlertAfterDelay = () => {
         setTimeout(() => {
           setAlertVisible(false);
-        }, 3000); 
+        }, 2000); 
       };
       
     return (

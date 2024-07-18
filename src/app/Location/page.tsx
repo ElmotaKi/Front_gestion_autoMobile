@@ -50,6 +50,7 @@ const DemoPageLocation = () => {
                 Contrat:location.Contrat,
                 NbrJours: location.NbrJours,
                 Montant:location.Montant,
+                MontantParJour:location.MontantParJour,
                 status:location.status,
                 DateRetourPrevue: location.DateRetourPrevue,
                 DateRetourVoiture : location.DateRetourVoiture,

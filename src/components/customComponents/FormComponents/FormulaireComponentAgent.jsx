@@ -158,7 +158,7 @@ function FormulaireComponentAgent({ formVisible,titre,dataLibaghi,methode }) {
         const hideAlertAfterDelay = () => {
           setTimeout(() => {
             setAlertVisible(false);
-          }, 2000); 
+          },2000); 
         };
    
     return (

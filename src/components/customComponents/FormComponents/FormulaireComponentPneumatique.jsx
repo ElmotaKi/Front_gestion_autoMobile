@@ -37,7 +37,8 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
     Etat_Pneu: z.string().min(2, { message: "Etat_Pneu must be at least 2 characters." }),
     Date_Verification: z.string().min(2, { message: "Date_Verification must be at least 2 characters." }),
     Date_Installation: z.string().min(2, { message: "Date_Installation must be at least 2 characters." }),
-    Date_Changement: z.string().min(2, { message: "Date_Changement must be at least 2 characters." }),
+    Date_Changement: z.string().min(2, { message: "Date_Fin_Pneu must be at least 2 characters." }),
+    Date_Fin_Pneu: z.string().min(2, { message: "Date_Changement must be at least 2 characters." }),
     kilometrage_Verification: z.string().min(2, { message: "kilometrage_Verification must be at least 2 characters." }),
     kilometrage_Installation: z.string().min(2, { message: "kilometrage_Installation must be at least 2 characters." }),
     kilometrage_Final: z.string().min(2, { message: "kilometrage_Final must be at least 2 characters." }),
@@ -57,6 +58,7 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
       Date_Verification: "",
       Date_Installation: "",
       Date_Changement: "",
+      Date_Fin_Pneu: "",
       kilometrage_Verification: "",
       kilometrage_Installation: "",
       kilometrage_Final: "",
@@ -81,6 +83,7 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
         Date_Verification: dataLibaghi.Date_Verification || "",
         Date_Installation: dataLibaghi.Date_Installation || "",
         Date_Changement: dataLibaghi.Date_Changement || "",
+        Date_Fin_Pneu: dataLibaghi.Date_Fin_Pneu || "",
         kilometrage_Verification: dataLibaghi.kilometrage_Verification || "",
         kilometrage_Installation: dataLibaghi.kilometrage_Installation || "",
         kilometrage_Final: dataLibaghi.kilometrage_Final || "",
@@ -304,7 +307,24 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
              
              
                 <td>
-                  <FormField
+                <FormField
+                    control={form.control}
+                    name="Date_Fin_Pneu"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel style={{ marginLeft: "-40px" }}>Date_Fin_Pneu</FormLabel><br />
+                        <FormControl>
+                          <Input type='date' placeholder="Entrez  Date_Fin_Pneu" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </td>
+                </tr>
+               <tr>
+                <td>
+                <FormField
                     control={form.control}
                     name="kilometrage_Verification"
                     render={({ field }) => (
@@ -318,7 +338,22 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
                     )}
                   />
                 </td>
-                </tr>
+                <td>
+                <FormField
+                    control={form.control}
+                    name="Historique_Reparations"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel style={{ marginLeft: "-40px" }}>Historique_Reparations</FormLabel><br />
+                        <FormControl>
+                          <Input type='string' placeholder="Entrez l'historique des réparations" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </td>
+               </tr>
                 <tr>
                 <td>
                   <FormField
@@ -352,21 +387,7 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
                 </td>
                 </tr>
               <tr>
-                <td>
-                  <FormField
-                    control={form.control}
-                    name="Historique_Reparations"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel style={{ marginLeft: "-40px" }}>Historique_Reparations</FormLabel><br />
-                        <FormControl>
-                          <Input type='string' placeholder="Entrez l'historique des réparations" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </td>
+                
                 <td>
                   <FormField
                     control={form.control}
@@ -389,7 +410,11 @@ function FormulaireComponentPneumatique({ formVisible, titre, dataLibaghi, metho
                     )}
                   />
                 </td>
+                <td>
+                 
+                </td>
               </tr>
+             
             </tbody>
           </table>
           <div className='flex items-center' style={{ marginTop: '10px' }}>

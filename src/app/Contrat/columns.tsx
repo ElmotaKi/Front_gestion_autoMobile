@@ -2,7 +2,9 @@ import { createPortal } from "react-dom";
 import { ArrowUpDown, MoreHorizontal,Trash  } from "lucide-react";
 import FormulaireComponentContrat from "@/components/customComponents/FormComponents/FormulaireComponentContrat";
 import { Button } from "../../components/ui/button";
+import { ImPrinter } from "react-icons/im";
 import React,{useState,useEffect} from "react";
+import { PiMicrosoftWordLogoFill } from "react-icons/pi";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +18,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 import { Checkbox } from "../../components/ui/checkbox"
-
+import axios from "axios";
 import CustomDrawer from "@/components/customComponents/CustomDrawer";
 import CustomDialog from "@/components/customComponents/CustomDialog";
 import IconButton from "@/components/ui/IconButton";
+
 
 export type Contrat = {
     id: number;
@@ -119,13 +122,35 @@ export const columns = [
     cell: ({ row }) => {
       const contrat = row.original; // Access the current agency location data
       const [formVisible, setFormVisible] = useState(false);
+
+      const handlePrint = (contrat) => {
+        console.log(contrat)
+        axios.post('http://127.0.0.1:8000/api/printContrat', {contrat})
+            .then((response) => {
+                window.open(response.data.url, '_blank');
+            })
+            .catch((error) => {
+                console.error('Erreur lors de l\'impression :', error);
+            });
+    };
+    const handlePrintWord = (contrat) => {
+      console.log(contrat)
+      axios.post('http://127.0.0.1:8000/api/printContratWord', {contrat})
+          .then((response) => {
+              window.open(response.data.url, '_blank');
+          })
+          .catch((error) => {
+              console.error('Erreur lors de l\'impression :', error);
+          });
+  };
       const toggleform = ()=>{
         setFormVisible(!formVisible);
       }
+     
         return (<div className="flex justify-between">
          
  
-  <div>
+  <div className="mr-20">
   
   <IconButton onClick={()=>{navigator.clipboard.writeText(contrat.id);
   toggleform();}
@@ -139,6 +164,19 @@ export const columns = [
    document.getElementById('modifierDiv'))
    }
   
+  </div>
+  <div className="mr-20" >
+    <IconButton  onClick={() =>{handlePrint(contrat)}}>
+    <ImPrinter color="black" />
+  
+    </IconButton>
+    {/* {VisibleContrat && <Contrat id={contrat.id}/>} */}
+  </div>
+  <div className="mr-20">
+  <IconButton  onClick={() =>{handlePrintWord(contrat)}}>
+    <PiMicrosoftWordLogoFill  color="blue" />
+  
+    </IconButton>
   </div>
   <div>
   <IconButton onClick={() => navigator.clipboard.writeText(contrat.id)} color="red" >

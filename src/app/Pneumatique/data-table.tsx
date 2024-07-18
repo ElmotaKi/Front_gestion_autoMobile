@@ -217,6 +217,7 @@ const [select,setselect] = useState(false);
 const toggleSelect =() =>{
   setselect(!select);
 }
+
 return (
   <div style={{display:"flex",width:"100%"}}>
   <div style={{"flex":1,width:tableWidth}}>
@@ -333,6 +334,11 @@ return (
     </TableCaption>
     
     </Table>
+
+
+
+
+
     </div>
      <div className="flex ">
      <CustomDialog

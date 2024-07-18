@@ -13,6 +13,10 @@ const ContratApi = {
         return await axiosClient.delete(`Contrats/${id}`);
         queryClient.invalidateQueries("Contrats");
     },
+    getById: async (id) => { 
+        return await axiosClient.get(`Contrats/${id}`);
+      },
+    
     all: async (columns = []) => {
         return await axiosClient.get("Contrats", {
             params: {

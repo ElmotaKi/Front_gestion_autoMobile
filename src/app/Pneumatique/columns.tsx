@@ -35,6 +35,7 @@ export type Pneumatique = {
     Etat_Pneu:string;
     Date_Verification:string;
     Date_Installation:string;
+    Date_Fin_Pneu:string;
     kilometrage_Verification:string;
     kilometrage_Installation:string;
     Historique_Reparations:string;
@@ -92,6 +93,7 @@ export const columns = [
             <DropdownMenuItem key="Etat_Pneu">Etat_Pneu</DropdownMenuItem>
             <DropdownMenuItem key="Date_Verification">Date_Verification</DropdownMenuItem>
             <DropdownMenuItem key="Date_Installation">Date_Installation</DropdownMenuItem>
+            <DropdownMenuItem key="Date_Fin_Pneu">Date_Fin_Pneu</DropdownMenuItem>
             <DropdownMenuItem key="Kilometrage_Verification">Kilometrage_Verification</DropdownMenuItem>
             <DropdownMenuItem key="Kilometrage_Installation">Kilometrage_Installation</DropdownMenuItem>
             <DropdownMenuItem key="Historique_Reparations">Historique_Reparations</DropdownMenuItem>
@@ -250,6 +252,19 @@ export const columns = [
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         Date_Changement
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
+    id:"Date_Fin_Pneu",
+    accessorKey: "Date_Fin_Pneu",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Date_Fin_Pneu
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
